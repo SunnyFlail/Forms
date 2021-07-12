@@ -4,7 +4,7 @@ namespace SunnyFlail\Forms\Form;
 
 use Psr\Http\Message\ServerRequestInterface;
 use SunnyFlail\Forms\Exceptions\FormBuilderException;
-use SunnyFlail\Forms\Interfaces\IFieldElement;
+use SunnyFlail\Forms\Interfaces\IField;
 use SunnyFlail\Forms\Interfaces\IValueProvider;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IValueMapper;
@@ -23,7 +23,7 @@ final class FormBuilder implements IFormBuilder
     ) {
     }
 
-    public function add(IFieldElement $field): IFormBuilder
+    public function add(IField $field): IFormBuilder
     {
         $field = $field->withForm($this->form);
         $this->form->withField($field);

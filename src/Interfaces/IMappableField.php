@@ -10,7 +10,7 @@ interface IMappableField extends IElement
     /**
      * Returns fields
      * 
-     * @return IFieldElement[]
+     * @return IField[]
      */
     public function getFields(): array;
 
@@ -24,11 +24,11 @@ interface IMappableField extends IElement
     /**
      * Adds fields for mapping
      * 
-     * @param IFieldElement[] $fields Fields to add
+     * @param IField[] $fields Fields to add
      * 
      * @return IMappableField $this
      */
-    public function withFields(IFieldElement ...$fields): IMappableField;
+    public function withFields(IField ...$fields): IMappableField;
 
     /**
      * Maps value to corresponding field

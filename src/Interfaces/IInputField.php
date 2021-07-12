@@ -2,7 +2,9 @@
 
 namespace SunnyFlail\Forms\Interfaces;
 
-interface IInputField extends IFieldElement
+use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
+
+interface IInputField extends IField, IElement
 {
 
     /**
@@ -28,5 +30,4 @@ interface IInputField extends IFieldElement
      */
     public function resolveErrorMessage(string $code): string;
 
-    
 }

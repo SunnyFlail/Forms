@@ -2,11 +2,11 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\Forms\Elements\ContainerElement;
-use SunnyFlail\Forms\Elements\LabelElement;
-use SunnyFlail\Forms\Elements\OptionElement;
-use SunnyFlail\Forms\Elements\SelectElement;
-use SunnyFlail\Forms\Elements\TextNodeElement;
+use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
+use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
+use SunnyFlail\HtmlAbstraction\Elements\OptionElement;
+use SunnyFlail\HtmlAbstraction\Elements\SelectElement;
+use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
 use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\Forms\Interfaces\ISelectableField;
 use SunnyFlail\Forms\Traits\AttributeTrait;
@@ -26,6 +26,7 @@ final class SelectField implements ISelectableField, IInputField
     public function __construct(
         protected string $name,
         protected bool $multiple = false,
+        protected bool $useIntristicValues = true,
         bool $required = false,
         protected array $inputAttributes = [],
         protected ?string $labelText = null,
@@ -46,6 +47,8 @@ final class SelectField implements ISelectableField, IInputField
     {
         $value = $values[$this->getName()] ?? null;
 
+
+
         if ($this->required && null === $value) {
             $this->error = $this->resolveErrorMessage("-1");
 
@@ -53,7 +56,9 @@ final class SelectField implements ISelectableField, IInputField
         }
 
         if ($this->multiple && is_array($value)) {
-            $value = array_intersect($value, $this->option);
+            if ($this->useIntristicValues) {
+                $value = array_intersect($value, $this->option);
+            }
 
             if (!$value) {
                 $this->error = $this->resolveErrorMessage("0");
@@ -62,7 +67,7 @@ final class SelectField implements ISelectableField, IInputField
             return false;
         }
 
-        if (!in_array($value, $this->options)) {
+        if ($this->useIntristicValues && !in_array($value, $this->options)) {
             $this->error = $this->resolveErrorMessage("0");
 
             return false;

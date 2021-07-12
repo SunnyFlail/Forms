@@ -2,11 +2,11 @@
 
 namespace SunnyFlail\Forms\Traits;
 
-use SunnyFlail\Forms\Interfaces\IFieldElement;
+use SunnyFlail\Forms\Interfaces\IField;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 
 /**
- * Trait for Elements implementing IFieldElement interface
+ * Trait for Elements implementing IField interface
  */
 trait FieldTrait
 {
@@ -40,13 +40,13 @@ trait FieldTrait
         return $this->required;
     }
 
-    public function withError(string $error): IFieldElement
+    public function withError(string $error): IField
     {
         $this->error = $error;
         return $this;
     }
 
-    public function withForm(IFormElement $form): IFieldElement
+    public function withForm(IFormElement $form): IField
     {
         $this->form = $form;
         return $this;

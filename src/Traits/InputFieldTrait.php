@@ -2,7 +2,7 @@
 
 namespace SunnyFlail\Forms\Traits;
 
-use SunnyFlail\Forms\Interfaces\IFieldElement;
+use SunnyFlail\Forms\Interfaces\IField;
 
 /**
  * Trait for classes implementing IInputField interface
@@ -60,7 +60,7 @@ trait InputFieldTrait
         return $this->errorMessages[$code];
     }
 
-    public function withValue($value): IFieldElement
+    public function withValue($value): IField
     {
         $this->value = $value;
         return $this;

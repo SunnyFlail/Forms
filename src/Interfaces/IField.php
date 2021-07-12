@@ -2,11 +2,9 @@
 
 namespace SunnyFlail\Forms\Interfaces;
 
-use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
-
-interface IFieldElement extends IElement
+interface IField
 {
-
+    
     /**
      * Checks whether provided value fits with constraints
      * and scrapes data
@@ -18,25 +16,25 @@ interface IFieldElement extends IElement
     public function resolve(array $values): bool;
 
     /**
-     * Adds an error message to the field
-     * 
-     * @return IFieldElement $this
-     */
-    public function withError(string $error): IFieldElement;
-
-    /**
      * Adds a reference to the parent form
      * 
-     * @return IFieldElement $this
+     * @return IField $this
      */
-    public function withForm(IFormElement $form): IFieldElement;
+    public function withForm(IFormElement $form): IField;
 
     /**
-     * Adds a value to the form AND sets it to be valid
+     * Adds an error message to the field
      * 
-     * @return IFieldElement $this
+     * @return IField $this
      */
-    public function withValue(mixed $value): IFieldElement;
+    public function withError(string $error): IField;
+
+    /**
+     * Adds a value to the field
+     * 
+     * @return IField $this
+     */
+    public function withValue(mixed $value): IField;
 
     /**
      * Returns the name of input INSIDE the form
@@ -52,6 +50,9 @@ interface IFieldElement extends IElement
      * Returns the user provided value
      * 
      * MUST be called AFTER resolve
+     * 
+     * @return mixed
+     * @throws InvalidFieldException
      */
     public function getValue();
 

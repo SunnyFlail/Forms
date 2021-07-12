@@ -2,10 +2,9 @@
 
 namespace SunnyFlail\Forms\Fields;
 
+use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 use SunnyFlail\Forms\Constraints\EmailConstraint;
-use SunnyFlail\Forms\Elements\EmailElement;
-use SunnyFlail\Forms\Elements\InputElement;
-use SunnyFlail\Forms\Interfaces\IElement;
+use SunnyFlail\HtmlAbstraction\Elements\InputElement;
 
 final class EmailField extends AbstractInputField
 {

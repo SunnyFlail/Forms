@@ -2,10 +2,10 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\Forms\Elements\ContainerElement;
-use SunnyFlail\Forms\Elements\ButtonElement;
-use SunnyFlail\Forms\Elements\InputElement;
-use SunnyFlail\Forms\Interfaces\IElement;
+use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
+use SunnyFlail\HtmlAbstraction\Elements\ButtonElement;
+use SunnyFlail\HtmlAbstraction\Elements\InputElement;
+use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 final class PasswordField extends AbstractInputField
 {

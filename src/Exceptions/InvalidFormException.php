@@ -1,8 +1,5 @@
 <?php
 
-namespace SunnyFlail\Forms\Form;
+namespace SunnyFlail\Forms\Exceptions;
 
-class InvalidFormException extends \Exception
-{
-    
-}
+class InvalidFormException extends \Exception {}

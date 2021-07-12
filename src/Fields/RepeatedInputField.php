@@ -2,12 +2,12 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\Forms\Interfaces\IFieldElement;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IInputField;
+use SunnyFlail\Forms\Interfaces\IField;
 use SunnyFlail\Forms\Traits\FieldTrait;
 
-final class RepeatedInputField implements IFieldElement
+final class RepeatedInputField implements IField
 {
 
     use FieldTrait;
@@ -26,30 +26,24 @@ final class RepeatedInputField implements IFieldElement
         return $this->field->isRequired();
     }
 
-    public function getName(): string
-    {
-        return $this->field->getName();
-    }
-
     public function getValue()
     {
         return $this->field->getValue();
     }
 
-    public function withError(string $error): IFieldElement
+    public function getName(): string
     {
-        $this->field->withError($error);
-        return $this;
+        return $this->field->getName();
     }
 
-    public function withValue(mixed $value): IFieldElement
+    public function withValue(mixed $value): IField
     {
         $this->field->withValue($value);
         $this->repeatedField->withValue($value);
         return $this;
     }
 
-    public function withForm(IFormElement $form): IFieldElement
+    public function withForm(IFormElement $form): IField
     {
         $this->field->withForm($form);
         $this->repeatedField->withForm($form);

@@ -4,11 +4,11 @@ namespace SunnyFlail\Forms\Form;
 
 use SunnyFlail\HtmlAbstraction\Elements\ButtonElement;
 use SunnyFlail\HtmlAbstraction\Traits\AttributeTrait;
-use SunnyFlail\Forms\Interfaces\IFieldElement;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IFileField;
+use SunnyFlail\Forms\Interfaces\IField;
+use SunnyFlail\Forms\Traits\MappableTrait;
 use Psr\Http\Message\ServerRequestInterface;
-use SunnyFlail\Forms\Interfaces\IMappableField;
 
 /**
  * Abstraction over html forms with HTTP parameter resolving
@@ -16,10 +16,10 @@ use SunnyFlail\Forms\Interfaces\IMappableField;
 abstract class FormElement implements IFormElement
 {
 
-    use AttributeTrait;
+    use AttributeTrait, MappableTrait;
     
     /**
-     * @var IFieldElement $fields
+     * @var IField $fields
      */
     protected array $fields = [];
     
@@ -70,33 +70,6 @@ abstract class FormElement implements IFormElement
         }
 
         return $valid ?? false;
-    }
-
-    public function withFields(IFieldElement ...$fields): IMappableField
-    {
-        foreach ($fields as $field) {
-            $fieldName = $field->getName();
-            $this->fields[$fieldName] = $field;
-        }
-
-        return $this;
-    }
-
-    public function withFieldValue(string $fieldName, $value): IMappableField
-    {
-        $this->field[$fieldName]->withValue($value);
-
-        return $this;
-    }
-
-    public function hasField(string $fieldName): bool
-    {
-        return isset($this->fields[$fieldName]);
-    }
-
-    public function getFields(): array
-    {
-        return $this->fields;
     }
 
     /**

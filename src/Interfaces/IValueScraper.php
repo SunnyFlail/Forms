@@ -18,6 +18,6 @@ interface IValueMapper
      * @return void
      * @throws MappingException if there is no property to corresponding field
      */
-    public function get(IFormElement $form, mixed &$vessel);
+    public function scrapeForm(IFormElement $form, mixed &$vessel);
 
 }

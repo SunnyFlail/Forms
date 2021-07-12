@@ -2,7 +2,7 @@
 
 namespace SunnyFlail\Forms\Interfaces;
 
-interface IClassField extends IFieldElement, IMappableField
+interface IClassField extends IField, IMappableField
 {
     
     /**

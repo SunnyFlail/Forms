@@ -2,8 +2,8 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\Forms\Elements\InputElement;
-use SunnyFlail\Forms\Interfaces\IElement;
+use SunnyFlail\HtmlAbstraction\Elements\InputElement;
+use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 final class InputField extends AbstractInputField
 {

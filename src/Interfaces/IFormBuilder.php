@@ -3,7 +3,7 @@
 namespace SunnyFlail\Forms\Form;
 
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
-use SunnyFlail\Forms\Interfaces\IFieldElement;
+use SunnyFlail\Forms\Interfaces\IField;
 use Psr\Http\Message\ServerRequestInterface;
 
 interface IFormBuilder extends IElement
@@ -15,7 +15,7 @@ interface IFormBuilder extends IElement
      * @return IFormBuilder
      * @throws FormBuilderException if form was initalised
      */
-    public function add(IFieldElement $field): IFormBuilder;
+    public function add(IField $field): IFormBuilder;
 
     /**
      * Processes the form

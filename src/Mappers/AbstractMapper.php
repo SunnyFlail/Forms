@@ -4,7 +4,7 @@ namespace SunnyFlail\Forms\Mappers;
 
 use ReflectionObject;
 use SunnyFlail\Forms\Exceptions\MappingException;
-use SunnyFlail\Forms\Interfaces\IFieldElement;
+use SunnyFlail\Forms\Interfaces\IField;
 use SunnyFlail\Forms\Interfaces\IValueMapper;
 use SunnyFlail\Forms\Interfaces\IClassField;
 use SunnyFlail\Forms\Interfaces\IMappableField;
@@ -12,11 +12,18 @@ use SunnyFlail\Forms\Interfaces\IMappableField;
 abstract class AbstractMapper implements IValueMapper
 {
 
-    protected function getFieldValue(IFieldElement $field): mixed
+    /**
+     * Returns the value of a field
+     * 
+     * @param IField $field
+     * 
+     * @return mixed
+     */
+    protected function getFieldValue(IField $field): mixed
     {
         if ($field instanceof IClassField) {
             $vessel = new $field->getClassName();
-            $this->scrapeObject($field, $vessel);
+            $this->fillObject($field, $vessel);
             return $vessel;
         }
 
@@ -31,7 +38,7 @@ abstract class AbstractMapper implements IValueMapper
      *
      * @return void 
      */
-    protected function scrapeObject(IMappableField $input, object &$vessel)
+    protected function fillObject(IMappableField $input, object &$vessel)
     {
         $reflection = new ReflectionObject($vessel);
         $fields = $input->getFields();
@@ -39,10 +46,10 @@ abstract class AbstractMapper implements IValueMapper
         foreach ($fields as $field) {
             $name = $field->getName();
 
-            if (!$reflection->hasProperty($name)) {
+            if (false === $reflection->hasProperty($name)) {
                 throw new MappingException(sprintf(
-                    "Field %s doesn't include field named %s",
-                    $input::class, $name
+                    "Class %s doesn't have property named %s",
+                    $reflection->getShortName(), $name
                 ));
             }
 
