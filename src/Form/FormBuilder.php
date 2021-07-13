@@ -57,7 +57,7 @@ final class FormBuilder implements IFormBuilder
     {
         $formFQCN = '\\' . $formFQCN;
         
-        if (!class_exists($formFQCN) || !($formFQCN instanceof IFormElement)) {
+        if (!class_exists($formFQCN)) {
             throw new FormBuilderException(
                 sprintf(
                     "%s isn't a valid form!", $formFQCN
