@@ -4,7 +4,7 @@ namespace SunnyFlail\Forms\Interfaces;
 
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 use Psr\Http\Message\ServerRequestInterface;
-use SunnyFlail\Forms\Form\IFormBuilder;
+use SunnyFlail\Forms\Interfaces\IFormBuilder;
 
 /**
  * Basic interface for Forms
@@ -33,5 +33,14 @@ interface IFormElement extends IMappableField, IElement
      * @return void
      */
     public function build(IFormBuilder $builder);
+
+    /**
+     * Adds an error message
+     * 
+     * @param string $error Message to be displayed
+     * 
+     * @return void
+     */
+    public function addError(string $error);
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace SunnyFlail\Forms\Form;
+namespace SunnyFlail\Forms\Interfaces;
 
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 use Psr\Http\Message\ServerRequestInterface;
@@ -21,7 +21,13 @@ interface IFormBuilder extends IElement
      * Processes the form
      */
     public function processForm(ServerRequestInterface $request): bool;
-    
+
+    /**
+     * Adds and error to the form
+     * @param string $error Message to be displayed
+     */
+    public function addError(string $error);
+
     /**
      * Returns data scraped from form submition\
      * 

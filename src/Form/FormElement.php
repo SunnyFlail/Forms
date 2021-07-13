@@ -8,6 +8,8 @@ use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IFileField;
 use SunnyFlail\Forms\Traits\MappableTrait;
 use Psr\Http\Message\ServerRequestInterface;
+use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
+use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
 
 /**
  * Abstraction over html forms with HTTP parameter resolving
@@ -24,8 +26,12 @@ abstract class FormElement implements IFormElement
     protected string $formName = "";
 
     protected string $buttonText = "Submit";
+    
+    protected ?string $error = null;
 
     protected bool $useHtmlValidation = true;
+
+    protected array $errorAttributes = [];
 
     protected array $buttonAttributes = [];
     protected array $buttonElements = [];
@@ -63,7 +69,13 @@ abstract class FormElement implements IFormElement
             }
         }
 
-        return $valid ?? false;
+        return $this->valid = $valid ?? false;
+    }
+
+    public function addError(string $error)
+    {
+        $this->error = $error;
+        $this->valid = false;
     }
 
     /**
@@ -79,6 +91,14 @@ abstract class FormElement implements IFormElement
         $attributes['method'] = $this->formMethod;
 
         $elements = $this->fields;
+
+        if ($this->error) {
+            $elements[] = new ContainerElement(
+                attributes: $this->errorAttributes,
+                nestedElements: [new TextNodeElement($this->error)]
+            );
+        }
+
         $elements[] = new ButtonElement(
             type: "submit",
             attributes: $this->buttonAttributes,

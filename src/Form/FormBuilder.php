@@ -6,6 +6,7 @@ use SunnyFlail\Forms\Exceptions\FormBuilderException;
 use SunnyFlail\Forms\Interfaces\IProviderFactory;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IValueMapper;
+use SunnyFlail\Forms\Interfaces\IFormBuilder;
 use SunnyFlail\Forms\Interfaces\IField;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -43,6 +44,12 @@ final class FormBuilder implements IFormBuilder
         $copy->fillFieldValues($form, $value);
         
         return $copy;
+    }
+
+    public function addError(string $error)
+    {
+        $this->valid = false;
+        $this->form->addError($error);
     }
 
     private function invokeForm(string $formFQCN): IFormElement
