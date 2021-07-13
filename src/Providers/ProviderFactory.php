@@ -3,9 +3,9 @@
 namespace SunnyFlail\Forms\Providers;
 
 use SunnyFlail\Forms\FormBuilder\ArrayValueProvider;
-use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IProviderFactory;
 use SunnyFlail\Forms\Interfaces\IValueProvider;
+use SunnyFlail\Forms\Interfaces\IFormElement;
 
 final class ProviderFactory implements IProviderFactory
 {

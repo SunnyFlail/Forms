@@ -2,15 +2,15 @@
 
 namespace SunnyFlail\Forms\Fields;
 
+use SunnyFlail\HtmlAbstraction\Traits\ContainerElementTrait;
 use SunnyFlail\HtmlAbstraction\Elements\CheckableElement;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
-use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\Forms\Interfaces\ISelectableField;
-use SunnyFlail\Forms\Traits\ContainerElementTrait;
-use SunnyFlail\Forms\Traits\FieldTrait;
+use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\Forms\Traits\InputFieldTrait;
 use SunnyFlail\Forms\Traits\SelectableTrait;
+use SunnyFlail\Forms\Traits\FieldTrait;
 
 final class RadioGroupField implements ISelectableField, IInputField
 {

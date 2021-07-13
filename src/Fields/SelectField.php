@@ -3,16 +3,16 @@
 namespace SunnyFlail\Forms\Fields;
 
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
-use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
+use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
 use SunnyFlail\HtmlAbstraction\Elements\OptionElement;
 use SunnyFlail\HtmlAbstraction\Elements\SelectElement;
-use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
-use SunnyFlail\Forms\Interfaces\IInputField;
+use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
+use SunnyFlail\HtmlAbstraction\Traits\AttributeTrait;
 use SunnyFlail\Forms\Interfaces\ISelectableField;
-use SunnyFlail\Forms\Traits\AttributeTrait;
-use SunnyFlail\Forms\Traits\FieldTrait;
+use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\Forms\Traits\InputFieldTrait;
 use SunnyFlail\Forms\Traits\SelectableTrait;
+use SunnyFlail\Forms\Traits\FieldTrait;
 
 final class SelectField implements ISelectableField, IInputField
 {

@@ -2,9 +2,9 @@
 
 namespace SunnyFlail\Forms\Interfaces;
 
+use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 use Psr\Http\Message\ServerRequestInterface;
 use SunnyFlail\Forms\Form\IFormBuilder;
-use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 /**
  * Basic interface for Forms
