@@ -44,6 +44,7 @@ final class FormBuilder implements IFormBuilder
         $form = $copy->invokeForm($formFQCN);
         $copy->fillFieldValues($form, $value);
         $copy->form = $form;
+        $copy->form->build($copy);
 
         return $copy;
     }

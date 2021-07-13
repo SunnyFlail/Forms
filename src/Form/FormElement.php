@@ -86,7 +86,9 @@ abstract class FormElement implements IFormElement
     public function __toString(): string
     {
         $attributes = $this->attributes;
-        $attributes["novalidate"] = $this->useHtmlValidation;
+        if (!$this->useHtmlValidation) {
+            $attributes["novalidate"] = true;
+        }
         $attributes['id'] = $attributes['id'] ?? $this->formName;
         $attributes['method'] = $this->formMethod;
 
