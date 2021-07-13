@@ -14,7 +14,7 @@ use ReflectionClass;
 final class FormBuilder implements IFormBuilder
 {
 
-    private IFormElement $form;
+    private ?IFormElement $form = null;
 
     public function __construct(
         private IValueMapper $mapper,
@@ -43,7 +43,8 @@ final class FormBuilder implements IFormBuilder
 
         $form = $copy->invokeForm($formFQCN);
         $copy->fillFieldValues($form, $value);
-        
+        $copy->form = $form;
+
         return $copy;
     }
 
@@ -81,7 +82,7 @@ final class FormBuilder implements IFormBuilder
 
     public function __toString()
     {
-        return $this->form;
+        return $this->form->__toString();
     }
 
 }
