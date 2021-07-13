@@ -9,6 +9,7 @@ use SunnyFlail\Forms\Interfaces\IValueMapper;
 use SunnyFlail\Forms\Interfaces\IFormBuilder;
 use SunnyFlail\Forms\Interfaces\IField;
 use Psr\Http\Message\ServerRequestInterface;
+use ReflectionClass;
 
 final class FormBuilder implements IFormBuilder
 {
@@ -54,6 +55,8 @@ final class FormBuilder implements IFormBuilder
 
     private function invokeForm(string $formFQCN): IFormElement
     {
+        $formFQCN = '\\' . $formFQCN;
+        
         if (!class_exists($formFQCN) || !($formFQCN instanceof IFormElement)) {
             throw new FormBuilderException(
                 sprintf(
@@ -62,7 +65,7 @@ final class FormBuilder implements IFormBuilder
             );
         }
 
-        return new $formFQCN;
+        return (new ReflectionClass($formFQCN))->newInstanceWithoutConstructor();
     }
 
     public function getProcessedData(): object|array
