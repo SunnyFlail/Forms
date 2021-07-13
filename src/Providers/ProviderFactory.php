@@ -2,7 +2,6 @@
 
 namespace SunnyFlail\Forms\Providers;
 
-use SunnyFlail\Forms\FormBuilder\ArrayValueProvider;
 use SunnyFlail\Forms\Interfaces\IProviderFactory;
 use SunnyFlail\Forms\Interfaces\IValueProvider;
 use SunnyFlail\Forms\Interfaces\IFormElement;
@@ -19,7 +18,8 @@ final class ProviderFactory implements IProviderFactory
         if ($value === null) {
             if (!(isset($this->nullProvider))) {
                 $this->nullProvider = new class implements IValueProvider {
-                    public function fill(IFormElement $element, $value) {
+                    public function fill(IFormElement $element, $value)
+                    {
                         return;
                     }
                 };

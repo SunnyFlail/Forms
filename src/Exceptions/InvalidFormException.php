@@ -2,4 +2,6 @@
 
 namespace SunnyFlail\Forms\Exceptions;
 
-class InvalidFormException extends \Exception {}
+class InvalidFormException extends \Exception
+{
+}

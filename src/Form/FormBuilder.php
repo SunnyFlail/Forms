@@ -17,7 +17,8 @@ final class FormBuilder implements IFormBuilder
     public function __construct(
         private IValueMapper $mapper,
         private IProviderFactory $providerFactory,
-    ) {}
+    ) {
+    }
 
     public function add(IField $field): IFormBuilder
     {
@@ -47,9 +48,11 @@ final class FormBuilder implements IFormBuilder
     private function invokeForm(string $formFQCN): IFormElement
     {
         if (!class_exists($formFQCN) || !($formFQCN instanceof IFormElement)) {
-            throw new FormBuilderException(sprintf(
-                "%s isn't a valid form!", $formFQCN
-            ));
+            throw new FormBuilderException(
+                sprintf(
+                    "%s isn't a valid form!", $formFQCN
+                )
+            );
         }
 
         return new $formFQCN;

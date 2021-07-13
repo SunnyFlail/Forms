@@ -42,7 +42,7 @@ abstract class FormElement implements IFormElement
         if (($this->formMethod === "POST"
             && $requestMethod === "POST"
             && $params = $request->getParsedBody())
-        || ($this->formMethod === "GET"
+            || ($this->formMethod === "GET"
             && $requestMethod === "GET"
             && $params = $request->getQueryParams())
         ) {

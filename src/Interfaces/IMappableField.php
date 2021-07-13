@@ -41,7 +41,7 @@ interface IMappableField extends IElement
      * Maps value to corresponding field
      * 
      * @param string $fieldName Name of the field
-     * @param mixed $value Value to map to the field
+     * @param mixed  $value     Value to map to the field
      * 
      * @return IMappableField $this
      */

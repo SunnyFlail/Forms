@@ -49,8 +49,8 @@ class ValueMapper implements IValueMapper
     /**
      * Scrapes values from fields into an entity
      * 
-     * @param IMappableField $input Input to scrape data from
-     * @param object $vessel Reference to object that will be filled with values
+     * @param IMappableField $input  Input to scrape data from
+     * @param object         $vessel Reference to object that will be filled with values
      *
      * @return void 
      */
@@ -58,9 +58,11 @@ class ValueMapper implements IValueMapper
     {
         $classFQCN = "\\" . $classFQCN;
         if (class_exists($classFQCN)) {
-            throw new MappingException(sprintf(
-                "Class provided to field %s doesn't exist!", $classFQCN
-            ));
+            throw new MappingException(
+                sprintf(
+                    "Class provided to field %s doesn't exist!", $classFQCN
+                )
+            );
         }
 
         $reflection = new ReflectionClass($classFQCN);
@@ -71,10 +73,12 @@ class ValueMapper implements IValueMapper
             $name = $field->getName();
 
             if (false === $reflection->hasProperty($name)) {
-                throw new MappingException(sprintf(
-                    "Class %s doesn't have property named %s",
-                    $reflection->getShortName(), $name
-                ));
+                throw new MappingException(
+                    sprintf(
+                        "Class %s doesn't have property named %s",
+                        $reflection->getShortName(), $name
+                    )
+                );
             }
 
             $value = $this->getFieldValue($field);

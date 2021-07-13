@@ -1,6 +1,6 @@
 <?php
 
-namespace SunnyFlail\Forms\FormBuilder;
+namespace SunnyFlail\Forms\Providers;
 
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IValueProvider;

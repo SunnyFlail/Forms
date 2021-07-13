@@ -2,4 +2,6 @@
 
 namespace SunnyFlail\Forms\Exceptions;
 
-class MappingException extends \Exception {}
+class MappingException extends \Exception
+{
+}

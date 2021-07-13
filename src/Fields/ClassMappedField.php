@@ -8,8 +8,8 @@ use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IField;
 use SunnyFlail\Forms\Traits\MappableTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
-use ReflectionObject;
 use InvalidArgumentException;
+use ReflectionObject;
 
 final class ClassMappedField implements IMappableField, IField
 {
@@ -71,9 +71,11 @@ final class ClassMappedField implements IMappableField, IField
         foreach ($this->fields as $name => $field) {
             if (!isset($arr[$name])) {
                 if ($field->isRequired()) {
-                    throw new InvalidArgumentException(sprintf(
-                        "Value not provided for field",$name
-                    ));
+                    throw new InvalidArgumentException(
+                        sprintf(
+                            "Value not provided for field", $name
+                        )
+                    );
                 }
                 continue;
             }
@@ -91,10 +93,12 @@ final class ClassMappedField implements IMappableField, IField
         foreach ($this->fields as $name => $field) {
             if (!$reflection->hasProperty($name)) {
                 if ($field->isRequired()) {
-                    throw new InvalidArgumentException(sprintf(
-                        "Class doesn't have property %s",
-                        $reflection->getShortName(), $name
-                    ));
+                    throw new InvalidArgumentException(
+                        sprintf(
+                            "Class doesn't have property %s",
+                            $reflection->getShortName(), $name
+                        )
+                    );
                 }
                 continue;
             }
@@ -111,11 +115,13 @@ final class ClassMappedField implements IMappableField, IField
     public function getValue()
     {
         if (!$this->valid) {
-            throw new InvalidFieldException(sprintf(
-                "Field %s in form %s is not valid!",
-                $this->fieldName,
-                $this->form->getName()
-            ));
+            throw new InvalidFieldException(
+                sprintf(
+                    "Field %s in form %s is not valid!",
+                    $this->fieldName,
+                    $this->form->getName()
+                )
+            );
         }
 
         return array_map(

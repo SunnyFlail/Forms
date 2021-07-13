@@ -10,8 +10,7 @@ final class LengthConstraint implements IConstraint
     public function __construct(
         private int $minLength = 0,
         private ?int $maxLength = null
-    ) {
-    }
+    ) {}
 
     public function formValueValid($value): bool
     {
