@@ -3,8 +3,8 @@
 namespace SunnyFlail\Forms\Form;
 
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
-use SunnyFlail\Forms\Interfaces\IField;
 use Psr\Http\Message\ServerRequestInterface;
+use SunnyFlail\Forms\Interfaces\IField;
 
 interface IFormBuilder extends IElement
 {
@@ -34,10 +34,6 @@ interface IFormBuilder extends IElement
      * 
      * @return IFormBuilder
      */
-    public function buildForm(
-        string $formFQCN,
-        mixed $value = null,
-        array $options = []
-    ): IFormBuilder;
+    public function buildForm(string $formFQCN, array|object|null $value = null): IFormBuilder;
 
 }

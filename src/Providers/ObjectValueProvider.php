@@ -2,9 +2,9 @@
 
 namespace SunnyFlail\Forms\Providers;
 
-use ReflectionObject;
-use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IValueProvider;
+use SunnyFlail\Forms\Interfaces\IFormElement;
+use ReflectionObject;
 
 final class ObjectValueProvider implements IValueProvider
 {

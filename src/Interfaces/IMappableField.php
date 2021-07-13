@@ -13,6 +13,13 @@ interface IMappableField extends IElement
      * @return IField[]
      */
     public function getFields(): array;
+    
+    /**
+     * Returns the name of class 
+     * 
+     * @return string
+     */
+    public function getClassName(): ?string;
 
     /**
      * Checks whether this form has field with provided name

@@ -2,13 +2,25 @@
 
 namespace SunnyFlail\Forms\Traits;
 
-use SunnyFlail\Forms\Interfaces\IField;
 use SunnyFlail\Forms\Interfaces\IMappableField;
+use SunnyFlail\Forms\Interfaces\IField;
 
+/**
+ * Trait for classes implementing IMappableField interface
+ */
 trait MappableTrait
 {
 
-    protected array $fields;
+    /**
+     * @var IField $fields
+     */
+    protected array $fields = [];
+
+    /**
+     * @var string|null $className Fully qualified class name of class this field will be mapped to
+     *                  null defaults to primitve array
+     */
+    protected ?string $className = null;
 
     public function withFields(IField ...$fields): IMappableField
     {
@@ -35,6 +47,11 @@ trait MappableTrait
     public function getFields(): array
     {
         return $this->fields;
+    }
+
+    public function getClassName(): ?string
+    {
+        return $this->className;
     }
 
 }

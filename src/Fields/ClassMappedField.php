@@ -3,25 +3,26 @@
 namespace SunnyFlail\Forms\Fields;
 
 use SunnyFlail\Forms\Exceptions\InvalidFieldException;
-use SunnyFlail\Forms\Interfaces\IClassField;
+use SunnyFlail\Forms\Interfaces\IMappableField;
+use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IField;
 use SunnyFlail\Forms\Traits\MappableTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
-use InvalidArgumentException;
 use ReflectionObject;
+use InvalidArgumentException;
 use ReflectionClass;
-use SunnyFlail\Forms\Interfaces\IFormElement;
 
-class ClassMappedField implements IClassField
+final class ClassMappedField implements IMappableField, IField
 {
 
     use FieldTrait, MappableTrait;
     
     public function __construct(
         protected string $fieldName,
-        protected string $className,
+        string $className,
         IField ...$fields
     ) {
+        $this->className = $className;
         $this->fields = $fields;
     }
 
@@ -57,7 +58,7 @@ class ClassMappedField implements IClassField
     public function withValue(mixed $value): IField
     {
         if (is_object($value)) {
-            return $this->scrapeObjectProperties($value);
+            return $this->scrapeValuesProperties($value);
         }
         if (is_array($value)) {
             return $this->scrapeArrayProperties($value);
@@ -85,7 +86,7 @@ class ClassMappedField implements IClassField
         return $this;
     }
 
-    protected function scrapeObjectProperties(object $obj): ClassMappedField
+    protected function scrapeValuesProperties(object $obj): ClassMappedField
     {
         $reflection = new ReflectionObject($obj);
         foreach ($this->fields as $name => $field) {
@@ -113,7 +114,7 @@ class ClassMappedField implements IClassField
         if (!$this->valid) {
             throw new InvalidFieldException(sprintf(
                 "Field %s in form %s is not valid!",
-                (new ReflectionClass(static::class))->getShortName(),
+                $this->fieldName,
                 $this->form->getName()
             ));
         }

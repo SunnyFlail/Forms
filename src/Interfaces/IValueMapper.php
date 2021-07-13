@@ -2,20 +2,22 @@
 
 namespace SunnyFlail\Forms\Interfaces;
 
-/**
- * Basic interface for classes that provide form fields with values
- */
-interface IValueProvider
+use SunnyFlail\Forms\Exceptions\MappingException;
+
+interface IValueMapper
 {
 
     /**
-     * Fills form fields with provided values
+     * Maps field values to the vessel
      * 
-     * @param IFormElement $form  Form to fill
-     * @param mixed        $valus Values to fill it with
+     * MAY throw exception for objects
      * 
-     * @return void
+     * @param IFormElement $form Form to scrape data from
+     * 
+     * @return object|array
+     * 
+     * @throws MappingException if there is no property to corresponding field
      */
-    public function fill(IFormElement $form, mixed $values);
+    public function scrapeValues(IFormElement $form): object|array;
 
 }

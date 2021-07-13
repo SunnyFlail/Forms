@@ -6,7 +6,6 @@ use SunnyFlail\HtmlAbstraction\Elements\ButtonElement;
 use SunnyFlail\HtmlAbstraction\Traits\AttributeTrait;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IFileField;
-use SunnyFlail\Forms\Interfaces\IField;
 use SunnyFlail\Forms\Traits\MappableTrait;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -18,16 +17,11 @@ abstract class FormElement implements IFormElement
 
     use AttributeTrait, MappableTrait;
     
-    /**
-     * @var IField $fields
-     */
-    protected array $fields = [];
-    
-    protected array $attributes;
+    protected array $attributes = [];
 
     protected string $formMethod = "GET";
 
-    protected string $formName;
+    protected string $formName = "";
 
     protected string $buttonText = "Submit";
 
@@ -50,7 +44,7 @@ abstract class FormElement implements IFormElement
             && $params = $request->getParsedBody())
         || ($this->formMethod === "GET"
             && $requestMethod === "GET"
-            && $params = $request->getQueryParams()            )
+            && $params = $request->getQueryParams())
         ) {
             if (is_array($params) && isset($params[$this->formName])) {
                 $valid = true;

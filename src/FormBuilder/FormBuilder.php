@@ -2,31 +2,27 @@
 
 namespace SunnyFlail\Forms\Form;
 
-use Psr\Http\Message\ServerRequestInterface;
 use SunnyFlail\Forms\Exceptions\FormBuilderException;
-use SunnyFlail\Forms\Interfaces\IField;
-use SunnyFlail\Forms\Interfaces\IValueProvider;
+use SunnyFlail\Forms\Interfaces\IProviderFactory;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IValueMapper;
+use SunnyFlail\Forms\Interfaces\IField;
+use Psr\Http\Message\ServerRequestInterface;
 
 final class FormBuilder implements IFormBuilder
 {
 
     private IFormElement $form;
-    private bool $valid;
 
     public function __construct(
-        private IValueMapper $arrayMapper,
-        private IValueMapper $objectMapper,
-        private IValueProvider $arrayProvider,
-        private IValueProvider $objectProvider,
-    ) {
-    }
+        private IValueMapper $mapper,
+        private IProviderFactory $providerFactory,
+    ) {}
 
     public function add(IField $field): IFormBuilder
     {
         $field = $field->withForm($this->form);
-        $this->form->withField($field);
+        $this->form->withFields($field);
 
         return $this;
     }
@@ -51,28 +47,17 @@ final class FormBuilder implements IFormBuilder
     private function invokeForm(string $formFQCN): IFormElement
     {
         if (!class_exists($formFQCN) || !($formFQCN instanceof IFormElement)) {
-            throw new FormBuilderException(
-                sprintf(
-                    "%s isn't a valid form!", $formFQCN
-                )
-            );
+            throw new FormBuilderException(sprintf(
+                "%s isn't a valid form!", $formFQCN
+            ));
         }
 
         return new $formFQCN;
     }
 
-    public function getValue(): object|array
+    public function getProcessedData(): object|array
     {
-        if ($this->valid === false) {
-            throw new FormBuilderException(
-                sprintf(
-                    "Form %s isn't valid!", $this->form->getName()
-                )
-            );
-        }
-
-        $fields = $this->form->getFields();
-
+        return $this->mapper->scrapeValues($this->form);
     }
 
     private function fillFieldValues(IFormElement $form, array|object|null $value)
