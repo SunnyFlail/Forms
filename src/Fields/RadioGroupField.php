@@ -24,9 +24,9 @@ final class RadioGroupField implements ISelectableField, IInputField
         protected array $labelAttributes = [],
         array $nestedElements = []
     ) {
+        $this->valid = false;
         $this->error = null;
         $this->value = null;
-        $this->
         $this->nestedElements = $nestedElements;
     }
 
@@ -46,6 +46,7 @@ final class RadioGroupField implements ISelectableField, IInputField
     {
         $inputs = [];
         $name = $this->getFullName();
+        $baseId = $this->getInputId();
 
         foreach ($this->options as $label => $value) {
             if (is_numeric($label)) {
@@ -59,6 +60,7 @@ final class RadioGroupField implements ISelectableField, IInputField
                 attributes: $this->labelAttributes,
                 nestedElements: [
                     new CheckableElement(
+                        id: $this->resolveId($baseId, $value),
                         name: $name,
                         radio: true,
                         checked: $checked,
@@ -74,4 +76,10 @@ final class RadioGroupField implements ISelectableField, IInputField
         );
     }
     
+    private function resolveId(string $baseId, string $value)
+    {
+        $value = strtr($value, " ", "_");
+        return $baseId . '--' . $value;
+    }
+
 }

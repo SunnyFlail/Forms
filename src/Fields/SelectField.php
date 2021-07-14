@@ -47,8 +47,6 @@ final class SelectField implements ISelectableField, IInputField
     {
         $value = $values[$this->getName()] ?? null;
 
-
-
         if ($this->required && null === $value) {
             $this->error = $this->resolveErrorMessage("-1");
 
@@ -83,9 +81,7 @@ final class SelectField implements ISelectableField, IInputField
         $options = [];
         
         foreach ($this->options as $label => $value) {
-            /**
- * Check if this is a group 
-*/
+            /** Check if this is a group */
             if (is_array($value)) {
                 $options[] = new ContainerElement(
                     tag: 'optgroup',

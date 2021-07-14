@@ -42,7 +42,7 @@ final class EmailField extends AbstractInputField
         return new InputElement(
             id: $this->getInputId(),
             type: 'email',
-            name: $this->name,
+            name: $this->getFullName(),
             attributes: $attributes
         );
     }

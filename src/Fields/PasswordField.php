@@ -71,7 +71,7 @@ final class PasswordField extends AbstractInputField
         return new InputElement(
             id: $id,
             type: "password",
-            name: $this->name,
+            name: $this->getFullName(),
             attributes: $attributes
         );
     }
