@@ -24,16 +24,17 @@ final class FileUploadField implements IInputField, IFileField
         string $name,
         bool $required = true,
         protected bool $multiple = true,
+        protected array $constraints = [],
+        array $errorMessages = [],
         protected array $containerAttributes = [],
         protected array $labelAttributes = [],
         protected ?string $labelText = null,
         protected array $inputAttributes = [],
-        protected bool $terminateOnError = false,
-        array $errorMessages = [],
-        protected array $constraints = []
+        protected bool $terminateOnError = false
     ) {
         $this->valid = false;
         $this->error = null;
+        $this->value = null;
         $this->name = $name;
         $this->required = $required;
         $this->errorMessages = $errorMessages;
@@ -42,11 +43,15 @@ final class FileUploadField implements IInputField, IFileField
     public function resolve(array $params): bool
     {
         /** @var UploadedFileInterface[] $files */
-        $files = $params[$this->name];
+        $files = $params[$this->name] ?? null;
 
-        if ($this->required && !$files) {
-            $this->error = $this->resolveErrorMessage("-1");
-            return false;
+        if ($files === null) {
+            if ($this->required) {
+                $this->error = $this->resolveErrorMessage('-1');
+
+                return false;
+            }
+            return $this->valid = true;
         }
 
         $incorrectFiles = [];
@@ -70,7 +75,7 @@ final class FileUploadField implements IInputField, IFileField
                 }
             }
         }
-        $this->values = array_diff_key(
+        $this->value = array_diff_key(
             $files, $incorrectFiles
         );
 
@@ -84,7 +89,7 @@ final class FileUploadField implements IInputField, IFileField
         return $this->name . $suffix;
     }
 
-    public function resolveErrorMessage(string $code): string
+    protected function resolveErrorMessage(string $code): string
     {
         if (!isset($this->errorMessages[$code])) {
             switch ($code) {

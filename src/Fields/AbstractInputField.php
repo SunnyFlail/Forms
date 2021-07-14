@@ -17,47 +17,37 @@ abstract class AbstractInputField implements IInputField
 
     use ContainerElementTrait, FieldTrait, ValidableFieldTrait;
 
-    /**
-     * @param string        $name          Name of the field
-     * @param bool          $required
-     * @param array         $attributes    Attributes to be pa
-     * @param string[]      $errorMessages Array containing error messages
-     *                                     Indexes MUST be numeric strings
-     *                                     Index "-1" Is for message shown
-     *                                     if no value was provided for a
-     *                                     required field 
-     * @param IConstraint[] $constraints
-     */
-    public function __construct(
-        protected string $name,
-        bool $required = true,
-        protected array $wrapperAttributes = [],
-        protected array $errorAttributes = [],
-        protected ?string $labelText = null,
-        protected array $labelAttributes = [],
-        array $errorMessages = [],
-        array $nestedElements = [],
-        array $constraints = []
-    ) {
+    protected array $wrapperAttributes;
+    protected array $errorAttributes;
+    protected ?string $labelText;
+    protected array $labelAttributes;
+
+    public function __construct()
+    {
+        $this->valid = false;
         $this->error = null;
         $this->value = null;
-        $this->valid = false;
-        $this->required = $required;
-        $this->errorMessages = $errorMessages;
-        $this->nestedElements = $nestedElements;
-        $this->constraints = $constraints;
     }
 
     public function resolve(array $values): bool
     {
         $value = $values[$this->getFullName()] ?? null;
 
+        if ($value === null) {
+            if ($this->required) {
+                $this->error = $this->resolveErrorMessage("-1");
+
+                return false;
+            }
+            return $this->valid = true;
+        }
+
         if (true !== ($error = $this->checkConstraints($value))) {
             $this->error = $error;
             return false;
         }
 
-        $this->withValue($value);
+        $this->value = $value;
         return $this->valid = true;
     }
 

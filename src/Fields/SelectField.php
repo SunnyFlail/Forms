@@ -10,14 +10,14 @@ use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
 use SunnyFlail\HtmlAbstraction\Traits\AttributeTrait;
 use SunnyFlail\Forms\Interfaces\ISelectableField;
 use SunnyFlail\Forms\Interfaces\IInputField;
-use SunnyFlail\Forms\Traits\ValidableFieldTrait;
+use SunnyFlail\Forms\Traits\ResolveSelectTrait;
 use SunnyFlail\Forms\Traits\SelectableTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
 
 final class SelectField implements ISelectableField, IInputField
 {
 
-    use AttributeTrait, SelectableTrait, FieldTrait, ValidableFieldTrait;
+    use AttributeTrait, SelectableTrait, FieldTrait, ResolveSelectTrait;
     
     /**
      * @var string[]|string[][] $options 
@@ -26,16 +26,16 @@ final class SelectField implements ISelectableField, IInputField
     public function __construct(
         protected string $name,
         protected bool $multiple = false,
-        protected bool $useIntristicValues = true,
         bool $required = false,
         protected array $inputAttributes = [],
         protected ?string $labelText = null,
         protected array $labelAttributes = [],
         protected array $optionAttributes = [],
         protected array $errorAttributes = [],
-        protected array $options = [],
+        array $options = [],
         array $errorMessages = [],
-        array $constraints = []
+        array $constraints = [],
+        bool $useIntristicValues = true
     ) {
         $this->error = null;
         $this->valid = false;
@@ -43,39 +43,8 @@ final class SelectField implements ISelectableField, IInputField
         $this->value = null;
         $this->errorMessages = $errorMessages;
         $this->constraints = $constraints;
-    }
-
-    public function resolve(array $values): bool
-    {
-        $value = $values[$this->getName()] ?? null;
-
-        if ($this->required && null === $value) {
-            $this->error = $this->resolveErrorMessage("-1");
-
-            return false;
-        }
-
-        if ($this->multiple && is_array($value)) {
-            if ($this->useIntristicValues) {
-                $value = array_intersect($value, $this->option);
-            }
-
-            if (!$value) {
-                $this->error = $this->resolveErrorMessage("0");
-            }
-
-            return false;
-        }
-
-        if ($this->useIntristicValues && !in_array($value, $this->options)) {
-            $this->error = $this->resolveErrorMessage("0");
-
-            return false;
-        }
-
-        $this->value = $value;
-
-        return $this->valid = true;
+        $this->options = $options;
+        $this->useIntristicValues = $useIntristicValues;
     }
 
     public function __toString(): string
@@ -133,13 +102,6 @@ final class SelectField implements ISelectableField, IInputField
         );
     }
 
-    public function getFullName(): string
-    {
-        $suffix = $this->multiple ? "" : '[]';
-
-        return $this->form->getName() . '[' . $this->name . ']' . $suffix;
-    }
-    
     private function createOption(string $label, string $value): OptionElement
     {
         if (is_numeric($label)) {

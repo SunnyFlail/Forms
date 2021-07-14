@@ -9,29 +9,32 @@ use SunnyFlail\Forms\Constraints\EmailConstraint;
 final class EmailField extends AbstractInputField
 {
 
+    protected string $type = "email";
+
     public function __construct(
-        string $name = "email",
+        string $name,
         bool $required = true,
         array $errorMessages = [],
+        array $nestedElements = [],
         protected array $inputAttributes = [],
         array $wrapperAttributes = [],
         array $errorAttributes = [],
         ?string $labelText = null,
-        array $labelAttributes = [],
-        array $nestedElements = []
+        array $labelAttributes = []
     ) {
-        parent::__construct(
-            name: $name,
-            required: $required,
-            errorMessages: $errorMessages,
-            wrapperAttributes: $wrapperAttributes,
-            errorAttributes: $errorAttributes,
-            labelText: $labelText,
-            labelAttributes: $labelAttributes,
-            nestedElements: $nestedElements,
-            constraints: [new EmailConstraint()]
-        );
+        parent::__construct();
+
+        $this->name = $name;
+        $this->required = $required;
+        $this->errorMessages = $errorMessages;
+        $this->wrapperAttributes = $wrapperAttributes;
+        $this->errorAttributes = $errorAttributes;
+        $this->labelText = $labelText;
+        $this->labelAttributes = $labelAttributes;
+        $this->nestedElements = $nestedElements;
+        $this->constraints = [new EmailConstraint()];
     }
+
 
     protected function getInputElement(): IElement
     {

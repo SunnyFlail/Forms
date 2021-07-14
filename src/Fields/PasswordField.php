@@ -10,31 +10,34 @@ use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 final class PasswordField extends AbstractInputField
 {
 
+    protected string $type;
+
     public function __construct(
-        string $name = "password",
+        string $name,
         bool $required = true,
         array $errorMessages = [],
+        array $constraints = [],
+        array $nestedElements = [],
         protected bool $withPeeper = true,
-        protected array $peeperAttributes = [],
         protected array $inputAttributes = [],
+        protected array $peeperAttributes = [],
         array $wrapperAttributes = [],
         array $errorAttributes = [],
         ?string $labelText = null,
-        array $labelAttributes = [],
-        array $nestedElements = [],
-        array $constraints = []
+        array $labelAttributes = []
     ) {
-        parent::__construct(
-            name: $name,
-            required: $required,
-            errorMessages: $errorMessages,
-            wrapperAttributes: $wrapperAttributes,
-            errorAttributes: $errorAttributes,
-            labelText: $labelText,
-            labelAttributes: $labelAttributes,
-            nestedElements: $nestedElements,
-            constraints: $constraints
-        );
+        parent::__construct();
+
+        $this->name = $name;
+        $this->required = $required;
+        $this->type = "password";
+        $this->errorMessages = $errorMessages;
+        $this->wrapperAttributes = $wrapperAttributes;
+        $this->errorAttributes = $errorAttributes;
+        $this->labelText = $labelText;
+        $this->labelAttributes = $labelAttributes;
+        $this->nestedElements = $nestedElements;
+        $this->constraints = $constraints;
     }
 
     protected function getInputElement(): IElement

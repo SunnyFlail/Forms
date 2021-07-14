@@ -2,36 +2,29 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\HtmlAbstraction\Traits\ContainerElementTrait;
-use SunnyFlail\HtmlAbstraction\Elements\CheckableElement;
-use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
-use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
-use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
-use SunnyFlail\HtmlAbstraction\Elements\NodeElement;
-use SunnyFlail\Forms\Interfaces\ISelectableField;
-use SunnyFlail\Forms\Interfaces\IInputField;
-use SunnyFlail\Forms\Traits\InputFieldTrait;
-use SunnyFlail\Forms\Traits\SelectableTrait;
-use SunnyFlail\Forms\Traits\FieldTrait;
-use SunnyFlail\Forms\Traits\ValidableFieldTrait;
+use SunnyFlail\Forms\Traits\SingularValueFieldTrait;
 
-final class RadioGroupField implements ISelectableField, IInputField
+final class RadioGroupField extends AbstractSelectableGroup
 {
-    use ContainerElementTrait, FieldTrait, SelectableTrait, ValidableFieldTrait;
+    use SingularValueFieldTrait;
 
     public function __construct(
-        protected string $name,
-        protected bool $useIntristicValues = true,
-        protected array $options,
+        string $name,
+        array $options = [],
+        bool $useIntristicValues = true,
+        array $constraints = [],
+        array $nestedElements = [],
         protected array $inputAttributes = [],
         protected array $wrapperAttributes = [],
         protected array $labelAttributes = [],
-        array $nestedElements = [],
-        array $constraints = []
     ) {
+        $this->name = $name;
         $this->valid = false;
+        $this->useIntristicValues = $useIntristicValues;
+        $this->options = $options;
         $this->error = null;
         $this->value = null;
+        $this->radio = true;
         $this->nestedElements = $nestedElements;
         $this->constraints = $constraints;
     }
@@ -40,70 +33,16 @@ final class RadioGroupField implements ISelectableField, IInputField
     {
         $value = $values[$this->name] ?? null;
 
-        if (true !== ($error = $this->checkConstraints($value))) {
-            $this->error = $error;
-            return false;
-        }
+        if ($value === null || is_array($value)) {
+            if ($this->required) {
+                $this->error = $this->resolveErrorMessage("-1");
 
-        if ($this->useIntristicValues && !in_array($value, $this->options)) {
-            $this->error = $this->resolveErrorMessage('-1');
-            return false;
-        }
-
-        $this->value = $value;
-
-        return $this->valid = true;
-    }
-
-    public function __toString(): string
-    {
-        $elements = [];
-        $name = $this->getFullName();
-        $baseId = $this->getInputId();
-
-        foreach ($this->options as $label => $value) {
-            if (is_numeric($label)) {
-                $label = $value;
+                return false;
             }
-
-            $id = $this->resolveId($baseId, $value);
-
-            $checked = ($this->value === $value);
-
-            $elements[] = new ContainerElement(
-                attributes: $this->wrapperAttributes,
-                nestedElements: [
-                        new LabelElement(
-                        for: $id,
-                        labelText: $label,
-                        attributes: $this->labelAttributes
-                    ), new CheckableElement(
-                        id: $id,
-                        name: $name,
-                        radio: true,
-                        checked: $checked,
-                        attributes: $this->inputAttributes
-                    )
-                ]
-            );
+            return $this->valid = true;
         }
 
-        if (null !== $this->error) {
-            $elements[] = new ContainerElement(
-                attributes: $this->errorAttributes,
-                nestedElements: [
-                    new TextNodeElement($this->error)
-                ]
-            );
-        }
-
-        return new NodeElement($elements);
-    }
-
-    private function resolveId(string $baseId, string $value)
-    {
-        $value = strtr($value, " ", "_");
-        return $baseId . '--' . $value;
+        return $this->resolveSingular($value);
     }
 
 }
