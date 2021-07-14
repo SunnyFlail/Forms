@@ -21,11 +21,11 @@ abstract class FormElement implements IFormElement
     
     protected array $attributes = [];
 
-    protected string $formMethod = "GET";
+    protected string $formMethod = 'GET';
 
     protected string $formName = "";
 
-    protected string $buttonText = "Submit";
+    protected string $buttonText = 'Submit';
     
     protected ?string $error = null;
 
@@ -45,26 +45,31 @@ abstract class FormElement implements IFormElement
     {
         $requestMethod = $request->getMethod();
 
-        if (($this->formMethod === "POST"
-            && $requestMethod === "POST"
-            && $params = $request->getParsedBody())
-            || ($this->formMethod === "GET"
-            && $requestMethod === "GET"
-            && $params = $request->getQueryParams())
-        ) {
-            if (is_array($params) && isset($params[$this->formName])) {
-                $valid = true;
+        if (strcasecmp($this->formMethod, $requestMethod) !== 0) {
+            return false;
+        }
 
-                foreach ($this->fields as $field) {
-                    if ($field instanceof IFileField) {
-                        $field->resolve($request->getUploadedFiles());
-                        continue;
-                    }
-                    $field->resolve($params);
+        if (strcasecmp($requestMethod, 'POST') === 0) {
+            $params = $request->getParsedBody();
+        } elseif (strcasecmp($requestMethod, 'GET') === 0) {
+            $params = $request->getQueryParams();
+        } else {
+            return false;
+        }
 
-                    if ($field->isValid() === false && $field->isRequired()) {
-                        $valid = false;
-                    }
+        if (is_array($params) && isset($params[$this->formName])) {
+            $valid = true;
+            $params = $params[$this->formName];
+            
+            foreach ($this->fields as $field) {
+                if ($field instanceof IFileField) {
+                    $field->resolve($request->getUploadedFiles());
+                    continue;
+                }
+                $field->resolve($params);
+
+                if ($field->isValid() === false && $field->isRequired()) {
+                    $valid = false;
                 }
             }
         }

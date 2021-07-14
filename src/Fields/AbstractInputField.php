@@ -7,7 +7,6 @@ use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
 use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
-use SunnyFlail\Forms\Interfaces\IConstraint;
 use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\Forms\Traits\ValidableFieldTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
@@ -31,8 +30,7 @@ abstract class AbstractInputField implements IInputField
 
     public function resolve(array $values): bool
     {
-        $value = $values[$this->getFullName()] ?? null;
-
+        $value = $values[$this->name] ?? null;
         if ($value === null) {
             if ($this->required) {
                 $this->error = $this->resolveErrorMessage("-1");
