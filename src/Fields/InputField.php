@@ -18,7 +18,8 @@ final class InputField extends AbstractInputField
         array $errorAttributes = [],
         ?string $labelText = null,
         array $labelAttributes = [],
-        array $nestedElements = []
+        array $nestedElements = [],
+        array $constraints = []
     ) {
         parent::__construct(
             name: $name,
@@ -28,10 +29,9 @@ final class InputField extends AbstractInputField
             errorAttributes: $errorAttributes,
             labelText: $labelText,
             labelAttributes: $labelAttributes,
-            nestedElements: $nestedElements
+            nestedElements: $nestedElements,
+            constraints: $constraints
         );
-
-        $this->constraints = [];
     }
 
     protected function getInputElement(): IElement
