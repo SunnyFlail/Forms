@@ -10,14 +10,14 @@ use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
 use SunnyFlail\HtmlAbstraction\Traits\AttributeTrait;
 use SunnyFlail\Forms\Interfaces\ISelectableField;
 use SunnyFlail\Forms\Interfaces\IInputField;
-use SunnyFlail\Forms\Traits\InputFieldTrait;
+use SunnyFlail\Forms\Traits\ValidableFieldTrait;
 use SunnyFlail\Forms\Traits\SelectableTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
 
 final class SelectField implements ISelectableField, IInputField
 {
 
-    use AttributeTrait, SelectableTrait, FieldTrait, InputFieldTrait;
+    use AttributeTrait, SelectableTrait, FieldTrait, ValidableFieldTrait;
     
     /**
      * @var string[]|string[][] $options 
@@ -34,13 +34,15 @@ final class SelectField implements ISelectableField, IInputField
         protected array $optionAttributes = [],
         protected array $errorAttributes = [],
         protected array $options = [],
-        array $errorMessages = []
+        array $errorMessages = [],
+        array $constraints = []
     ) {
         $this->error = null;
         $this->valid = false;
         $this->required = $required;
         $this->value = null;
         $this->errorMessages = $errorMessages;
+        $this->constraints = $constraints;
     }
 
     public function resolve(array $values): bool
@@ -125,13 +127,19 @@ final class SelectField implements ISelectableField, IInputField
             );
         }
 
-
         return new ContainerElement(
             attributes: $this->containerAttibutes,
             nestedElements: $elements
         );
     }
 
+    public function getFullName(): string
+    {
+        $suffix = $this->multiple ? "" : '[]';
+
+        return $this->form->getName() . '[' . $this->name . ']' . $suffix;
+    }
+    
     private function createOption(string $label, string $value): OptionElement
     {
         if (is_numeric($label)) {

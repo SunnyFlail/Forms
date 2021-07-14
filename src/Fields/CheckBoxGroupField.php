@@ -10,12 +10,11 @@ use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
 use SunnyFlail\HtmlAbstraction\Elements\NodeElement;
 use SunnyFlail\Forms\Interfaces\ISelectableField;
 use SunnyFlail\Forms\Interfaces\IInputField;
-use SunnyFlail\Forms\Traits\InputFieldTrait;
 use SunnyFlail\Forms\Traits\SelectableTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
 use SunnyFlail\Forms\Traits\ValidableFieldTrait;
 
-final class RadioGroupField implements ISelectableField, IInputField
+final class CheckBoxGroupField implements ISelectableField, IInputField
 {
     use ContainerElementTrait, FieldTrait, SelectableTrait, ValidableFieldTrait;
 

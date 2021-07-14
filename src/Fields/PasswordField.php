@@ -35,10 +35,6 @@ final class PasswordField extends AbstractInputField
             nestedElements: $nestedElements,
             constraints: $constraints
         );
-
-        if ($this->withPeeper) {
-            $this->peeperAttributes["data-button-type"] = "peeper";
-        }
     }
 
     protected function getInputElement(): IElement
@@ -48,6 +44,8 @@ final class PasswordField extends AbstractInputField
             $attributes["value"] = $this->value;
         }
         $id = $this->getInputId();
+        $name = $this->getFullName();
+
         if ($this->withPeeper) {
             return new ContainerElement(
                 attributes: [
@@ -57,7 +55,7 @@ final class PasswordField extends AbstractInputField
                     new InputElement(
                         id: $id,
                         type: "password",
-                        name: $this->name,
+                        name: $name,
                         attributes: $attributes
                     ),
                     new ButtonElement(
@@ -71,7 +69,7 @@ final class PasswordField extends AbstractInputField
         return new InputElement(
             id: $id,
             type: "password",
-            name: $this->getFullName(),
+            name: $name,
             attributes: $attributes
         );
     }

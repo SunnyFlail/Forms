@@ -23,11 +23,4 @@ interface IInputField extends IField, IElement
      */
     public function getInputId(): string;
 
-    /**
-     * Returns the error message with provided code;
-     * 
-     * @return string
-     */
-    public function resolveErrorMessage(string $code): string;
-
 }

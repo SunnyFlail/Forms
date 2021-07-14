@@ -4,18 +4,18 @@ namespace SunnyFlail\Forms\Fields;
 
 use SunnyFlail\HtmlAbstraction\Traits\ContainerElementTrait;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
-use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
 use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
+use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 use SunnyFlail\Forms\Interfaces\IConstraint;
 use SunnyFlail\Forms\Interfaces\IInputField;
-use SunnyFlail\Forms\Traits\InputFieldTrait;
+use SunnyFlail\Forms\Traits\ValidableFieldTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
 
 abstract class AbstractInputField implements IInputField
 {
 
-    use ContainerElementTrait, FieldTrait, InputFieldTrait;
+    use ContainerElementTrait, FieldTrait, ValidableFieldTrait;
 
     /**
      * @param string        $name          Name of the field
@@ -37,7 +37,7 @@ abstract class AbstractInputField implements IInputField
         protected array $labelAttributes = [],
         array $errorMessages = [],
         array $nestedElements = [],
-        protected array $constraints = []
+        array $constraints = []
     ) {
         $this->error = null;
         $this->value = null;
@@ -45,24 +45,16 @@ abstract class AbstractInputField implements IInputField
         $this->required = $required;
         $this->errorMessages = $errorMessages;
         $this->nestedElements = $nestedElements;
+        $this->constraints = $constraints;
     }
 
     public function resolve(array $values): bool
     {
         $value = $values[$this->getFullName()] ?? null;
 
-        if ($value === null) {
-            if ($this->isRequired()) {
-                $this->error = $this->resolveErrorMessage("-1");
-            }
+        if (true !== ($error = $this->checkConstraints($value))) {
+            $this->error = $error;
             return false;
-        }
-
-        foreach ($this->constraints as $index => $constraint) {
-            if (false === $constraint->formValueValid($value)) {
-                $this->error = $this->resolveErrorMessage("$index");
-                return false;
-            }
         }
 
         $this->withValue($value);

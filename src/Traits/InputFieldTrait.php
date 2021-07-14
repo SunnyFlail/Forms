@@ -21,10 +21,6 @@ trait InputFieldTrait
      * @var mixed $value Value of the field
      */
     protected mixed $value;
-    /**
-     * @var string[] $errorMessages Messages to display if a constraint fails.
-     */
-    protected array $errorMessages;
 
     public function getName(): string
     {
@@ -44,20 +40,6 @@ trait InputFieldTrait
     public function getValue()
     {
         return $this->value;
-    }
-
-    public function resolveErrorMessage(string $code): string
-    {
-        if (!isset($this->errorMessages[$code])) {
-            switch ($code) {
-            case "-1":
-                return "This field must be filled!";
-            default:
-                return "Value doesn't fit in with constraints!";
-            }
-        }
-
-        return $this->errorMessages[$code];
     }
 
     public function withValue($value): IField

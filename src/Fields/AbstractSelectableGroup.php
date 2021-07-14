@@ -2,20 +2,12 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\HtmlAbstraction\Traits\ContainerElementTrait;
 use SunnyFlail\HtmlAbstraction\Elements\CheckableElement;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
-use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
-use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
 use SunnyFlail\HtmlAbstraction\Elements\NodeElement;
-use SunnyFlail\Forms\Interfaces\ISelectableField;
-use SunnyFlail\Forms\Interfaces\IInputField;
-use SunnyFlail\Forms\Traits\InputFieldTrait;
-use SunnyFlail\Forms\Traits\SelectableTrait;
-use SunnyFlail\Forms\Traits\FieldTrait;
-use SunnyFlail\Forms\Traits\ValidableFieldTrait;
+use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
 
-final class RadioGroupField implements ISelectableField, IInputField
+class AbstractSelectableGroup implements ISelectableField, IInputField
 {
     use ContainerElementTrait, FieldTrait, SelectableTrait, ValidableFieldTrait;
 
@@ -77,13 +69,8 @@ final class RadioGroupField implements ISelectableField, IInputField
                         for: $id,
                         labelText: $label,
                         attributes: $this->labelAttributes
-                    ), new CheckableElement(
-                        id: $id,
-                        name: $name,
-                        radio: true,
-                        checked: $checked,
-                        attributes: $this->inputAttributes
-                    )
+                    ),
+                    $this->getInputElement($value)
                 ]
             );
         }
@@ -104,6 +91,17 @@ final class RadioGroupField implements ISelectableField, IInputField
     {
         $value = strtr($value, " ", "_");
         return $baseId . '--' . $value;
+    }
+
+    protected abstract getInputElement(string $value, string $id)
+    {
+        return new CheckableElement(
+            id: $id,
+            name: $name,
+            radio: true,
+            checked: $checked,
+            attributes: $this->inputAttributes
+        );
     }
 
 }

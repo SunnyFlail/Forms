@@ -41,10 +41,8 @@ final class FileUploadField implements IInputField, IFileField
 
     public function resolve(array $params): bool
     {
-        /**
-         * @var UploadedFileInterface[] $files 
-        */
-        $files = $params[$this->getFullName()];
+        /** @var UploadedFileInterface[] $files */
+        $files = $params[$this->name];
 
         if ($this->required && !$files) {
             $this->error = $this->resolveErrorMessage("-1");
@@ -55,9 +53,7 @@ final class FileUploadField implements IInputField, IFileField
 
         foreach ($this->constraints as $errorKey => $constraint) {
             foreach ($files as $fileKey => $file) {
-                /**
-                 * Skip incorrect files 
-                */
+                /** Skip incorrect files */
                 if (array_key_exists($fileKey, $incorrectFiles)) {
                     continue;
                 }
@@ -79,6 +75,13 @@ final class FileUploadField implements IInputField, IFileField
         );
 
         return $this->valid = true;
+    }
+
+    public function getFullName(): string
+    {
+        $suffix = $this->multiple ? "" : '[]';
+
+        return $this->name . $suffix;
     }
 
     public function resolveErrorMessage(string $code): string
