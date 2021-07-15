@@ -3,7 +3,8 @@
     "description": "A simple Form abstraction API",
     "type": "library",
     "require": {
-        "sunnyflail/html-abstraction": "^1.0"
+        "sunnyflail/html-abstraction": "^1.0",
+        "sunnyflail/object-creator": "^1.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.6"

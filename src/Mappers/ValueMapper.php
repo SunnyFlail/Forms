@@ -2,15 +2,15 @@
 
 namespace SunnyFlail\Forms\Mappers;
 
-use SunnyFlail\Forms\Exceptions\MappingException;
 use SunnyFlail\Forms\Interfaces\IMappableField;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IValueMapper;
 use SunnyFlail\Forms\Interfaces\IField;
-use ReflectionClass;
+use SunnyFlail\ObjectCreator\ObjectCreator;
 
 class ValueMapper implements IValueMapper
 {
+    public function __construct(private ObjectCreator $creator) {}
 
     public function scrapeValues(IFormElement $form): object|array
     {
@@ -56,38 +56,17 @@ class ValueMapper implements IValueMapper
      */
     protected function scrapeObject(IMappableField $input, string $classFQCN): object
     {
-        $classFQCN = "\\" . $classFQCN;
-        if (class_exists($classFQCN)) {
-            throw new MappingException(
-                sprintf(
-                    "Class provided to field %s doesn't exist!", $classFQCN
-                )
-            );
-        }
-
-        $reflection = new ReflectionClass($classFQCN);
-        $vessel = $reflection->newInstanceWithoutConstructor();
+        $creator = $this->creator->create($classFQCN);
         $fields = $input->getFields();
 
         foreach ($fields as $field) {
             $name = $field->getName();
+            $value = $field->getValue();
 
-            if (false === $reflection->hasProperty($name)) {
-                throw new MappingException(
-                    sprintf(
-                        "Class %s doesn't have property named %s",
-                        $reflection->getShortName(), $name
-                    )
-                );
-            }
-
-            $value = $this->getFieldValue($field);
-            $property = $reflection->getProperty($name);
-            $property->setAccessible(true);
-            $property->setValue($vessel, $value);
+            $creator->withProperty($name, $value);
         }
 
-        return $vessel;
+        return $creator->getObject();
     }
 
 }
