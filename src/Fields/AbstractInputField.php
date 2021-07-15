@@ -6,12 +6,13 @@ use SunnyFlail\HtmlAbstraction\Traits\ContainerElementTrait;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
 use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
+use SunnyFlail\HtmlAbstraction\Interfaces\IContainerElement;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
-use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\Forms\Traits\ValidableFieldTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
+use SunnyFlail\Forms\Interfaces\IInputField;
 
-abstract class AbstractInputField implements IInputField
+abstract class AbstractInputField implements IInputField, IContainerElement
 {
 
     use ContainerElementTrait, FieldTrait, ValidableFieldTrait;

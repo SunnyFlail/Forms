@@ -7,8 +7,14 @@ trait SingularValueFieldTrait
 
     use ValidableFieldTrait;
 
+    /**
+     * @var bool $useIntristicValues Should this form be validated only by using preset values
+     */
     protected bool $useIntristicValues;
 
+    /**
+     * @var string[] Preset values
+     */
     protected array $options;
 
     protected function resolveSingular(mixed $value): bool
@@ -19,7 +25,7 @@ trait SingularValueFieldTrait
             return false;
         }
 
-        if (true !== ($error = $this->checkConstraints($value))) {
+        if (!$this->useIntristicValues && true !== ($error = $this->checkConstraints($value))) {
             $this->error = $error;
             return false;
         }

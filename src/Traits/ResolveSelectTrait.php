@@ -45,10 +45,12 @@ trait ResolveSelectTrait
             return false;
         }
 
-        foreach ($values as $value) {
-            if (true !== ($error = $this->checkConstraints($value))) {
-                $this->error = $error;
-                return false;
+        if (!$this->useIntristicValues) {
+            foreach ($values as $value) {
+                if (true !== ($error = $this->checkConstraints($value))) {
+                    $this->error = $error;
+                    return false;
+                }
             }
         }
 

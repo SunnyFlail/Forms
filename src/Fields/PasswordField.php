@@ -9,14 +9,14 @@ use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 final class PasswordField extends AbstractInputField
 {
-
     protected string $type;
 
     public function __construct(
         string $name,
         bool $required = true,
-        array $errorMessages = [],
+        protected bool $rememberValue = true,
         array $constraints = [],
+        array $errorMessages = [],
         array $nestedElements = [],
         protected bool $withPeeper = true,
         protected array $inputAttributes = [],
@@ -48,6 +48,7 @@ final class PasswordField extends AbstractInputField
         }
         $id = $this->getInputId();
         $name = $this->getFullName();
+        $value = $this->rememberValue ? $this->value : null;
 
         if ($this->withPeeper) {
             return new ContainerElement(
@@ -59,7 +60,8 @@ final class PasswordField extends AbstractInputField
                         id: $id,
                         type: "password",
                         name: $name,
-                        attributes: $attributes
+                        attributes: $attributes,
+                        value: $value
                     ),
                     new ButtonElement(
                         type: "button",
@@ -73,7 +75,8 @@ final class PasswordField extends AbstractInputField
             id: $id,
             type: "password",
             name: $name,
-            attributes: $attributes
+            attributes: $attributes,
+            value: $value
         );
     }
 

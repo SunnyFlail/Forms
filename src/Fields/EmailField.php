@@ -14,6 +14,7 @@ final class EmailField extends AbstractInputField
     public function __construct(
         string $name,
         bool $required = true,
+        protected bool $rememberValue = true,
         array $errorMessages = [],
         array $nestedElements = [],
         protected array $inputAttributes = [],
@@ -26,12 +27,12 @@ final class EmailField extends AbstractInputField
 
         $this->name = $name;
         $this->required = $required;
-        $this->errorMessages = $errorMessages;
-        $this->wrapperAttributes = $wrapperAttributes;
-        $this->errorAttributes = $errorAttributes;
         $this->labelText = $labelText;
-        $this->labelAttributes = $labelAttributes;
+        $this->errorMessages = $errorMessages;
         $this->nestedElements = $nestedElements;
+        $this->errorAttributes = $errorAttributes;
+        $this->labelAttributes = $labelAttributes;
+        $this->wrapperAttributes = $wrapperAttributes;
         $this->constraints = [new EmailConstraint()];
     }
 
@@ -41,12 +42,14 @@ final class EmailField extends AbstractInputField
         $attributes = $this->inputAttributes;
         $attributes['minlength'] = 5;
         $attributes['maxlength'] = 254;
+        $value = $this->rememberValue ? $this->value : null;
 
         return new InputElement(
             id: $this->getInputId(),
             type: 'email',
             name: $this->getFullName(),
-            attributes: $attributes
+            attributes: $attributes,
+            value: $value
         );
     }
 

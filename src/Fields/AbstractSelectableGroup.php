@@ -32,7 +32,7 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
             }
 
             $id = $this->resolveId($baseId, $value);
-            $checked = ($this->value === $value);
+            $checked = $this->isChecked($value);
             $radio = $this->radio;
 
             $elements[] = new ContainerElement(
@@ -46,6 +46,7 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
                     new CheckableElement(
                         id: $id,
                         name: $name,
+                        value: $value,
                         radio: $radio,
                         checked: $checked,
                         attributes: $this->inputAttributes
@@ -71,5 +72,7 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
         $value = strtr($value, " ", "_");
         return $baseId . '--' . $value;
     }
+
+    abstract protected function isChecked(string $value): bool;
 
 }

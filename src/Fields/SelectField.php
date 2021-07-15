@@ -2,11 +2,13 @@
 
 namespace SunnyFlail\Forms\Fields;
 
+use SunnyFlail\HtmlAbstraction\Interfaces\IContainerElement;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
 use SunnyFlail\HtmlAbstraction\Elements\OptionElement;
 use SunnyFlail\HtmlAbstraction\Elements\SelectElement;
 use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
+use SunnyFlail\HtmlAbstraction\Traits\ContainerElementTrait;
 use SunnyFlail\HtmlAbstraction\Traits\AttributeTrait;
 use SunnyFlail\Forms\Interfaces\ISelectableField;
 use SunnyFlail\Forms\Interfaces\IInputField;
@@ -14,10 +16,10 @@ use SunnyFlail\Forms\Traits\ResolveSelectTrait;
 use SunnyFlail\Forms\Traits\SelectableTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
 
-final class SelectField implements ISelectableField, IInputField
+final class SelectField implements ISelectableField, IInputField, IContainerElement
 {
 
-    use AttributeTrait, SelectableTrait, FieldTrait, ResolveSelectTrait;
+    use ContainerElementTrait, AttributeTrait, SelectableTrait, FieldTrait, ResolveSelectTrait;
     
     /**
      * @var string[]|string[][] $options 
@@ -25,23 +27,27 @@ final class SelectField implements ISelectableField, IInputField
 
     public function __construct(
         protected string $name,
-        protected bool $multiple = false,
+        array $options = [],
         bool $required = false,
+        protected bool $rememberValue = true,
+        protected bool $multiple = false,
+        bool $useIntristicValues = true,
+        array $constraints = [],
+        array $errorMessages = [],
+        array $nestedElements = [],
         protected array $inputAttributes = [],
+        protected array $wrapperAttributes = [],
         protected ?string $labelText = null,
         protected array $labelAttributes = [],
         protected array $optionAttributes = [],
-        protected array $errorAttributes = [],
-        array $options = [],
-        array $errorMessages = [],
-        array $constraints = [],
-        bool $useIntristicValues = true
+        protected array $errorAttributes = []
     ) {
         $this->error = null;
         $this->valid = false;
-        $this->required = $required;
         $this->value = null;
+        $this->required = $required;
         $this->errorMessages = $errorMessages;
+        $this->nestedElements = $nestedElements;
         $this->constraints = $constraints;
         $this->options = $options;
         $this->useIntristicValues = $useIntristicValues;
@@ -96,8 +102,10 @@ final class SelectField implements ISelectableField, IInputField
             );
         }
 
+        array_push($elements, ...$this->nestedElements); 
+
         return new ContainerElement(
-            attributes: $this->containerAttibutes,
+            attributes: $this->wrapperAttributes,
             nestedElements: $elements
         );
     }
@@ -108,10 +116,14 @@ final class SelectField implements ISelectableField, IInputField
             $label = $value;
         }
 
-        if ($this->multiple && is_array($this->value)) {
-            $selected = in_array($value, $this->value);
+        if ($this->rememberValue) {
+            if ($this->multiple && is_array($this->value)) {
+                $selected = in_array($value, $this->value);
+            } else {
+                $selected = ($value === $this->value);
+            }
         } else {
-            $selected = ($value === $this->value);
+            $selected = false;
         }
 
         return new OptionElement(

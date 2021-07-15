@@ -26,7 +26,7 @@ final class FileUploadField implements IInputField, IFileField
         protected bool $multiple = true,
         protected array $constraints = [],
         array $errorMessages = [],
-        protected array $containerAttributes = [],
+        protected array $wrapperAttributes = [],
         protected array $labelAttributes = [],
         protected ?string $labelText = null,
         protected array $inputAttributes = [],
@@ -108,7 +108,7 @@ final class FileUploadField implements IInputField, IFileField
         $inputId = $this->getInputId();
 
         return new ContainerElement(
-            attributes: $this->containerAttributes,
+            attributes: $this->wrapperAttributes,
             nestedElements: [
                 new LabelElement(
                     for: $inputId,

@@ -12,8 +12,9 @@ final class InputField extends AbstractInputField
         string $name,
         protected string $type = "text",
         bool $required = true,
-        array $errorMessages = [],
+        protected bool $rememberValue = true,
         array $constraints = [],
+        array $errorMessages = [],
         array $nestedElements = [],
         protected array $inputAttributes = [],
         array $wrapperAttributes = [],
@@ -25,22 +26,25 @@ final class InputField extends AbstractInputField
 
         $this->name = $name;
         $this->required = $required;
-        $this->errorMessages = $errorMessages;
-        $this->wrapperAttributes = $wrapperAttributes;
-        $this->errorAttributes = $errorAttributes;
         $this->labelText = $labelText;
-        $this->labelAttributes = $labelAttributes;
-        $this->nestedElements = $nestedElements;
         $this->constraints = $constraints;
+        $this->errorMessages = $errorMessages;
+        $this->nestedElements = $nestedElements;
+        $this->errorAttributes = $errorAttributes;
+        $this->labelAttributes = $labelAttributes;
+        $this->wrapperAttributes = $wrapperAttributes;
     }
 
     protected function getInputElement(): IElement
     {
+        $value = $this->rememberValue ? $this->value : null;
+
         return new InputElement(
             id: $this->getInputId(),
             type: $this->type,
             name: $this->getFullName(),
-            attributes: $this->inputAttributes
+            attributes: $this->inputAttributes,
+            value: $value
         );
     }
 

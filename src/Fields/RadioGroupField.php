@@ -11,22 +11,27 @@ final class RadioGroupField extends AbstractSelectableGroup
     public function __construct(
         string $name,
         array $options = [],
+        bool $required = true,
+        protected bool $rememberValue = true,
         bool $useIntristicValues = true,
         array $constraints = [],
+        array $errorMessages = [],
         array $nestedElements = [],
         protected array $inputAttributes = [],
         protected array $wrapperAttributes = [],
         protected array $labelAttributes = [],
     ) {
-        $this->name = $name;
-        $this->valid = false;
-        $this->useIntristicValues = $useIntristicValues;
-        $this->options = $options;
         $this->error = null;
         $this->value = null;
         $this->radio = true;
-        $this->nestedElements = $nestedElements;
+        $this->valid = false;
+        $this->name = $name;
+        $this->options = $options;
+        $this->required = $required;
         $this->constraints = $constraints;
+        $this->errorMessages = $errorMessages;
+        $this->nestedElements = $nestedElements;
+        $this->useIntristicValues = $useIntristicValues;
     }
 
     public function resolve(array $values): bool
@@ -43,6 +48,15 @@ final class RadioGroupField extends AbstractSelectableGroup
         }
 
         return $this->resolveSingular($value);
+    }
+
+    protected function isChecked(string $value): bool
+    {
+        if (!$this->rememberValue) {
+            return false;
+        }
+
+        return ($value === $this->value);
     }
 
 }

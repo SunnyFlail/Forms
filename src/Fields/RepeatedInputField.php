@@ -58,7 +58,7 @@ final class RepeatedInputField implements IField
         if ($this->field->getValue() === $this->repeatedField->getValue()) {
             $this->valid = true;
         } else {
-            $this->field->withError($this->mismatchError);
+            $this->field->withError($this->missmatchError);
         }
         return $this->valid;
     }
