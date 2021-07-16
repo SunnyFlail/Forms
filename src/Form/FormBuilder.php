@@ -2,7 +2,9 @@
 
 namespace SunnyFlail\Forms\Form;
 
+use SunnyFlail\Forms\Exceptions\FormNotFoundException;
 use SunnyFlail\Forms\Exceptions\FormBuilderException;
+use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 use SunnyFlail\Forms\Interfaces\IProviderFactory;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IValueMapper;
@@ -19,19 +21,71 @@ final class FormBuilder implements IFormBuilder
     public function __construct(
         private IValueMapper $mapper,
         private IProviderFactory $providerFactory,
-    ) {
+    ) {}
+
+    public function __toString()
+    {
+        return $this->form->__toString();
     }
 
     public function add(IField $field): IFormBuilder
     {
+        $this->checkFormValidity();
+
         $field = $field->withForm($this->form);
         $this->form->withFields($field);
 
         return $this;
     }
 
+    public function addError(string $error): IFormBuilder
+    {
+        $this->checkFormValidity();
+
+        $this->valid = false;
+        $this->form->addError($error);
+
+        return $this;
+    }
+
+    public function addElementAtStart(IElement $element): IFormBuilder
+    {
+        $this->checkFormValidity();
+
+        $this->form->addElementAtStart($element);
+
+        return $this;
+    }
+
+    public function addElementInMiddle(IElement $element): IFormBuilder
+    {
+        $this->checkFormValidity();
+
+        $this->form->addElementInMiddle($element);
+        
+        return $this;
+    }
+
+    public function addElementAtEnd(IElement $element): IFormBuilder
+    {
+        $this->checkFormValidity();
+
+        $this->form->addElementAtEnd($element);
+        
+        return $this;
+    }
+
+    public function getProcessedData(): object|array
+    {
+        $this->checkFormValidity();
+
+        return $this->mapper->scrapeValues($this->form);
+    }
+
     public function processForm(ServerRequestInterface $request): bool
     {
+        $this->checkFormValidity();
+
         return $this->form->resolveForm($request);
     }
 
@@ -49,41 +103,33 @@ final class FormBuilder implements IFormBuilder
         return $copy;
     }
 
-    public function addError(string $error)
-    {
-        $this->valid = false;
-        $this->form->addError($error);
-    }
-
     private function invokeForm(string $formFQCN): IFormElement
     {
         $formFQCN = '\\' . $formFQCN;
         
-        if (!class_exists($formFQCN)) {
-            throw new FormBuilderException(
-                sprintf(
-                    "%s isn't a valid form!", $formFQCN
-                )
-            );
+        if (!class_exists($formFQCN) || !($formFQCN instanceof IFormElement)) {
+            throw new FormNotFoundException($formFQCN);
         }
 
         return (new ReflectionClass($formFQCN))->newInstanceWithoutConstructor();
     }
 
-    public function getProcessedData(): object|array
-    {
-        return $this->mapper->scrapeValues($this->form);
-    }
-
     private function fillFieldValues(IFormElement $form, array|object|null $value)
     {
         return $this->providerFactory->getProvider($value)
-            ->fill($form, $value);
+        ->fill($form, $value);
     }
 
-    public function __toString()
+    /**
+     * Checks whether this form has been initialised
+     * 
+     * @throws FormBuilderException
+     */
+    private function checkFormValidity()
     {
-        return $this->form->__toString();
+        if ($this->form === null) {
+            throw new FormBuilderException("Cannot process uninitalised form!");
+        }
     }
 
 }

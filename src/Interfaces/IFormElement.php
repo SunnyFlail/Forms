@@ -43,4 +43,31 @@ interface IFormElement extends IMappableField, IElement
      */
     public function addError(string $error);
 
+    /**
+     * Adds an element before fields button
+     * 
+     * @param IElement $element
+     * 
+     * @return void
+     */
+    public function addElementAtStart(IElement $element);
+
+    /**
+     * Adds an element before the form submition button
+     * 
+     * @param IElement $element
+     * 
+     * @return void
+     */
+    public function addElementInMiddle(IElement $element);
+
+    /**
+     * Adds an element After the form submition button
+     * 
+     * @param IElement $element
+     * 
+     * @return void
+     */
+    public function addElementAtEnd(IElement $element);
+
 }

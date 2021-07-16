@@ -10,6 +10,7 @@ use SunnyFlail\Forms\Traits\MappableTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
+use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 /**
  * Abstraction over html forms with HTTP parameter resolving
@@ -35,6 +36,10 @@ abstract class FormElement implements IFormElement
 
     protected array $buttonAttributes = [];
     protected array $buttonElements = [];
+
+    protected array $elementsBeforeFields = [];
+    protected array $elementsBeforeButton = [];
+    protected array $elementsAfterButton = [];
 
     public function getName(): string
     {
@@ -83,6 +88,21 @@ abstract class FormElement implements IFormElement
         $this->valid = false;
     }
 
+    public function addElementAtStart(IElement $element)
+    {
+        $this->elementsBeforeFields[] = $element;
+    }
+
+    public function addElementInMiddle(IElement $element)
+    {
+        $this->elementsBeforeButton[] = $element;
+    }
+
+    public function addElementAtEnd(IElement $element)
+    {
+        $this->elementsAfterButton[] = $element;
+    }
+
     /**
      * Returns a html string representation of form
      * 
@@ -96,8 +116,9 @@ abstract class FormElement implements IFormElement
         }
         $attributes['id'] = $attributes['id'] ?? $this->formName;
         $attributes['method'] = $this->formMethod;
+        $elements = $this->elementsBeforeFields;
 
-        $elements = $this->fields;
+        array_merge($elements, $this->fields);
 
         if ($this->error) {
             $elements[] = new ContainerElement(
@@ -105,6 +126,7 @@ abstract class FormElement implements IFormElement
                 nestedElements: [new TextNodeElement($this->error)]
             );
         }
+        array_merge($elements, $this->elementsBeforeButton);
 
         $elements[] = new ButtonElement(
             type: "submit",
@@ -112,6 +134,8 @@ abstract class FormElement implements IFormElement
             text: $this->buttonText,
             nestedElements: $this->buttonElements
         );
+
+        array_merge($elements, $this->elementsAfterButton);
 
         return '<form' .$this->getAttributeString($attributes) . '>'
                 . implode('', $elements) . '</form>';

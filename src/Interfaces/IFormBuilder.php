@@ -2,9 +2,9 @@
 
 namespace SunnyFlail\Forms\Interfaces;
 
+use SunnyFlail\Forms\Exceptions\FormBuilderException;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 use Psr\Http\Message\ServerRequestInterface;
-use SunnyFlail\Forms\Interfaces\IField;
 
 interface IFormBuilder extends IElement
 {
@@ -13,25 +13,60 @@ interface IFormBuilder extends IElement
      * Adds a field to the Form
      * 
      * @return IFormBuilder
-     * @throws FormBuilderException if form was initalised
+     * 
+     * @throws FormBuilderException
      */
     public function add(IField $field): IFormBuilder;
 
     /**
-     * Processes the form
+     * Adds an element before fields button
+     * 
+     * @param IElement $element
+     * 
+     * @return IFormBuilder
+     * 
+     * @throws FormBuilderException
      */
-    public function processForm(ServerRequestInterface $request): bool;
+    public function addElementAtStart(IElement $element): IFormBuilder;
+
+    /**
+     * Adds an element before the form submition button
+     * 
+     * @param IElement $element
+     * 
+     * @return IFormBuilder
+     * 
+     * @throws FormBuilderException
+     */
+    public function addElementInMiddle(IElement $element): IFormBuilder;
+
+    /**
+     * Adds an element After the form submition button
+     * 
+     * @param IElement $element
+     * 
+     * @return IFormBuilder
+     * 
+     * @throws FormBuilderException
+     */
+    public function addElementAtEnd(IElement $element): IFormBuilder;
 
     /**
      * Adds and error to the form
      * @param string $error Message to be displayed
-     */
-    public function addError(string $error);
+     * 
+     * @return IFormBuilder
+     * 
+     * @throws FormBuilderException
+     */ 
+    public function addError(string $error): IFormBuilder;
 
     /**
      * Returns data scraped from form submition\
      * 
      * @return object|array
+     * 
+     * @throws FormBuilderException
      */
     public function getProcessedData(): object|array;
 
@@ -41,5 +76,16 @@ interface IFormBuilder extends IElement
      * @return IFormBuilder
      */
     public function buildForm(string $formFQCN, array|object|null $value = null): IFormBuilder;
+
+    /**
+     * Processes the form
+     * 
+     * @param ServerRequestInterface $request
+     * 
+     * @return bool
+     * 
+     * @throws FormBuilderException
+     */
+    public function processForm(ServerRequestInterface $request): bool;
 
 }
