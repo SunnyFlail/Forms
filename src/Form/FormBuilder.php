@@ -107,10 +107,16 @@ final class FormBuilder implements IFormBuilder
     {
         $formFQCN = '\\' . $formFQCN;
         
-        if (!class_exists($formFQCN) || !($formFQCN instanceof IFormElement)) {
+        if (!class_exists($formFQCN)) {
             throw new FormNotFoundException($formFQCN);
         }
 
+        $reflection = new ReflectionClass($formFQCN);
+        
+        if (!$reflection->implementsInterface(IFormElement::class)) {
+            throw new FormNotFoundException($formFQCN);
+        }
+        
         return (new ReflectionClass($formFQCN))->newInstanceWithoutConstructor();
     }
 
