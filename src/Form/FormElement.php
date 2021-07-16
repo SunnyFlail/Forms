@@ -119,7 +119,7 @@ abstract class FormElement implements IFormElement
 
         $elements = [
             ...$this->elementsBeforeFields,
-            ...$this->fields,
+            ...array_values($this->fields),
             ...$this->elementsBeforeButton,
             $this->getErrorElement(),
             $this->getSubmitButton(),
