@@ -116,29 +116,39 @@ abstract class FormElement implements IFormElement
         }
         $attributes['id'] = $attributes['id'] ?? $this->formName;
         $attributes['method'] = $this->formMethod;
-        $elements = $this->elementsBeforeFields;
 
-        array_merge($elements, $this->fields);
+        $elements = [
+            ...$this->elementsBeforeFields,
+            ...$this->fields,
+            ...$this->elementsBeforeButton,
+            $this->getErrorElement(),
+            $this->getSubmitButton(),
+            ...$this->elementsAfterButton  
+        ];
 
+        return '<form' .$this->getAttributeString($attributes) . '>'
+                . implode('', $elements) . '</form>';
+    }
+
+    private function getErrorElement(): ?IElement
+    {
         if ($this->error) {
-            $elements[] = new ContainerElement(
+            return new ContainerElement(
                 attributes: $this->errorAttributes,
                 nestedElements: [new TextNodeElement($this->error)]
             );
         }
-        array_merge($elements, $this->elementsBeforeButton);
+        return null;
+    }
 
-        $elements[] = new ButtonElement(
+    private function getSubmitButton(): IElement
+    {
+        return new ButtonElement(
             type: "submit",
             attributes: $this->buttonAttributes,
             text: $this->buttonText,
             nestedElements: $this->buttonElements
         );
-
-        array_merge($elements, $this->elementsAfterButton);
-
-        return '<form' .$this->getAttributeString($attributes) . '>'
-                . implode('', $elements) . '</form>';
     }
 
 }
