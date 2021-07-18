@@ -17,7 +17,7 @@ class PatternConstraint implements IConstraint
         $this->regexes = $regexes;
     }
 
-    public function formValueValid($value): bool
+    public function matchesConstraint($value): bool
     {
         if (!is_string($value) && !is_numeric($value)) {
             return false;

@@ -34,7 +34,7 @@ trait ValidableFieldTrait
         }
 
         foreach ($this->constraints as $index => $constraint) {
-            if (false === $constraint->formValueValid($value)) {
+            if (false === $constraint->matchesConstraint($value)) {
                 return $this->resolveErrorMessage("$index");
             }
         }

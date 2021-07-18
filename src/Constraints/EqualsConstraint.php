@@ -11,7 +11,7 @@ final class EqualsConstraint implements IConstraint
     {
     }
 
-    public function formValueValid($value): bool
+    public function matchesConstraint($value): bool
     {
         if (!is_numeric($value)) {
             return false;

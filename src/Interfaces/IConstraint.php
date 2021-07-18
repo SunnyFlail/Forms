@@ -13,6 +13,6 @@ interface IConstraint
      * 
      * @return bool
      */
-    public function formValueValid($value): bool;
+    public function matchesConstraint($value): bool;
 
 }
