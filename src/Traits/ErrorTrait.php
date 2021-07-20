@@ -12,12 +12,12 @@ trait ErrorTrait
     /**
      * @var string|null $error Message that is shown if this field is invalid
      */
-    protected ?string $error;
+    protected ?string $error = null;
 
     /**
      * @var array $errorAttributes Attributes to add to error Element
      */
-    protected array $errorAttributes;
+    protected array $errorAttributes = [];
 
     public function getErrorElement(): ?IElement
     {
