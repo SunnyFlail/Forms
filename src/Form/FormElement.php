@@ -30,8 +30,6 @@ abstract class FormElement implements IFormElement
 
     protected bool $useHtmlValidation = true;
 
-    protected array $errorAttributes = [];
-
     protected array $buttonAttributes = [];
     protected array $buttonElements = [];
 
