@@ -5,7 +5,6 @@ namespace SunnyFlail\Forms\Fields;
 use Psr\Http\Message\UploadedFileInterface;
 use SunnyFlail\Forms\Interfaces\IContainerField;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
-use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
 use SunnyFlail\HtmlAbstraction\Elements\FileElement;
 use SunnyFlail\Forms\Interfaces\IFileConstraint;
 use SunnyFlail\Forms\Interfaces\IInputField;

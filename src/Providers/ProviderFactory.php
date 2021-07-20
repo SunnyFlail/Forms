@@ -24,6 +24,7 @@ final class ProviderFactory implements IProviderFactory
                     }
                 };
             }
+            
             return $this->nullProvider;
         }
         
@@ -31,12 +32,14 @@ final class ProviderFactory implements IProviderFactory
             if (!(isset($this->arrayProvider))) {
                 $this->arrayProvider = new ArrayValueProvider();
             }
+            
             return $this->arrayProvider;
         }
 
         if (!(isset($this->objectProvider))) {
             $this->objectProvider = new ObjectValueProvider();
         }
+
         return $this->objectProvider;
     }
 

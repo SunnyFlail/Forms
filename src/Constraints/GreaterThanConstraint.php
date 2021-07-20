@@ -7,9 +7,10 @@ use SunnyFlail\Forms\Interfaces\IConstraint;
 final class GreaterThanConstraint implements IConstraint
 {
 
-    public function __construct(private int|float $min)
-    {
-    }
+    public function __construct(
+        private int|float $min,
+        private bool $orEqual = false
+    ) {}
 
     public function matchesConstraint($value): bool
     {
@@ -17,11 +18,11 @@ final class GreaterThanConstraint implements IConstraint
             return false;
         }
 
-        if ($value < $this->min) {
-            return false;
+        if ($this->orEqual) {
+            return ($value >= $this->min);
         }
 
-        return true;
+        return ($value > $this->min);
     }
 
 }

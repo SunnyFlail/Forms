@@ -126,6 +126,13 @@ final class FormBuilder implements IFormBuilder
         ->fill($form, $value);
     }
 
+    public function getFields(): array
+    {
+        $this->checkFormValidity();
+
+        return $this->form->getFields();
+    }
+
     /**
      * Checks whether this form has been initialised
      * 

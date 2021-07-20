@@ -62,7 +62,7 @@ interface IFormBuilder extends IElement
     public function addError(string $error): IFormBuilder;
 
     /**
-     * Returns data scraped from form submition\
+     * Returns data scraped from form submition
      * 
      * @return object|array
      * 
@@ -87,5 +87,14 @@ interface IFormBuilder extends IElement
      * @throws FormBuilderException
      */
     public function processForm(ServerRequestInterface $request): bool;
+
+    /**
+     * Return all of form fields
+     * 
+     * @return IField[]
+     * 
+     * @throws FormBuilderException
+     */
+    public function getFields(): array;
 
 }

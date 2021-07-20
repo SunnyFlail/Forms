@@ -6,11 +6,11 @@ use SunnyFlail\Forms\Interfaces\IMappableField;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IValueMapper;
 use SunnyFlail\Forms\Interfaces\IField;
-use SunnyFlail\ObjectCreator\ObjectCreator;
+use SunnyFlail\ObjectCreator\IObjectCreator;
 
 class ValueMapper implements IValueMapper
 {
-    public function __construct(private ObjectCreator $creator) {}
+    public function __construct(private IObjectCreator $creator) {}
 
     public function scrapeValues(IFormElement $form): object|array
     {

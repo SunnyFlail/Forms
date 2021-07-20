@@ -9,8 +9,7 @@ use SunnyFlail\Forms\Interfaces\IFileField;
 use SunnyFlail\Forms\Traits\MappableTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use SunnyFlail\Forms\Traits\ContainerFieldTrait;
-use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
-use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
+use SunnyFlail\Forms\Traits\ErrorTrait;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 /**
@@ -19,17 +18,15 @@ use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 abstract class FormElement implements IFormElement
 {
 
-    use AttributeTrait, MappableTrait, ContainerFieldTrait;
+    use AttributeTrait, MappableTrait, ContainerFieldTrait, ErrorTrait;
     
     protected array $attributes = [];
 
     protected string $formMethod = 'GET';
 
-    protected string $formName = "";
+    protected string $formName;
 
     protected string $buttonText = 'Submit';
-    
-    protected ?string $error = null;
 
     protected bool $useHtmlValidation = true;
 
@@ -37,10 +34,6 @@ abstract class FormElement implements IFormElement
 
     protected array $buttonAttributes = [];
     protected array $buttonElements = [];
-
-    protected array $topElements = [];
-    protected array $middleElements = [];
-    protected array $bottomElements = [];
 
     public function getName(): string
     {
@@ -118,18 +111,7 @@ abstract class FormElement implements IFormElement
                 . implode('', $elements) . '</form>';
     }
 
-    private function getErrorElement(): ?IElement
-    {
-        if ($this->error) {
-            return new ContainerElement(
-                attributes: $this->errorAttributes,
-                nestedElements: [new TextNodeElement($this->error)]
-            );
-        }
-        return null;
-    }
-
-    private function getSubmitButton(): IElement
+    public function getSubmitButton(): IElement
     {
         return new ButtonElement(
             type: "submit",
