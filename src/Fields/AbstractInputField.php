@@ -11,12 +11,13 @@ use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 use SunnyFlail\Forms\Traits\ValidableFieldTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
 use SunnyFlail\Forms\Interfaces\IInputField;
+use SunnyFlail\Forms\Traits\ContainerFieldTrait;
 use SunnyFlail\Forms\Traits\LabeledElementTrait;
 
 abstract class AbstractInputField implements IInputField
 {
 
-    use FieldTrait, ValidableFieldTrait, LabeledElementTrait;
+    use FieldTrait, ValidableFieldTrait, LabeledElementTrait, ContainerFieldTrait;
 
     protected array $wrapperAttributes;
 

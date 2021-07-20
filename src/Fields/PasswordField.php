@@ -37,7 +37,7 @@ final class PasswordField extends AbstractInputField
         $this->constraints = $constraints;
         $this->topElements = $topElements;
         $this->middleElements = $middleElements;
-        $this->bottomElements = $middleElements;
+        $this->bottomElements = $bottomElements;
         $this->errorMessages = $errorMessages;
         $this->errorAttributes = $errorAttributes;
         $this->labelAttributes = $labelAttributes;
