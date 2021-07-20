@@ -16,7 +16,9 @@ final class EmailField extends AbstractInputField
         bool $required = true,
         protected bool $rememberValue = true,
         array $errorMessages = [],
-        array $nestedElements = [],
+        array $topElements = [],
+        array $middleElements = [],
+        array $bottomElements = [],
         protected array $inputAttributes = [],
         array $wrapperAttributes = [],
         array $errorAttributes = [],
@@ -29,15 +31,16 @@ final class EmailField extends AbstractInputField
         $this->required = $required;
         $this->labelText = $labelText;
         $this->errorMessages = $errorMessages;
-        $this->nestedElements = $nestedElements;
+        $this->topElements = $topElements;
+        $this->middleElements = $middleElements;
+        $this->bottomElements = $bottomElements;
         $this->errorAttributes = $errorAttributes;
         $this->labelAttributes = $labelAttributes;
         $this->wrapperAttributes = $wrapperAttributes;
         $this->constraints = [new EmailConstraint()];
     }
 
-
-    protected function getInputElement(): IElement
+    public function getInputElement(): IElement
     {
         $attributes = $this->inputAttributes;
         $attributes['minlength'] = 5;

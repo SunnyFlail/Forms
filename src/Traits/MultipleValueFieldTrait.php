@@ -2,10 +2,12 @@
 
 namespace SunnyFlail\Forms\Traits;
 
-trait ResolveSelectTrait
+trait MultipleValueFieldTrait
 {
 
     use SingularValueFieldTrait;
+
+    protected bool $multiple;
 
     public function resolve(array $values): bool
     {

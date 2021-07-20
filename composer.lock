@@ -61,16 +61,16 @@
         },
         {
             "name": "sunnyflail/html-abstraction",
-            "version": "1.1.0",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SunnyFlail/Html.git",
-                "reference": "12f90deb633803c6e398b59f3ae5318cab465053"
+                "reference": "daf31cacd6316c8cd9ce2754975919dd56ed8164"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SunnyFlail/Html/zipball/12f90deb633803c6e398b59f3ae5318cab465053",
-                "reference": "12f90deb633803c6e398b59f3ae5318cab465053",
+                "url": "https://api.github.com/repos/SunnyFlail/Html/zipball/daf31cacd6316c8cd9ce2754975919dd56ed8164",
+                "reference": "daf31cacd6316c8cd9ce2754975919dd56ed8164",
                 "shasum": ""
             },
             "require": {
@@ -99,28 +99,31 @@
             "description": "A simple HTML abstraction layer",
             "support": {
                 "issues": "https://github.com/SunnyFlail/Html/issues",
-                "source": "https://github.com/SunnyFlail/Html/tree/1.1.0"
+                "source": "https://github.com/SunnyFlail/Html/tree/1.1.4"
             },
-            "time": "2021-07-11T18:53:34+00:00"
+            "time": "2021-07-20T08:29:01+00:00"
         },
         {
             "name": "sunnyflail/object-creator",
-            "version": "1.0.0",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SunnyFlail/ObjectCreator.git",
-                "reference": "4d482ecd4339a478583c0acf6822418250493d5f"
+                "reference": "4a77a44421813d409a92bf51ac47312052ec7548"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SunnyFlail/ObjectCreator/zipball/4d482ecd4339a478583c0acf6822418250493d5f",
-                "reference": "4d482ecd4339a478583c0acf6822418250493d5f",
+                "url": "https://api.github.com/repos/SunnyFlail/ObjectCreator/zipball/4a77a44421813d409a92bf51ac47312052ec7548",
+                "reference": "4a77a44421813d409a92bf51ac47312052ec7548",
                 "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Sunnyflail\\ObjectCreator\\": "src/"
+                    "SunnyFlail\\ObjectCreator\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -130,9 +133,9 @@
             "description": "A simple class for building objects",
             "support": {
                 "issues": "https://github.com/SunnyFlail/ObjectCreator/issues",
-                "source": "https://github.com/SunnyFlail/ObjectCreator/tree/1.0.0"
+                "source": "https://github.com/SunnyFlail/ObjectCreator/tree/1.0.2"
             },
-            "time": "2021-07-15T20:29:05+00:00"
+            "time": "2021-07-15T22:55:26+00:00"
         }
     ],
     "packages-dev": [
@@ -200,5 +203,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }

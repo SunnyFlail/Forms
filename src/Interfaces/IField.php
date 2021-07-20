@@ -2,6 +2,8 @@
 
 namespace SunnyFlail\Forms\Interfaces;
 
+use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
+
 interface IField
 {
     
@@ -18,21 +20,21 @@ interface IField
     /**
      * Adds a reference to the parent form
      * 
-     * @return IField $this
+     * @return IField
      */
     public function withForm(IFormElement $form): IField;
 
     /**
      * Adds an error message to the field
      * 
-     * @return IField $this
+     * @return IField
      */
     public function withError(string $error): IField;
 
     /**
      * Adds a value to the field
      * 
-     * @return IField $this
+     * @return IField
      */
     public function withValue(mixed $value): IField;
 
@@ -69,5 +71,12 @@ interface IField
      * @return bool 
      */
     public function isValid(): bool;
+
+    /**
+     * Returns the error Element or null if no error occurred
+     * 
+     * @return IElement|null
+     */
+    public function getErrorElement(): ?IElement;
 
 }

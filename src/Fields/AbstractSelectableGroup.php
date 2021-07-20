@@ -2,69 +2,99 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\HtmlAbstraction\Traits\ContainerElementTrait;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\HtmlAbstraction\Elements\CheckableElement;
-use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
 use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
 use SunnyFlail\HtmlAbstraction\Elements\NodeElement;
 use SunnyFlail\Forms\Interfaces\ISelectableField;
 use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\Forms\Traits\ValidableFieldTrait;
 use SunnyFlail\Forms\Traits\SelectableTrait;
-use SunnyFlail\Forms\Traits\FieldTrait;
+use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 abstract class AbstractSelectableGroup implements ISelectableField, IInputField
 {
-    use ContainerElementTrait, FieldTrait, SelectableTrait, ValidableFieldTrait;
+    use SelectableTrait, ValidableFieldTrait;
 
     protected bool $radio;
+    protected array $wrapperAttributes;
 
     public function __toString(): string
     {
-        $elements = [];
+        $elements = [$this->topElements];
         $name = $this->getFullName();
         $baseId = $this->getInputId();
 
         foreach ($this->options as $label => $value) {
-            if (is_numeric($label)) {
-                $label = $value;
-            }
-
             $id = $this->resolveId($baseId, $value);
-            $checked = $this->isChecked($value);
-            $radio = $this->radio;
+            $label = $this->createLabelElement($id, $label, $value);
+            $input = $this->createInputElement($id, $name, $value); 
 
             $elements[] = new ContainerElement(
                 attributes: $this->wrapperAttributes,
                 nestedElements: [
-                        new LabelElement(
-                        for: $id,
-                        labelText: $label,
-                        attributes: $this->labelAttributes
-                    ),
-                    new CheckableElement(
-                        id: $id,
-                        name: $name,
-                        value: $value,
-                        radio: $radio,
-                        checked: $checked,
-                        attributes: $this->inputAttributes
-                    )
+                    $label,
+                    $input
                 ]
             );
         }
-
-        if (null !== $this->error) {
-            $elements[] = new ContainerElement(
-                attributes: $this->errorAttributes,
-                nestedElements: [
-                    new TextNodeElement($this->error)
-                ]
-            );
-        }
+        $elements[] = $this->getErrorElement();
 
         return new NodeElement($elements);
+    }
+
+    public function getLabelElement(): IElement|array
+    {
+        $baseId = $this->getInputId();
+        $labels = [];
+        
+        foreach ($this->options as $label => $value) {
+            $id = $this->resolveId($baseId, $value);
+
+            $labels[] = $this->createLabelElement($id, $label, $value);
+        }
+
+        return $labels;
+    }
+
+    public function getInputElement(): IElement|array
+    {
+        $name = $this->getFullName();
+        $baseId = $this->getInputId();
+        $inputs = [];
+
+        foreach ($this->options as $value) {
+            $id = $this->resolveId($baseId, $value);
+
+            $inputs[] = $this->createInputElement($id, $name, $value);
+        }
+
+        return $inputs;
+    }
+
+    protected function createLabelElement(string $id, string $label, string $value): LabelElement
+    {
+        if (is_numeric($label)) {
+            $label = $value;
+        }
+
+        return new LabelElement(
+            for: $id,
+            labelText: $label,
+            attributes: $this->labelAttributes
+        );
+    }
+
+    protected function createInputElement(string $id, string $name, string $value): CheckableElement
+    {
+        return new CheckableElement(
+            id: $id,
+            name: $name,
+            value: $value,
+            radio: $this->radio,
+            checked: $this->isChecked($value),
+            attributes: $this->inputAttributes
+        );
     }
 
     protected function resolveId(string $baseId, string $value)

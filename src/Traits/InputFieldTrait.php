@@ -9,14 +9,14 @@ use SunnyFlail\Forms\Interfaces\IField;
  */
 trait InputFieldTrait
 {
+
+    use FieldTrait;
+
     /**
      * @var string $name Name of the input element
      */
     protected string $name;
-    /**
-     * @var bool $required Boolean indicating whether this field is required
-     */
-    protected bool $required;
+    
     /**
      * @var mixed $value Value of the field
      */

@@ -2,25 +2,27 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\Forms\Traits\ResolveSelectTrait;
+use SunnyFlail\Forms\Traits\MultipleValueFieldTrait;
 
+/**
+ * Field containing checkboxes
+ */
 final class CheckBoxGroupField extends AbstractSelectableGroup
 {
-    use ResolveSelectTrait;
+    use MultipleValueFieldTrait;
 
     public function __construct(
         string $name,
         array $options = [],
         bool $required = true,
-        protected bool $rememberValue = true,
+        bool $rememberValue = true,
         bool $multiple = true,
         bool $useIntristicValues = true,
         array $constraints = [],
         array $errorMessages = [],
-        array $nestedElements = [],
-        protected array $inputAttributes = [],
-        protected array $wrapperAttributes = [],
-        protected array $labelAttributes = []
+        array $inputAttributes = [],
+        array $wrapperAttributes = [],
+        array $labelAttributes = []
     ) {
         $this->value = null;
         $this->error = null;
@@ -32,7 +34,10 @@ final class CheckBoxGroupField extends AbstractSelectableGroup
         $this->required = $required;
         $this->constraints = $constraints;
         $this->errorMessages = $errorMessages;
-        $this->nestedElements = $nestedElements;
+        $this->rememberValue = $rememberValue;
+        $this->labelAttributes = $labelAttributes;
+        $this->inputAttributes = $inputAttributes;
+        $this->wrapperAttributes = $wrapperAttributes;
         $this->useIntristicValues = $useIntristicValues;
     }
 

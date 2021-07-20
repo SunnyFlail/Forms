@@ -9,7 +9,7 @@ use SunnyFlail\Forms\Interfaces\IFormBuilder;
 /**
  * Basic interface for Forms
  */
-interface IFormElement extends IMappableField, IElement
+interface IFormElement extends IMappableField, IElement, IContainerField
 {
     /**
      * Returns the name of the form
@@ -39,35 +39,8 @@ interface IFormElement extends IMappableField, IElement
      * 
      * @param string $error Message to be displayed
      * 
-     * @return void
+     * @return IFormElement
      */
-    public function addError(string $error);
-
-    /**
-     * Adds an element before fields button
-     * 
-     * @param IElement $element
-     * 
-     * @return void
-     */
-    public function addElementAtStart(IElement $element);
-
-    /**
-     * Adds an element before the form submition button
-     * 
-     * @param IElement $element
-     * 
-     * @return void
-     */
-    public function addElementInMiddle(IElement $element);
-
-    /**
-     * Adds an element After the form submition button
-     * 
-     * @param IElement $element
-     * 
-     * @return void
-     */
-    public function addElementAtEnd(IElement $element);
+    public function addError(string $error): IFormElement;
 
 }

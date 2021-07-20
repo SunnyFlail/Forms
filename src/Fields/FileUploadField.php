@@ -3,32 +3,39 @@
 namespace SunnyFlail\Forms\Fields;
 
 use Psr\Http\Message\UploadedFileInterface;
+use SunnyFlail\Forms\Interfaces\IContainerField;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
 use SunnyFlail\HtmlAbstraction\Elements\FileElement;
 use SunnyFlail\Forms\Interfaces\IFileConstraint;
 use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\Forms\Interfaces\IFileField;
+use SunnyFlail\Forms\Traits\ContainerFieldTrait;
 use SunnyFlail\Forms\Traits\InputFieldTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
+use SunnyFlail\Forms\Traits\LabeledElementTrait;
+use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
-final class FileUploadField implements IInputField, IFileField
+final class FileUploadField implements IInputField, IFileField, IContainerField
 {
     
-    use InputFieldTrait, FieldTrait;
+    use InputFieldTrait, FieldTrait, LabeledElementTrait, ContainerFieldTrait;
 
     /**
      * @param IFileConstraint[] $constraints
-     * */
+     */
     public function __construct(
         string $name,
         bool $required = true,
         protected bool $multiple = true,
         protected array $constraints = [],
+        array $topElements = [],
+        array $middleElements = [],
+        array $bottomElements = [],
         array $errorMessages = [],
         protected array $wrapperAttributes = [],
-        protected array $labelAttributes = [],
-        protected ?string $labelText = null,
+        array $labelAttributes = [],
+        ?string $labelText = null,
         protected array $inputAttributes = [],
         protected bool $terminateOnError = false
     ) {
@@ -37,6 +44,11 @@ final class FileUploadField implements IInputField, IFileField
         $this->value = null;
         $this->name = $name;
         $this->required = $required;
+        $this->labelText = $labelText;
+        $this->topElements = $topElements;
+        $this->middleElements = $middleElements;
+        $this->bottomElements = $bottomElements;
+        $this->labelAttributes = $labelAttributes;
         $this->errorMessages = $errorMessages;
     }
 
@@ -82,13 +94,6 @@ final class FileUploadField implements IInputField, IFileField
         return $this->valid = true;
     }
 
-    public function getFullName(): string
-    {
-        $suffix = $this->multiple ? "" : '[]';
-
-        return $this->name . $suffix;
-    }
-
     protected function resolveErrorMessage(string $code): string
     {
         if (!isset($this->errorMessages[$code])) {
@@ -105,23 +110,26 @@ final class FileUploadField implements IInputField, IFileField
 
     public function __toString(): string
     {
-        $inputId = $this->getInputId();
-
         return new ContainerElement(
             attributes: $this->wrapperAttributes,
             nestedElements: [
-                new LabelElement(
-                    for: $inputId,
-                    labelText: $this->labelText,
-                    attributes: $this->labelAttributes
-                ),
-                new FileElement(
-                    name: $this->getFullName(),
-                    id: $inputId,
-                    multiple: $this->multiple,
-                    attributes: $this->inputAttributes
-                )
+                ...$this->topElements,
+                $this->getLabelElement(),
+                ...$this->middleElements,
+                $this->getInputElement(),
+                ...$this->bottomElements,
+                $this->getErrorElement()
             ]
+        );
+    }
+
+    public function getInputElement(): IElement|array
+    {
+        return new FileElement(
+            name: $this->getFullName(),
+            id: $this->getInputId(),
+            multiple: $this->multiple,
+            attributes: $this->inputAttributes
         );
     }
 

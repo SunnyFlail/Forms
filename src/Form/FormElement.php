@@ -8,6 +8,7 @@ use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IFileField;
 use SunnyFlail\Forms\Traits\MappableTrait;
 use Psr\Http\Message\ServerRequestInterface;
+use SunnyFlail\Forms\Traits\ContainerFieldTrait;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
@@ -18,7 +19,7 @@ use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 abstract class FormElement implements IFormElement
 {
 
-    use AttributeTrait, MappableTrait;
+    use AttributeTrait, MappableTrait, ContainerFieldTrait;
     
     protected array $attributes = [];
 
@@ -37,9 +38,9 @@ abstract class FormElement implements IFormElement
     protected array $buttonAttributes = [];
     protected array $buttonElements = [];
 
-    protected array $elementsBeforeFields = [];
-    protected array $elementsBeforeButton = [];
-    protected array $elementsAfterButton = [];
+    protected array $topElements = [];
+    protected array $middleElements = [];
+    protected array $bottomElements = [];
 
     public function getName(): string
     {
@@ -82,25 +83,12 @@ abstract class FormElement implements IFormElement
         return $this->valid = $valid ?? false;
     }
 
-    public function addError(string $error)
+    public function addError(string $error): IFormElement
     {
         $this->error = $error;
         $this->valid = false;
-    }
-
-    public function addElementAtStart(IElement $element)
-    {
-        $this->elementsBeforeFields[] = $element;
-    }
-
-    public function addElementInMiddle(IElement $element)
-    {
-        $this->elementsBeforeButton[] = $element;
-    }
-
-    public function addElementAtEnd(IElement $element)
-    {
-        $this->elementsAfterButton[] = $element;
+        
+        return $this;
     }
 
     /**
@@ -118,12 +106,12 @@ abstract class FormElement implements IFormElement
         $attributes['method'] = $this->formMethod;
 
         $elements = [
-            ...$this->elementsBeforeFields,
+            ...$this->topElements,
             ...array_values($this->fields),
-            ...$this->elementsBeforeButton,
+            ...$this->middleElements,
             $this->getErrorElement(),
             $this->getSubmitButton(),
-            ...$this->elementsAfterButton  
+            ...$this->bottomElements  
         ];
 
         return '<form' .$this->getAttributeString($attributes) . '>'

@@ -2,10 +2,13 @@
 
 namespace SunnyFlail\Forms\Fields;
 
+use SunnyFlail\Forms\Interfaces\IField;
+use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\HtmlAbstraction\Elements\InputElement;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
+use SunnyFlail\HtmlAbstraction\Elements\TextAreaElement;
 
-final class InputField extends AbstractInputField
+final class TextAreaField extends AbstractInputField
 {
 
     public function __construct(
@@ -15,9 +18,7 @@ final class InputField extends AbstractInputField
         protected bool $rememberValue = true,
         array $constraints = [],
         array $errorMessages = [],
-        array $topElements = [],
-        array $middleElements = [],
-        array $bottomElements = [],
+        array $nestedElements = [],
         protected array $inputAttributes = [],
         array $wrapperAttributes = [],
         array $errorAttributes = [],
@@ -30,10 +31,8 @@ final class InputField extends AbstractInputField
         $this->required = $required;
         $this->labelText = $labelText;
         $this->constraints = $constraints;
-        $this->topElements = $topElements;
-        $this->middleElements = $middleElements;
-        $this->bottomElements = $bottomElements;
         $this->errorMessages = $errorMessages;
+        $this->nestedElements = $nestedElements;
         $this->errorAttributes = $errorAttributes;
         $this->labelAttributes = $labelAttributes;
         $this->wrapperAttributes = $wrapperAttributes;
@@ -43,9 +42,8 @@ final class InputField extends AbstractInputField
     {
         $value = $this->rememberValue ? $this->value : null;
 
-        return new InputElement(
+        return new TextAreaElement(
             id: $this->getInputId(),
-            type: $this->type,
             name: $this->getFullName(),
             attributes: $this->inputAttributes,
             value: $value

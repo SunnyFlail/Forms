@@ -40,7 +40,7 @@ final class PasswordField extends AbstractInputField
         $this->constraints = $constraints;
     }
 
-    protected function getInputElement(): IElement
+    public function getInputElement(): IElement
     {
         $attributes = $this->inputAttributes;
         if ($this->valid) {

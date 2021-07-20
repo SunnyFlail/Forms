@@ -11,16 +11,14 @@ use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 use SunnyFlail\Forms\Traits\ValidableFieldTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
 use SunnyFlail\Forms\Interfaces\IInputField;
+use SunnyFlail\Forms\Traits\LabeledElementTrait;
 
-abstract class AbstractInputField implements IInputField, IContainerElement
+abstract class AbstractInputField implements IInputField
 {
 
-    use ContainerElementTrait, FieldTrait, ValidableFieldTrait;
+    use FieldTrait, ValidableFieldTrait, LabeledElementTrait;
 
     protected array $wrapperAttributes;
-    protected array $errorAttributes;
-    protected ?string $labelText;
-    protected array $labelAttributes;
 
     public function __construct()
     {
@@ -52,36 +50,17 @@ abstract class AbstractInputField implements IInputField, IContainerElement
 
     public function __toString(): string
     {
-        $inputId = $this->getInputId();
-        $elements = [
-            new LabelElement(
-                for: $inputId,
-                attributes: $this->labelAttributes,
-                labelText: $this->labelText ?? $this->name
-            ),
-            $this->getInputElement()
-        ];
-
-        if ($this->error) {
-            $elements[] = new ContainerElement(
-                attributes: $this->errorAttributes,
-                nestedElements: [new TextNodeElement($this->error)]
-            );
-        }
-        
-        $elements = [...$elements, ...$this->nestedElements];
-
         return new ContainerElement(
             attributes: $this->wrapperAttributes,
-            nestedElements: $elements
+            nestedElements: [
+                ...$this->topElements,
+                $this->getLabelElement(),
+                ...$this->middleElements,
+                $this->getInputElement(),
+                ...$this->bottomElements,
+                $this->getErrorElement()
+            ]
         );
     }
-     
-    /**
-     * Returns the input element / node containing input elements
-     * 
-     * @return IElement
-     */
-    abstract protected function getInputElement(): IElement;
 
 }
