@@ -17,7 +17,9 @@ final class PasswordField extends AbstractInputField
         protected bool $rememberValue = true,
         array $constraints = [],
         array $errorMessages = [],
-        array $nestedElements = [],
+        array $topElements = [],
+        array $middleElements = [],
+        array $bottomElements = [],
         protected bool $withPeeper = true,
         protected array $inputAttributes = [],
         protected array $peeperAttributes = [],
@@ -29,15 +31,17 @@ final class PasswordField extends AbstractInputField
         parent::__construct();
 
         $this->name = $name;
-        $this->required = $required;
         $this->type = "password";
-        $this->errorMessages = $errorMessages;
-        $this->wrapperAttributes = $wrapperAttributes;
-        $this->errorAttributes = $errorAttributes;
+        $this->required = $required;
         $this->labelText = $labelText;
-        $this->labelAttributes = $labelAttributes;
-        $this->nestedElements = $nestedElements;
         $this->constraints = $constraints;
+        $this->topElements = $topElements;
+        $this->middleElements = $middleElements;
+        $this->bottomElements = $middleElements;
+        $this->errorMessages = $errorMessages;
+        $this->errorAttributes = $errorAttributes;
+        $this->labelAttributes = $labelAttributes;
+        $this->wrapperAttributes = $wrapperAttributes;
     }
 
     public function getInputElement(): IElement
