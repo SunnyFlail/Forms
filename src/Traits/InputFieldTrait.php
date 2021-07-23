@@ -27,11 +27,6 @@ trait InputFieldTrait
         return $this->name;
     }
 
-    public function getFullName(): string
-    {
-        return $this->form->getName() . '[' . $this->name . ']';
-    }
-
     public function getInputId(): string
     {
         return $this->form->getName() . "-"  . $this->name;

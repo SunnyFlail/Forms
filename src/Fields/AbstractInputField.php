@@ -2,22 +2,18 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\HtmlAbstraction\Traits\ContainerElementTrait;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
-use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
-use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
-use SunnyFlail\HtmlAbstraction\Interfaces\IContainerElement;
-use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
-use SunnyFlail\Forms\Traits\ValidableFieldTrait;
-use SunnyFlail\Forms\Traits\FieldTrait;
 use SunnyFlail\Forms\Interfaces\IInputField;
+use SunnyFlail\Forms\Traits\FieldTrait;
+use SunnyFlail\Forms\Traits\ValidableFieldTrait;
 use SunnyFlail\Forms\Traits\ContainerFieldTrait;
 use SunnyFlail\Forms\Traits\LabeledElementTrait;
+use SunnyFlail\Forms\Traits\SingularFieldNameTrait;
 
 abstract class AbstractInputField implements IInputField
 {
 
-    use FieldTrait, ValidableFieldTrait, LabeledElementTrait, ContainerFieldTrait;
+    use FieldTrait, ValidableFieldTrait, LabeledElementTrait, ContainerFieldTrait, SingularFieldNameTrait;
 
     protected array $wrapperAttributes;
 

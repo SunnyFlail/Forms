@@ -2,11 +2,12 @@
 
 namespace SunnyFlail\Forms\Fields;
 
+use SunnyFlail\Forms\Traits\SingularFieldNameTrait;
 use SunnyFlail\Forms\Traits\SingularValueFieldTrait;
 
 final class RadioGroupField extends AbstractSelectableGroup
 {
-    use SingularValueFieldTrait;
+    use SingularValueFieldTrait, SingularFieldNameTrait;
 
     public function __construct(
         string $name,
