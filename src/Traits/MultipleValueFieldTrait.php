@@ -13,15 +13,16 @@ trait MultipleValueFieldTrait
     {
         $value = $values[$this->name] ?? null;
 
-        if ($value === null) {
+        if (is_null($value) || empty($value)) {
             if ($this->required) {
                 $this->error = $this->resolveErrorMessage("-1");
 
                 return false;
             }
+
             return $this->valid = true;
         }
- 
+
         if (is_array($value)) {
             if (!$this->multiple) {
                 $this->error = $this->resolveErrorMessage("-1");
