@@ -29,6 +29,11 @@ abstract class FormElement implements IFormElement
     protected string $buttonText = 'Submit';
 
     protected bool $useHtmlValidation = true;
+    
+    /**
+     * @var bool $withFiles If set to true sets the enctype (encoding type) to multipart/form-data
+     */
+    protected bool $withFiles = false;
 
     protected array $buttonAttributes = [];
     protected array $buttonElements = [];
@@ -93,6 +98,10 @@ abstract class FormElement implements IFormElement
         if (!$this->useHtmlValidation) {
             $attributes["novalidate"] = true;
         }
+        if ($this->withFiles) {
+            $attributes['enctype'] = 'multipart/form-data';
+        }
+
         $attributes['id'] = $attributes['id'] ?? $this->formName;
         $attributes['method'] = $this->formMethod;
 

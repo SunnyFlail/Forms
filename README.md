@@ -32,8 +32,9 @@ Inside the `` method you can change properties
 `array $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before all fields   
 `array $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before after fields, before button  
 `array $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed after submit button  
-`?string $className` - FQCN of (POPO) class to which this form will resolve to, resolves to **array** if this is null  
+`string|null $className` - FQCN of (POPO) class to which this form will resolve to, resolves to **array** if this is null  
 `bool $useHtmlValidation` - Should this form use Html Validation (defaults to **true**)  
+`bool $withFiles` If set to true sets the enctype (encoding type) to multipart/form-data  
 
 # 2 Using forms
 # 2.1 Creating builder
