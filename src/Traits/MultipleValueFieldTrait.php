@@ -5,9 +5,7 @@ namespace SunnyFlail\Forms\Traits;
 trait MultipleValueFieldTrait
 {
 
-    use SingularValueFieldTrait;
-
-    protected bool $multiple;
+    use SingularValueFieldTrait, MultipleFieldNameTrait;
 
     public function resolve(array $values): bool
     {

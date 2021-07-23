@@ -10,15 +10,14 @@ use SunnyFlail\Forms\Interfaces\IFileConstraint;
 use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\Forms\Interfaces\IFileField;
 use SunnyFlail\Forms\Traits\ContainerFieldTrait;
-use SunnyFlail\Forms\Traits\InputFieldTrait;
-use SunnyFlail\Forms\Traits\FieldTrait;
 use SunnyFlail\Forms\Traits\LabeledElementTrait;
+use SunnyFlail\Forms\Traits\MultipleFieldNameTrait;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 final class FileUploadField implements IInputField, IFileField, IContainerField
 {
     
-    use InputFieldTrait, FieldTrait, LabeledElementTrait, ContainerFieldTrait;
+    use MultipleFieldNameTrait, LabeledElementTrait, ContainerFieldTrait;
 
     /**
      * @param IFileConstraint[] $constraints
@@ -26,7 +25,7 @@ final class FileUploadField implements IInputField, IFileField, IContainerField
     public function __construct(
         string $name,
         bool $required = true,
-        protected bool $multiple = true,
+        bool $multiple = true,
         protected array $constraints = [],
         array $topElements = [],
         array $middleElements = [],
@@ -43,6 +42,7 @@ final class FileUploadField implements IInputField, IFileField, IContainerField
         $this->value = null;
         $this->name = $name;
         $this->required = $required;
+        $this->multiple = $multiple;
         $this->labelText = $labelText;
         $this->topElements = $topElements;
         $this->middleElements = $middleElements;
