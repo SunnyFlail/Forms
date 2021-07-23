@@ -64,7 +64,7 @@ trait MultipleValueFieldTrait
 
     public function getFullName(): string
     {
-        $suffix = $this->multiple ? "" : '[]';
+        $suffix = $this->multiple ? "[]" : '';
 
         return $this->form->getName() . '[' . $this->name . ']' . $suffix;
     }
