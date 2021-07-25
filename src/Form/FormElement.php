@@ -8,7 +8,7 @@ use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IFileField;
 use SunnyFlail\Forms\Traits\MappableTrait;
 use Psr\Http\Message\ServerRequestInterface;
-use SunnyFlail\Forms\Traits\ContainerFieldTrait;
+use SunnyFlail\Forms\Traits\WrapperFieldTrait;
 use SunnyFlail\Forms\Traits\ErrorTrait;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
@@ -18,7 +18,7 @@ use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 abstract class FormElement implements IFormElement
 {
 
-    use AttributeTrait, MappableTrait, ContainerFieldTrait, ErrorTrait;
+    use AttributeTrait, MappableTrait, WrapperFieldTrait, ErrorTrait;
     
     protected array $attributes = [];
 
@@ -63,9 +63,14 @@ abstract class FormElement implements IFormElement
             $valid = true;
             $params = $params[$this->formName];
             
+            $files = [];
+            if ($this->withFiles) {
+                $files = $request->getUploadedFiles()[$this->formName] ?? [];
+            }
+
             foreach ($this->fields as $field) {
                 if ($field instanceof IFileField) {
-                    $field->resolve($request->getUploadedFiles());
+                    $field->resolve($files);
                     continue;
                 }
                 $field->resolve($params);

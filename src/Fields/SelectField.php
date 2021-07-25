@@ -2,7 +2,7 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\Forms\Interfaces\IContainerField;
+use SunnyFlail\Forms\Interfaces\IWrapperField;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\HtmlAbstraction\Elements\OptionElement;
 use SunnyFlail\HtmlAbstraction\Elements\SelectElement;
@@ -10,15 +10,15 @@ use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
 use SunnyFlail\HtmlAbstraction\Traits\AttributeTrait;
 use SunnyFlail\Forms\Interfaces\ISelectableField;
 use SunnyFlail\Forms\Interfaces\IInputField;
-use SunnyFlail\Forms\Traits\ContainerFieldTrait;
+use SunnyFlail\Forms\Traits\WrapperFieldTrait;
 use SunnyFlail\Forms\Traits\MultipleValueFieldTrait;
 use SunnyFlail\Forms\Traits\SelectableTrait;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
-final class SelectField implements ISelectableField, IInputField, IContainerField
+final class SelectField implements ISelectableField, IInputField, IWrapperField
 {
 
-    use AttributeTrait, SelectableTrait, MultipleValueFieldTrait, ContainerFieldTrait;
+    use AttributeTrait, SelectableTrait, MultipleValueFieldTrait, WrapperFieldTrait;
     
     /**
      * @param string[]|string[][] $options

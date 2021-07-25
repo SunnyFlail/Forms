@@ -13,7 +13,7 @@ trait MultipleFieldNameTrait
     {
         $suffix = $this->multiple ? "[]" : '';
 
-        return $this->form->getName() . '[' . $this->name . ']' . $suffix;
+        return $this->form->getName() . '[' . $this->name . ']'. $suffix;
     }
-
+    
 }

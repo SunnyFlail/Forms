@@ -8,22 +8,23 @@ use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
 use SunnyFlail\HtmlAbstraction\Elements\NodeElement;
 use SunnyFlail\Forms\Interfaces\ISelectableField;
 use SunnyFlail\Forms\Interfaces\IInputField;
+use SunnyFlail\Forms\Traits\MultipleElementFieldTrait;
 use SunnyFlail\Forms\Traits\ValidableFieldTrait;
 use SunnyFlail\Forms\Traits\SelectableTrait;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 abstract class AbstractSelectableGroup implements ISelectableField, IInputField
 {
-    use SelectableTrait, ValidableFieldTrait;
+    use SelectableTrait, ValidableFieldTrait, MultipleElementFieldTrait;
 
     protected bool $radio;
     protected array $wrapperAttributes;
 
     public function __toString(): string
     {
-        $elements = [$this->topElements];
         $name = $this->getFullName();
         $baseId = $this->getInputId();
+        $elements = [];
 
         foreach ($this->options as $label => $value) {
             $id = $this->resolveId($baseId, $value);
@@ -95,12 +96,6 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
             checked: $this->isChecked($value),
             attributes: $this->inputAttributes
         );
-    }
-
-    protected function resolveId(string $baseId, string $value)
-    {
-        $value = strtr($value, " ", "_");
-        return $baseId . '--' . $value;
     }
 
     abstract protected function isChecked(string $value): bool;

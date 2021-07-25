@@ -2,13 +2,13 @@
 
 namespace SunnyFlail\Forms\Traits;
 
-use SunnyFlail\Forms\Interfaces\IContainerField;
+use SunnyFlail\Forms\Interfaces\IWrapperField;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 /**
- * Trait for classes implementing IContainerField interface
+ * Trait for classes implementing IWrapperField interface
  */
-trait ContainerFieldTrait
+trait WrapperFieldTrait
 {
 
     /**
@@ -31,9 +31,9 @@ trait ContainerFieldTrait
      * 
      * @param IElement $element
      * 
-     * @return IContainerField
+     * @return IWrapperField
      */
-    public function addElementAtStart(IElement $element): IContainerField
+    public function addElementAtStart(IElement $element): IWrapperField
     {
         $this->topElements[] = $element;
         return $this;
@@ -44,9 +44,9 @@ trait ContainerFieldTrait
      * 
      * @param IElement $element
      * 
-     * @return IContainerField
+     * @return IWrapperField
      */
-    public function addElementInMiddle(IElement $element): IContainerField
+    public function addElementInMiddle(IElement $element): IWrapperField
     {
         $this->middleElements[] = $element;
         return $this;
@@ -57,9 +57,9 @@ trait ContainerFieldTrait
      * 
      * @param IElement $element
      * 
-     * @return IContainerField
+     * @return IWrapperField
      */
-    public function addElementAtEnd(IElement $element): IContainerField
+    public function addElementAtEnd(IElement $element): IWrapperField
     {
         $this->bottomElements[] = $element;
         return $this;

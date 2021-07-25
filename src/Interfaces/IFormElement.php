@@ -9,7 +9,7 @@ use SunnyFlail\Forms\Interfaces\IFormBuilder;
 /**
  * Basic interface for Forms
  */
-interface IFormElement extends IMappableField, IElement, IContainerField
+interface IFormElement extends IMappableField, IElement, IWrapperField
 {
     /**
      * Returns the name of the form

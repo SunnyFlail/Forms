@@ -38,7 +38,7 @@ trait MultipleValueFieldTrait
     protected function resolveMultiple(array $values): bool
     {
         if ($this->useIntristicValues) {
-            $values = array_intersect($values, $this->option);
+            $values = array_intersect($values, $this->options);
         }
 
         if (!$values) {

@@ -32,7 +32,7 @@ trait InputFieldTrait
         return $this->form->getName() . "-"  . $this->name;
     }
 
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }

@@ -26,12 +26,12 @@ $builder->add(new InputField('text'));
 Inside the `` method you can change properties  
 *(Mandatory)* `string $formName` - Name of the form - prefix which will be provided to form's field names  
 `string $formMethod` - HTTP method which this form will use (defaults to **GET**)  
-`string $buttonText` - Text which will be shown inside the submit button
+`string $buttonText` - Text which will be shown inside the submit button  
 `array $attributes` - Atttributes to be provided to the form Element  
 `array buttonAttributes` - Attributes provided to submit button Element of the form  
-`array $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before all fields   
-`array $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before after fields, before button  
-`array $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed after submit button  
+`IElement[] $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before all fields   
+`IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before after fields, before button  
+`IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed after submit button  
 `string|null $className` - FQCN of (POPO) class to which this form will resolve to, resolves to **array** if this is null  
 `bool $useHtmlValidation` - Should this form use Html Validation (defaults to **true**)  
 `bool $withFiles` If set to true sets the enctype (encoding type) to multipart/form-data  
@@ -73,8 +73,12 @@ To add en error to form use [`IFormBuilder::addError`](src/Interfaces/IFormBuild
 $concreteFormBuilder->addError('An error occurred!');
 ```
 # 2.6 Rendering form
-You can either just stringify the form OR manually render all of the fields
+You can either just stringify (eg. `echo $concreteFormBuilder;`) the form OR manually render all of the fields
 getting them first with [`IFormBuilder::getFields`](src/Interfaces/IFormBuilder.php) 
+To get Fields Input element call [`IField::getInputElement`](src/Interfaces/IField.php)  
+To get Fields Label element call [`IField::getLabelElement`](src/Interfaces/IField.php)  
+Those methods may return an IElement OR and array of them  
+If an error occured you can get get the error element with [`IField::getErrorElement`](src/Interfaces/IField.php) 
 
 # 3 Available fields
 
@@ -87,14 +91,14 @@ $input = new SunnyFlail\Forms\Fields\InputField();
 Input field constructor takes parameters:  
 
 `string $name` - Name of the field  
-`string $type` - Field type
+`string $type` - Field type  
 `bool $required`- Whether this field must be filled  
 `bool $rememberValue` - Whether this field should retain provided value of error  
-`array $constraints` - Array of objects implementing `SunnyFlail\Forms\Interfaces\IConstraint` interface  
+`IConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IConstraint`](src/Interfaces/IConstraint.php) interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
-`array $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
-`array $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
-`array $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
+`IElement[] $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
+`IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
+`IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
 `array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
@@ -111,9 +115,9 @@ Email field constructor takes parameters
 `bool $required`- Whether this field must be filled  
 `bool $rememberValue` - Whether this field should retain provided value of error  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
-`array $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
-`array $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
-`array $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
+`IElement[] $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
+`IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
+`IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
 `array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
@@ -132,11 +136,11 @@ Password field constructor takes parameters:
 `string $name` - Name of the field  
 `bool $required`- Whether this field must be filled  
 `bool $rememberValue` - Whether this field should retain provided value of error  
-`array $constraints` - Array of objects implementing `SunnyFlail\Forms\Interfaces\IConstraint` interface  
+`IConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IConstraint`](src/Interfaces/IConstraint.php) interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
-`array $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
-`array $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
-`array $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
+`IElement[] $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
+`IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
+`IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
 `bool $withPeeper` - Whether this field should be rendered with an peeper  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
 `array $peeperAttributes` - Array of html attributes to be provided to peeper Element  
@@ -155,11 +159,11 @@ TextArea field constructor takes parameters:
 `string $name` - Name of the field  
 `bool $required`- Whether this field must be filled  
 `bool $rememberValue` - Whether this field should retain provided value of error  
-`array $constraints` - Array of objects implementing `SunnyFlail\Forms\Interfaces\IConstraint` interface  
+`IConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IConstraint`](src/Interfaces/IConstraint.php) interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
-`array $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
-`array $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
-`array $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
+`IElement[] $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
+`IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
+`IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
 `array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
@@ -179,11 +183,11 @@ Select field constructor takes parameters:
 `bool $rememberValue` - Whether this field should retain provided value of error  
 `bool $multiple` - Should this field allow multiple values  
 `bool $useIntristicValues` - Should this only check for values provided in $options parameter or should accept any value matching provided constraints  
-`array $constraints` - Array of objects implementing `SunnyFlail\Forms\Interfaces\IConstraint` interface  
+`IConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IConstraint`](src/Interfaces/IConstraint.php) interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
-`array $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
-`array $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
-`array $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
+`IElement[] $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
+`IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
+`IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
 `array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
@@ -204,7 +208,7 @@ Checkbox field constructor takes parameters:
 `bool $rememberValue` - Whether this field should retain provided value of error  
 `bool $multiple` - Should this field allow multiple values  
 `bool $useIntristicValues` - Should this only check for values provided in $options parameter or should accept any value matching provided constraints  
-`array $constraints` - Array of objects implementing `SunnyFlail\Forms\Interfaces\IConstraint` interface  
+`IConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IConstraint`](src/Interfaces/IConstraint.php) interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
 `array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
@@ -223,7 +227,7 @@ Radio field constructor takes parameters:
 `bool $required`- Whether this field must be filled  
 `bool $rememberValue` - Whether this field should retain provided value of error  
 `bool $useIntristicValues` - Should this only check for values provided in $options parameter or should accept any value matching provided constraints  
-`array $constraints` - Array of objects implementing `SunnyFlail\Forms\Interfaces\IConstraint` interface  
+`IConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IConstraint`](src/Interfaces/IConstraint.php) interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
 `array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
@@ -260,15 +264,32 @@ File upload field constructor takes parameters:
 `string $name` - Name of the field  
 `bool $required`- Whether this field must be filled  
 `bool $multiple` - Should this field allow multiple values  
-`array $constraints` - Array of objects implementing `SunnyFlail\Forms\Interfaces\IFileConstraint` interface  
-`array $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
-`array $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
-`array $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
+`IFileConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IFileConstraint`](src/Interfaces/IFileConstraint.php) interface  
+`IElement[] $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
+`IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
+`IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
 `array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
 `?string $labelText` - Text to be shown inside label, if unset it shows the field name  
+`array $labelAttributes` - Array of html attributes to be provided to label Element  
+`bool $terminateOnError` - Whether http upload error of one of the files should make this field invalid
+
+## 3.11 FileUploadGroupField [from version ^1.3]
+[A group of file upload fields](src/Fields/FileUploadGroupField.php)   
+
+File upload field constructor takes parameters:  
+
+`string $name` - Name of the field  
+`bool $required`- Whether at least one file needs to be uploaded  
+`int $inputCount` - How many inputs should this render - must be at least 1, if set to 1 this fields multiple property is set to false  
+`IFileConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IFileConstraint`](src/Interfaces/IFileConstraint.php) interface  
+`array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
+`string[] $labelTexts` - Text to be shown inside label, If set must be an incremental array with same amout of keys as set in $inputCount, otherwise shows numbers  
+`array $inputAttributes` - Array of html attributes to be provided to input Element  
+`array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
+`array $errorAttributes` - Array of html attributes to be provided to error Element  
 `array $labelAttributes` - Array of html attributes to be provided to label Element  
 `bool $terminateOnError` - Whether http upload error of one of the files should make this field invalid
 

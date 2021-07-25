@@ -11,6 +11,8 @@ use SunnyFlail\Forms\Interfaces\IField;
 trait MappableTrait
 {
 
+    use ErrorTrait;
+    
     /**
      * @var IField $fields
      */
@@ -44,6 +46,8 @@ trait MappableTrait
         return isset($this->fields[$fieldName]);
     }
 
+    abstract public function getName(): string;
+
     public function getFields(): array
     {
         return $this->fields;
@@ -52,6 +56,17 @@ trait MappableTrait
     public function getClassName(): ?string
     {
         return $this->className;
+    }
+
+    public function getError(): mixed
+    {
+        $errors = [];
+        foreach ($this->fields as $name => $field) {
+            $errors[$name] = $field->getError();
+        }
+        $errors[$this->getName()] = $this->error;
+        
+        return $errors;
     }
 
 }

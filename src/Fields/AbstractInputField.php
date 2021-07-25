@@ -6,14 +6,14 @@ use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\Forms\Traits\FieldTrait;
 use SunnyFlail\Forms\Traits\ValidableFieldTrait;
-use SunnyFlail\Forms\Traits\ContainerFieldTrait;
+use SunnyFlail\Forms\Traits\WrapperFieldTrait;
 use SunnyFlail\Forms\Traits\LabeledElementTrait;
 use SunnyFlail\Forms\Traits\SingularFieldNameTrait;
 
 abstract class AbstractInputField implements IInputField
 {
 
-    use FieldTrait, ValidableFieldTrait, LabeledElementTrait, ContainerFieldTrait, SingularFieldNameTrait;
+    use FieldTrait, ValidableFieldTrait, LabeledElementTrait, WrapperFieldTrait, SingularFieldNameTrait;
 
     protected array $wrapperAttributes;
 

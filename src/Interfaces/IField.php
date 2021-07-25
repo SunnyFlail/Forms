@@ -56,7 +56,16 @@ interface IField
      * @return mixed
      * @throws InvalidFieldException
      */
-    public function getValue();
+    public function getValue(): mixed;
+
+    /**
+     * Returns the occured error message,
+     * associative array with field names as keys and error messages as keys,
+     * or null if no error occurred
+     * 
+     * @return string|string[]/null
+     */
+    public function getError(): mixed;
 
     /**
      * Checks whether this field must be filled
@@ -71,6 +80,20 @@ interface IField
      * @return bool 
      */
     public function isValid(): bool;
+
+    /**
+     * Returns the input Element or an array of them
+     * 
+     * @return IElement|IElement[];
+     */
+    public function getInputElement(): IElement|array;
+
+    /**
+     * Returns the label Element or an array of them
+     * 
+     * @return IElement|IElement[]
+     */
+    public function getLabelElement(): IElement|array;
 
     /**
      * Returns the error Element or null if no error occurred

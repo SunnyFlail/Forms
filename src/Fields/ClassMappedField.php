@@ -10,6 +10,7 @@ use SunnyFlail\Forms\Traits\MappableTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
 use InvalidArgumentException;
 use ReflectionObject;
+use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 final class ClassMappedField implements IMappableField, IField
 {
@@ -22,7 +23,13 @@ final class ClassMappedField implements IMappableField, IField
         IField ...$fields
     ) {
         $this->className = $className;
-        $this->fields = $fields;
+
+        $elements = [];
+        foreach ($fields as $field) {
+            $elements[$field->getName()] = $field;
+        }
+
+        $this->fields = $elements;
     }
 
     public function getName(): string
@@ -64,6 +71,27 @@ final class ClassMappedField implements IMappableField, IField
         }
 
         return $this;
+    }
+
+    public function getValue(): mixed
+    {
+        if (!$this->valid) {
+            throw new InvalidFieldException(
+                sprintf(
+                    "Field %s in form %s is not valid!",
+                    $this->fieldName,
+                    $this->form->getName()
+                )
+            );
+        }
+
+        $values = [];
+
+        foreach ($this->fields as $name => $field) {
+            $values[$name] = $field->getValue();
+        }
+
+        return $values;
     }
 
     protected function scrapeArrayProperties(array $arr): ClassMappedField
@@ -112,22 +140,24 @@ final class ClassMappedField implements IMappableField, IField
         return $this;
     }
 
-    public function getValue()
+    public function getInputElement(): IElement|array
     {
-        if (!$this->valid) {
-            throw new InvalidFieldException(
-                sprintf(
-                    "Field %s in form %s is not valid!",
-                    $this->fieldName,
-                    $this->form->getName()
-                )
-            );
+        $elements = [];
+        foreach ($this->fields as $field) {
+            $elements[] = $field->getInputElement();
         }
 
-        return array_map(
-            fn($field) => $field->getValue(),
-            $this->fields
-        );
+        return $elements;
+    }
+
+    public function getLabelElement(): IElement|array
+    {
+        $elements = [];
+        foreach ($this->fields as $field) {
+            $elements[] = $field->getLabelElement();
+        }
+
+        return $elements;
     }
 
     public function __toString()
