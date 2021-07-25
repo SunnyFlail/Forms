@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "707a4618de739282b0d0167b0cc9bc24",
+    "content-hash": "3176e5842cb69937e9aed6828e042184",
     "packages": [
         {
             "name": "psr/http-message",
@@ -61,20 +61,19 @@
         },
         {
             "name": "sunnyflail/html-abstraction",
-            "version": "1.1.4",
+            "version": "1.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SunnyFlail/Html.git",
-                "reference": "daf31cacd6316c8cd9ce2754975919dd56ed8164"
+                "reference": "a4e429da3b14168b052cb1e90e3d275a7b9e6071"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SunnyFlail/Html/zipball/daf31cacd6316c8cd9ce2754975919dd56ed8164",
-                "reference": "daf31cacd6316c8cd9ce2754975919dd56ed8164",
+                "url": "https://api.github.com/repos/SunnyFlail/Html/zipball/a4e429da3b14168b052cb1e90e3d275a7b9e6071",
+                "reference": "a4e429da3b14168b052cb1e90e3d275a7b9e6071",
                 "shasum": ""
             },
             "require": {
-                "php": "^8",
                 "psr/http-message": "^1.0"
             },
             "require-dev": {
@@ -99,9 +98,9 @@
             "description": "A simple HTML abstraction layer",
             "support": {
                 "issues": "https://github.com/SunnyFlail/Html/issues",
-                "source": "https://github.com/SunnyFlail/Html/tree/1.1.4"
+                "source": "https://github.com/SunnyFlail/Html/tree/1.1.6"
             },
-            "time": "2021-07-20T08:29:01+00:00"
+            "time": "2021-07-25T11:24:37+00:00"
         },
         {
             "name": "sunnyflail/object-creator",
@@ -203,5 +202,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

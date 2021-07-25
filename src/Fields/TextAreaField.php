@@ -10,7 +10,6 @@ final class TextAreaField extends AbstractInputField
 
     public function __construct(
         string $name,
-        protected string $type = "text",
         bool $required = true,
         protected bool $rememberValue = true,
         array $constraints = [],

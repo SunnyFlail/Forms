@@ -3,7 +3,7 @@
     "description": "A simple Form abstraction API",
     "type": "library",
     "require": {
-        "sunnyflail/html-abstraction": "^1.0",
+        "sunnyflail/html-abstraction": "^1.1.6",
         "sunnyflail/object-creator": "^1.0"
     },
     "require-dev": {
