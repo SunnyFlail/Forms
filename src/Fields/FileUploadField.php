@@ -54,7 +54,7 @@ final class FileUploadField implements IInputField, IFileField, IContainerField
     public function resolve(array $params): bool
     {
         /** @var UploadedFileInterface[] $files */
-        $files = $params[$this->name] ?? null;
+        $files = $params[$this->getFullName()] ?? null;
 
         if ($files === null) {
             if ($this->required) {
