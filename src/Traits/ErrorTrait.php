@@ -6,6 +6,9 @@ use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
+/**
+ * Trait for classes that can have error
+ */
 trait ErrorTrait
 {
 

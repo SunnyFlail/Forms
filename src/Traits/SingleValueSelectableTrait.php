@@ -2,20 +2,18 @@
 
 namespace SunnyFlail\Forms\Traits;
 
-trait SingularValueFieldTrait
+/**
+ * Trait for Selectable Fields that only allow one value
+ */
+trait SingleValueSelectableTrait
 {
 
-    use ValidableFieldTrait;
+    use ValidableFieldTrait, SelectableTrait;
 
     /**
      * @var bool $useIntristicValues Should this form be validated only by using preset values
      */
     protected bool $useIntristicValues;
-
-    /**
-     * @var string[] Preset values
-     */
-    protected array $options;
 
     protected function resolveSingular(mixed $value): bool
     {

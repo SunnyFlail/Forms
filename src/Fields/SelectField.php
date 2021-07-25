@@ -6,19 +6,16 @@ use SunnyFlail\Forms\Interfaces\IWrapperField;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\HtmlAbstraction\Elements\OptionElement;
 use SunnyFlail\HtmlAbstraction\Elements\SelectElement;
-use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
-use SunnyFlail\HtmlAbstraction\Traits\AttributeTrait;
 use SunnyFlail\Forms\Interfaces\ISelectableField;
 use SunnyFlail\Forms\Interfaces\IInputField;
-use SunnyFlail\Forms\Traits\WrapperFieldTrait;
-use SunnyFlail\Forms\Traits\MultipleValueFieldTrait;
-use SunnyFlail\Forms\Traits\SelectableTrait;
+use SunnyFlail\Forms\Traits\MultipleValueSelectableTrait;
+use SunnyFlail\Forms\Traits\SingleInputFieldTrait;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 final class SelectField implements ISelectableField, IInputField, IWrapperField
 {
 
-    use AttributeTrait, SelectableTrait, MultipleValueFieldTrait, WrapperFieldTrait;
+    use MultipleValueSelectableTrait, SingleInputFieldTrait;
     
     /**
      * @param string[]|string[][] $options
@@ -60,21 +57,6 @@ final class SelectField implements ISelectableField, IInputField, IWrapperField
         $this->useIntristicValues = $useIntristicValues;
     }
 
-    public function __toString(): string
-    {
-        return new ContainerElement(
-            attributes: $this->wrapperAttributes,
-            nestedElements: [
-                ...$this->topElements,
-                $this->getLabelElement(),
-                ...$this->middleElements,
-                $this->getInputElement(),
-                ...$this->bottomElements,
-                $this->getErrorElement()
-            ]
-        );
-    }
-
     public function getInputElement(): IElement|array
     {
         $options = [];
@@ -82,15 +64,8 @@ final class SelectField implements ISelectableField, IInputField, IWrapperField
         foreach ($this->options as $label => $value) {
             /** Check if this is a group */
             if (is_array($value)) {
-                $options[] = new ContainerElement(
-                    tag: 'optgroup',
-                    attributes: ['label' => $label],
-                    nestedElements: array_map(
-                        [$this, "createOption"],
-                        array_keys($value),
-                        $value
-                    )
-                );
+                $options[] = $this->createOptionGroup($label, $value);
+
                 continue;
             }
 
@@ -107,15 +82,29 @@ final class SelectField implements ISelectableField, IInputField, IWrapperField
         );
     }
 
-    public function getLabelElement(): IElement|array
+    /**
+     * Creates a ContainerElement with provided label
+     * 
+     * @param string $groupName Label to be displayed as name of group
+     * @param array $option Associative array
+     * 
+     * @return ContainerElement
+     */
+    private function createOptionGroup(string $groupName, array $options): ContainerElement
     {
-        return new LabelElement(
-            for: $this->getInputId(),
-            labelText: $this->labelText ?? $this->name,
-            attributes: $this->labelAttributes,
+        $nestedOptions = [];
+
+        foreach ($options as $label => $option) {
+            $nestedOptions[] = $this->createOption($label, $option);
+        }
+        
+        return new ContainerElement(
+            tag: 'optgroup',
+            attributes: ['label' => $groupName],
+            nestedElements: $nestedOptions
         );
     }
-
+    
     /**
      * Creates an OptionElement with Provided Label and Value
      * 
@@ -130,15 +119,7 @@ final class SelectField implements ISelectableField, IInputField, IWrapperField
             $label = $value;
         }
 
-        if ($this->rememberValue) {
-            if ($this->multiple && is_array($this->value)) {
-                $selected = in_array($value, $this->value);
-            } else {
-                $selected = ($value === $this->value);
-            }
-        } else {
-            $selected = false;
-        }
+        $selected = $this->isSelected($value);
 
         return new OptionElement(
             value: $value,
@@ -146,6 +127,28 @@ final class SelectField implements ISelectableField, IInputField, IWrapperField
             attributes: $this->optionAttributes,
             selected: $selected
         );
+    }
+
+    /**
+     * Checks whether this option was selected
+     * 
+     * @param string $value
+     * 
+     * @return bool
+     */
+    private function isSelected(string $value): bool
+    {
+        if ($this->rememberValue) {
+            
+            if ($this->multiple && is_array($this->value)) {
+
+               return in_array($value, $this->value);
+            }
+
+            return ($value === $this->value);
+        } 
+
+        return false;
     }
 
 }

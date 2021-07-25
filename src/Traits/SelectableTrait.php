@@ -10,6 +10,8 @@ use SunnyFlail\Forms\Interfaces\ISelectableField;
 trait SelectableTrait
 {
 
+    protected array $options;
+
     public function withOptions(array $options): ISelectableField
     {
         $this->options = $options;

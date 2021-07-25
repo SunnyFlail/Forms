@@ -2,18 +2,16 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\Forms\Interfaces\IInputField;
-use SunnyFlail\Forms\Traits\FieldTrait;
 use SunnyFlail\Forms\Traits\ValidableFieldTrait;
 use SunnyFlail\Forms\Traits\WrapperFieldTrait;
-use SunnyFlail\Forms\Traits\LabeledElementTrait;
-use SunnyFlail\Forms\Traits\SingularFieldNameTrait;
+use SunnyFlail\Forms\Traits\SingleInputFieldTrait;
+use SunnyFlail\Forms\Traits\SingleValueFieldTrait;
 
 abstract class AbstractInputField implements IInputField
 {
 
-    use FieldTrait, ValidableFieldTrait, LabeledElementTrait, WrapperFieldTrait, SingularFieldNameTrait;
+    use ValidableFieldTrait, WrapperFieldTrait, SingleInputFieldTrait, SingleValueFieldTrait;
 
     protected array $wrapperAttributes;
 
@@ -43,21 +41,6 @@ abstract class AbstractInputField implements IInputField
 
         $this->value = $value;
         return $this->valid = true;
-    }
-
-    public function __toString(): string
-    {
-        return new ContainerElement(
-            attributes: $this->wrapperAttributes,
-            nestedElements: [
-                ...$this->topElements,
-                $this->getLabelElement(),
-                ...$this->middleElements,
-                $this->getInputElement(),
-                ...$this->bottomElements,
-                $this->getErrorElement()
-            ]
-        );
     }
 
 }

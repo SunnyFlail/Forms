@@ -2,14 +2,14 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\Forms\Traits\MultipleValueFieldTrait;
+use SunnyFlail\Forms\Traits\MultipleValueSelectableTrait;
 
 /**
  * Field containing checkboxes
  */
 final class CheckBoxGroupField extends AbstractSelectableGroup
 {
-    use MultipleValueFieldTrait;
+    use MultipleValueSelectableTrait;
 
     public function __construct(
         string $name,

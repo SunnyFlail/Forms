@@ -5,7 +5,6 @@ namespace SunnyFlail\Forms\Fields;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\HtmlAbstraction\Elements\CheckableElement;
 use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
-use SunnyFlail\HtmlAbstraction\Elements\NodeElement;
 use SunnyFlail\Forms\Interfaces\ISelectableField;
 use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\Forms\Traits\MultipleElementFieldTrait;
@@ -21,6 +20,15 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
     protected array $wrapperAttributes;
 
     public function __toString(): string
+    {
+        $elements = $this->getContainerElement();
+
+        $elements[] = $this->getErrorElement();
+
+        return implode('', $elements);
+    }
+
+    public function getContainerElement(): IElement|array
     {
         $name = $this->getFullName();
         $baseId = $this->getInputId();
@@ -39,9 +47,8 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
                 ]
             );
         }
-        $elements[] = $this->getErrorElement();
 
-        return new NodeElement($elements);
+        return $elements;
     }
 
     public function getLabelElement(): IElement|array

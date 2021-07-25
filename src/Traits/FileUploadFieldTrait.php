@@ -11,18 +11,19 @@ use Psr\Http\Message\UploadedFileInterface;
 trait FileUploadFieldTrait
 {
 
-    use MultipleFieldNameTrait;
+    use MultipleValueFieldTrait;
     /**
      * @var IFileConstraint[] $constraints
      */
     protected array $constraints = [];
+    protected bool $required;
 
     public function resolve(array $params): bool
     {
         /**
          * @var UploadedFileInterface[]$files
          */
-        $files = $params[$this->name] ?? null;
+        $files = $params[$this->name] ?? [];
 
         if ((!$files) || ($this->multiple && !is_array($files))
             || (!$this->multiple && !is_object($files) && !($files instanceof UploadedFileInterface))
@@ -81,9 +82,15 @@ trait FileUploadFieldTrait
                 }
             }
         }
-        $this->value = array_diff_key(
+        $value = array_diff_key(
             $files, $incorrectFiles
         );
+
+        if ($this->required && !$value) {
+            return false;
+        }
+
+        $this->value = $value;
 
         return $this->valid = true;
     }

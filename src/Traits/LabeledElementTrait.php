@@ -5,6 +5,9 @@ namespace SunnyFlail\Forms\Traits;
 use SunnyFlail\HtmlAbstraction\Elements\LabelElement;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
+/**
+ * Trait for Elements that have a single input and label
+ */
 trait LabeledElementTrait
 {
     

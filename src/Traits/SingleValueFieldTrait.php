@@ -2,8 +2,10 @@
 
 namespace SunnyFlail\Forms\Traits;
 
-trait SingularFieldNameTrait
+trait SingleValueFieldTrait
 {
+
+    use InputFieldTrait;
 
     public function getFullName(): string
     {

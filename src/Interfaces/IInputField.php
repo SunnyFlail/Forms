@@ -23,4 +23,11 @@ interface IInputField extends IField, IElement
      */
     public function getInputId(): string;
 
+    /**
+     * Returns the container Element or an array of them
+     * 
+     * @return IElement|IElement[];
+     */
+    public function getContainerElement(): IElement|array;
+
 }

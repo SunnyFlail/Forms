@@ -53,6 +53,11 @@ final class FileUploadField implements IInputField, IFileField, IWrapperField
 
     public function __toString(): string
     {
+        return $this->getContainerElement()->__toString();
+    }
+
+    public function getContainerElement(): IElement|array
+    {
         return new ContainerElement(
             attributes: $this->wrapperAttributes,
             nestedElements: [

@@ -69,7 +69,7 @@ final class FileUploadGroupField implements IInputField, IFileField
         $this->errorMessages = $errorMessages;
     }
 
-    public function __toString(): string
+    public function getContainerElement(): IElement|array
     {
         $name = $this->getFullName();
         $baseId = $this->getInputId();
@@ -87,10 +87,11 @@ final class FileUploadGroupField implements IInputField, IFileField
                     $input
                 ]
             );
-        }
-        $elements[] = $this->getErrorElement();
 
-        return new NodeElement($elements);
+            $elements[] = $this->getErrorElement();
+        }
+
+        return $elements;
     }
 
 
