@@ -52,7 +52,8 @@ final class FileUploadGroupField implements IInputField, IFileField
 
         if ((!empty($labelTexts)) && (($count = count($labelTexts)) !== $inputCount)) {
             throw new FieldBuildingException(sprintf(
-                'Field texts for all fields must be provided! Got %s, expected %s!', 
+                'Field texts for all fields must be provided! Got %s, expected %s!',
+                $count, $inputCount
             ));
         }
 
@@ -87,8 +88,6 @@ final class FileUploadGroupField implements IInputField, IFileField
                     $input
                 ]
             );
-
-            $elements[] = $this->getErrorElement();
         }
 
         return $elements;

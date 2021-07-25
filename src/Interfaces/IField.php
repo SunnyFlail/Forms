@@ -2,6 +2,7 @@
 
 namespace SunnyFlail\Forms\Interfaces;
 
+use SunnyFlail\Forms\Exceptions\FormFillingException;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 interface IField
@@ -34,7 +35,10 @@ interface IField
     /**
      * Adds a value to the field
      * 
+     * @param mixed $value
+     * 
      * @return IField
+     * @throws FormFillingException 
      */
     public function withValue(mixed $value): IField;
 

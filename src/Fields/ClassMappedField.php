@@ -10,6 +10,7 @@ use SunnyFlail\Forms\Traits\MappableTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
 use InvalidArgumentException;
 use ReflectionObject;
+use SunnyFlail\Forms\Exceptions\FormFillingException;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 final class ClassMappedField implements IMappableField, IField
@@ -53,26 +54,6 @@ final class ClassMappedField implements IMappableField, IField
         return $this->valid;
     }
 
-    public function withForm(IFormElement $form): IField
-    {
-        foreach ($this->fields as $field) {
-            $field->withForm($form);
-        }
-        return $this;
-    }
-
-    public function withValue(mixed $value): IField
-    {
-        if (is_object($value)) {
-            return $this->scrapeValuesProperties($value);
-        }
-        if (is_array($value)) {
-            return $this->scrapeArrayProperties($value);
-        }
-
-        return $this;
-    }
-
     public function getValue(): mixed
     {
         if (!$this->valid) {
@@ -94,14 +75,42 @@ final class ClassMappedField implements IMappableField, IField
         return $values;
     }
 
-    protected function scrapeArrayProperties(array $arr): ClassMappedField
+    public function withForm(IFormElement $form): IField
+    {
+        foreach ($this->fields as $field) {
+            $field->withForm($form);
+        }
+        return $this;
+    }
+
+    public function withValue(mixed $value): IField
+    {
+        if (is_object($value)) {
+            return $this->scrapeValuesProperties($value);
+        }
+        if (is_array($value)) {
+            return $this->scrapeArrayProperties($value);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Scrapes values from an array
+     * 
+     * @param array $arr An associative array
+     * 
+     * @return IMappableField
+     * @throws FormFillingException If the array doesn't have value with a required field's name as key
+     */
+    protected function scrapeArrayProperties(array $arr): IMappableField
     {
         foreach ($this->fields as $name => $field) {
             if (!isset($arr[$name])) {
                 if ($field->isRequired()) {
-                    throw new InvalidArgumentException(
+                    throw new FormFillingException(
                         sprintf(
-                            "Value not provided for field", $name
+                            "Value not provided for field %s!", $name
                         )
                     );
                 }
@@ -115,15 +124,26 @@ final class ClassMappedField implements IMappableField, IField
         return $this;
     }
 
-    protected function scrapeValuesProperties(object $obj): ClassMappedField
+    /**
+     * Scrapes values from an object
+     * 
+     * @param object $obj
+     * 
+     * @return IMappableField
+     * @throws FormFillingException If the object doesn't have property with a required field's name
+     */
+    protected function scrapeValuesProperties(object $obj): IMappableField
     {
         $reflection = new ReflectionObject($obj);
+
         foreach ($this->fields as $name => $field) {
+
             if (!$reflection->hasProperty($name)) {
+
                 if ($field->isRequired()) {
-                    throw new InvalidArgumentException(
+                    throw new FormFillingException(
                         sprintf(
-                            "Class doesn't have property %s",
+                            "Class %s doesn't have property named %s!",
                             $reflection->getShortName(), $name
                         )
                     );
@@ -134,6 +154,7 @@ final class ClassMappedField implements IMappableField, IField
             $property = $reflection->getProperty($name);
             $property->setAccessible(true);
             $value = $property->getValue($obj);
+            
             $this->fields[$name]->withValue($value);
         }
 

@@ -43,7 +43,19 @@ trait FileUploadFieldTrait
         return $this->checkSingleFile($files);
     }
 
-    protected function checkSingleFile(UploadedFileInterface $file) {
+    /**
+     * Checks whether uploaded file fits in with the constraints
+     * 
+     * Invoked only if $this->multiple === false 
+     * 
+     * MAY change $this->error OR $this->value properties
+     * 
+     * @param UploadedFileInterface $file
+     * 
+     * @return bool
+     */
+    protected function checkSingleFile(UploadedFileInterface $file): bool
+    {
         foreach ($this->constraints as $errorKey => $constraint) {
             if (!$constraint->fileValid($file)) {
                 $this->error = $this->resolveErrorMessage("$errorKey");
@@ -57,6 +69,17 @@ trait FileUploadFieldTrait
         return $this->valid = true;
     }
 
+    /**
+     * Checks whether uploaded file fits in with the constraints
+     * 
+     * Invoked only if $this->multiple === true 
+     * 
+     * MAY change $this->error OR $this->value properties
+     * 
+     * @param UploadedFileInterface[] $files
+     * 
+     * @return bool
+     */
     protected function checkMultipleFiles(array $files): bool
     {
         $incorrectFiles = [];
@@ -71,7 +94,7 @@ trait FileUploadFieldTrait
                 }
 
                 if (!$constraint->fileValid($file)) {
-                    $this->error = $this->resolveErrorMessage("$errorKey");
+                    $this->error = $this->resolveErrorMessage($errorKey);
 
                     if ($this->terminateOnError) {
                         return false;
@@ -98,12 +121,11 @@ trait FileUploadFieldTrait
     protected function resolveErrorMessage(string $code): string
     {
         if (!isset($this->errorMessages[$code])) {
-            switch ($code) {
-            case "-1":
-                return "No files were uploaded!";
-            default:
-                return "One or more of uploaded files doesn't match constraints!";
+            if ($code === '-1') {
+                return 'No files were uploaded!';
             }
+            
+            return "One or more of uploaded files doesn't match constraints!";
         }
 
         return $this->errorMessages[$code];

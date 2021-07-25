@@ -59,11 +59,12 @@ final class RepeatedInputField implements IField
         $this->repeatedField->resolve($values);
 
         if ($this->field->getValue() === $this->repeatedField->getValue()) {
-            $this->valid = true;
-        } else {
-            $this->field->withError($this->missmatchError);
+           return $this->valid = true;
         }
-        return $this->valid;
+
+        $this->field->withError($this->missmatchError);
+
+        return false;
     }
 
     public function __toString(): string

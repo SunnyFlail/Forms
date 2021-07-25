@@ -45,21 +45,11 @@ abstract class FormElement implements IFormElement
 
     public function resolveForm(ServerRequestInterface $request): bool
     {
-        $requestMethod = $request->getMethod();
-
-        if (strcasecmp($this->formMethod, $requestMethod) !== 0) {
+        if (($params = $this->getFormParameters($request)) === null) {
             return false;
         }
 
-        if (strcasecmp($requestMethod, 'POST') === 0) {
-            $params = $request->getParsedBody();
-        } elseif (strcasecmp($requestMethod, 'GET') === 0) {
-            $params = $request->getQueryParams();
-        } else {
-            return false;
-        }
-
-        if (is_array($params) && isset($params[$this->formName])) {
+        if (isset($params[$this->formName])) {
             $valid = true;
             $params = $params[$this->formName];
             
@@ -75,7 +65,7 @@ abstract class FormElement implements IFormElement
                 }
                 $field->resolve($params);
 
-                if ($field->isValid() === false && $field->isRequired()) {
+                if (!$field->isValid() && $field->isRequired()) {
                     $valid = false;
                 }
             }
@@ -137,4 +127,27 @@ abstract class FormElement implements IFormElement
         );
     }
 
+    /**
+     * Returns form parameters based on request method
+     * 
+     * @param ServerRequestInterface $request
+     * 
+     * @return array|null
+     */
+    private function getFormParameters(ServerRequestInterface $request): ?array
+    {
+        $requestMethod = $request->getMethod();
+
+        if (strcasecmp($this->formMethod, $requestMethod) !== 0) {
+            return null;
+        }
+        if (strcasecmp($requestMethod, 'POST') === 0) {
+            return $request->getParsedBody();
+        }
+        if (strcasecmp($requestMethod, 'GET') === 0) {
+            return $request->getQueryParams();
+        }
+
+        return null;
+    }
 }

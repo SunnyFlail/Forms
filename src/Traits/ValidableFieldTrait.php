@@ -50,12 +50,11 @@ trait ValidableFieldTrait
     protected function resolveErrorMessage(string $code): string
     {
         if (!isset($this->errorMessages[$code])) {
-            switch ($code) {
-                case "-1":
-                    return "This field must be filled!";
-                default:
-                    return "Value doesn't fit in with constraints!";
+            if ($code === '-1') {
+                return 'This field must be filled!';
             }
+            
+            return "Value doesn't fit in with constraints!";
         }
 
         return $this->errorMessages[$code];

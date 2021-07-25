@@ -12,7 +12,10 @@ trait MultipleElementFieldTrait
 
     public function __toString(): string
     {
-        return implode('', $this->getContainerElement());
+        $elements = $this->getContainerElement();
+        $elements[] = $this->getErrorElement();
+        
+        return implode('', $elements);
     }
 
     abstract public function getContainerElement(): IElement|array;

@@ -80,6 +80,15 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
         return $inputs;
     }
 
+    /**
+     * Creates a label element
+     * 
+     * @param string $id
+     * @param string $label
+     * @param string $value
+     * 
+     * @return LabelElement 
+     */
     protected function createLabelElement(string $id, string $label, string $value): LabelElement
     {
         if (is_numeric($label)) {
@@ -93,6 +102,15 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
         );
     }
 
+    /**
+     * Creates an input element
+     * 
+     * @param string $id
+     * @param string $name
+     * @param string $value
+     * 
+     * @return CheckableElement 
+     */
     protected function createInputElement(string $id, string $name, string $value): CheckableElement
     {
         return new CheckableElement(
@@ -105,6 +123,13 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
         );
     }
 
+    /**
+     * Checks whether this option should be checked
+     * 
+     * @param string $value
+     * 
+     * @return bool 
+     */
     abstract protected function isChecked(string $value): bool;
 
 }
