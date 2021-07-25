@@ -29,14 +29,18 @@ final class FileUploadGroupField implements IInputField, IFileField
      * Must be an incremental array 
      */
     protected array $labelTexts;
+    /**
+     * @var int $requiredAmount How many files must be uploaded at least
+     */
+    protected int $requiredAmount;
 
     /**
      * @param IFileConstraint[] $constraints
      */
     public function __construct(
         string $name,
-        bool $required = true,
         int $inputCount = 1,
+        int $required = 1,
         array $constraints = [],
         array $errorMessages = [],
         array $labelTexts = [],
@@ -49,7 +53,9 @@ final class FileUploadGroupField implements IInputField, IFileField
         if ($inputCount < 1) {
             throw new FieldBuildingException("Input count can't be smaller than 1!");
         }
-
+        if ($required > $inputCount) {
+            throw new FieldBuildingException("Number of required files can't be bigger than input count!");
+        }
         if ((!empty($labelTexts)) && (($count = count($labelTexts)) !== $inputCount)) {
             throw new FieldBuildingException(sprintf(
                 'Field texts for all fields must be provided! Got %s, expected %s!',
@@ -61,7 +67,8 @@ final class FileUploadGroupField implements IInputField, IFileField
         $this->error = null;
         $this->value = null;
         $this->name = $name;
-        $this->required = $required;
+        $this->requiredAmount = $required;
+        $this->required = boolval($required);
         $this->multiple = ($inputCount > 1);
         $this->inputCount = $inputCount;
         $this->labelTexts = $labelTexts;
@@ -79,7 +86,7 @@ final class FileUploadGroupField implements IInputField, IFileField
         for ($i = 0; $i < $this->inputCount; $i++) {
             $id = $this->resolveId($baseId, $i);
             $label = $this->createLabelElement($id, $i);
-            $input = $this->createInputElement($id, $name); 
+            $input = $this->createInputElement($id, $name, $i); 
 
             $elements[] = new ContainerElement(
                 attributes: $this->wrapperAttributes,
@@ -117,13 +124,21 @@ final class FileUploadGroupField implements IInputField, IFileField
         for ($i = 0; $i < $this->inputCount; $i++) {
             $id = $this->resolveId($baseId, $i);
 
-            $inputs[] = $this->createInputElement($id, $name);
+            $inputs[] = $this->createInputElement($id, $name, $i);
         }
 
         return $inputs;
     }
 
-    protected function createLabelElement(string $id, string $repeat): LabelElement
+    /**
+     * Creates the LabelElement
+     * 
+     * @param string $id
+     * @param int $repeat
+     * 
+     * @return LabelElement
+     */
+    protected function createLabelElement(string $id, int $repeat): LabelElement
     {
         $label = $this->labelTexts[$repeat] ?? $repeat;
 
@@ -134,13 +149,25 @@ final class FileUploadGroupField implements IInputField, IFileField
         );
     }
 
-    protected function createInputElement(string $id, string $name): FileElement
+    /**
+     * Creates the InputElement
+     * 
+     * @param string $id
+     * @param string $name
+     * @param int $repeat
+     * 
+     * @return FileElement 
+     */
+    protected function createInputElement(string $id, string $name, int $repeat): FileElement
     {
+        $attributes = $this->inputAttributes;
+        $attributes['required'] = ($repeat < $this->requiredAmount);
+
         return new FileElement(
             name: $name,
             id: $id,
             multiple: false,
-            attributes: $this->inputAttributes
+            attributes: $attributes
         );
     }
 

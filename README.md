@@ -284,8 +284,8 @@ File upload field constructor takes parameters:
 File upload field constructor takes parameters:  
 
 `string $name` - Name of the field  
-`bool $required`- Whether at least one file needs to be uploaded  
 `int $inputCount` - How many inputs should this render - must be at least 1, if set to 1 this fields multiple property is set to false  
+`int $required`- Minimal number of required files  
 `IFileConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IFileConstraint`](src/Interfaces/IFileConstraint.php) interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `string[] $labelTexts` - Text to be shown inside label, If set must be an incremental array with same amout of keys as set in $inputCount, otherwise shows numbers  
