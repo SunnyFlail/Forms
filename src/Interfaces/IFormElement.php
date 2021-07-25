@@ -43,4 +43,11 @@ interface IFormElement extends IMappableField, IElement, IWrapperField
      */
     public function addError(string $error): IFormElement;
 
+    /**
+     * Returns stringified attributes the HTML tag will have
+     * 
+     * @return string
+     */
+    public function getHTMLAttributes(): string;
+
 }

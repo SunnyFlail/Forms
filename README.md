@@ -73,12 +73,14 @@ To add en error to form use [`IFormBuilder::addError`](src/Interfaces/IFormBuild
 $concreteFormBuilder->addError('An error occurred!');
 ```
 # 2.6 Rendering form
-You can either just stringify (eg. `echo $concreteFormBuilder;`) the form OR manually render all of the fields
-getting them first with [`IFormBuilder::getFields`](src/Interfaces/IFormBuilder.php) 
+You can either just stringify (eg. `echo $concreteFormBuilder;`) the form OR manually render all of the fields.  
+To render the form manually, first you need to get a copy of Form by calling [`IFormBuilder::accessForm`](src/Interfaces/IFormBuilder.php)  
+To get HTML form tag attributes call [`IFormElement::getHTMLAttributes`](src/Interfaces/IFormElement.php)  
+To get an associative array of fields call [`IFormElement::getFields`](src/Interfaces/IFormElement.php)  
 To get Fields Input element call [`IField::getInputElement`](src/Interfaces/IField.php)  
 To get Fields Label element call [`IField::getLabelElement`](src/Interfaces/IField.php)  
 Those methods may return an IElement OR and array of them  
-If an error occured you can get get the error element with [`IField::getErrorElement`](src/Interfaces/IField.php) 
+If an error occured you can get the error element with [`IField::getErrorElement`](src/Interfaces/IField.php) 
 
 # 3 Available fields
 

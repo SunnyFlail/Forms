@@ -89,12 +89,12 @@ interface IFormBuilder extends IElement
     public function processForm(ServerRequestInterface $request): bool;
 
     /**
-     * Return all of form fields
+     * Returns an immutable copy of IFormElement
      * 
-     * @return IField[]
+     * @return IFormElement
      * 
      * @throws FormBuilderException
      */
-    public function getFields(): array;
+    public function accessForm(): IFormElement;
 
 }

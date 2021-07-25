@@ -99,6 +99,20 @@ abstract class FormElement implements IFormElement
      */
     public function __toString(): string
     {
+        $elements = implode('', [
+            ...$this->topElements,
+            ...array_values($this->fields),
+            ...$this->middleElements,
+            $this->getErrorElement(),
+            $this->getSubmitButton(),
+            ...$this->bottomElements  
+        ]);
+
+        return '<form' . $this->getHTMLAttributes() . '>' .  $elements . '</form>';
+    }
+
+    public function getHTMLAttributes(): string
+    {
         $attributes = $this->attributes;
         if (!$this->useHtmlValidation) {
             $attributes["novalidate"] = true;
@@ -107,20 +121,10 @@ abstract class FormElement implements IFormElement
             $attributes['enctype'] = 'multipart/form-data';
         }
 
-        $attributes['id'] = $attributes['id'] ?? $this->formName;
+        $attributes['id'] = $attributes['id'] ?? 'form__' . $this->formName;
         $attributes['method'] = $this->formMethod;
 
-        $elements = [
-            ...$this->topElements,
-            ...array_values($this->fields),
-            ...$this->middleElements,
-            $this->getErrorElement(),
-            $this->getSubmitButton(),
-            ...$this->bottomElements  
-        ];
-
-        return '<form' .$this->getAttributeString($attributes) . '>'
-                . implode('', $elements) . '</form>';
+        return $this->getAttributeString($attributes);
     }
 
     public function getSubmitButton(): IElement

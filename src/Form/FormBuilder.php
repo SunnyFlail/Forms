@@ -126,11 +126,11 @@ final class FormBuilder implements IFormBuilder
         ->fill($form, $value);
     }
 
-    public function getFields(): array
+    public function accessForm(): IFormElement
     {
         $this->checkFormValidity();
 
-        return $this->form->getFields();
+        return clone $this->form;
     }
 
     /**
