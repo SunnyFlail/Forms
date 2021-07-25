@@ -24,7 +24,9 @@ trait FileUploadFieldTrait
          */
         $files = $params[$this->name] ?? null;
 
-        if ($files === null) {
+        if ((!$files) || ($this->multiple && !is_array($files))
+            || (!$this->multiple && !is_object($files) && !($files instanceof UploadedFileInterface))
+        ) {
             if ($this->required) {
                 $this->error = $this->resolveErrorMessage('-1');
 
@@ -33,6 +35,29 @@ trait FileUploadFieldTrait
             return $this->valid = true;
         }
 
+        if ($this->multiple) {
+            return $this->checkMultipleFiles($files);
+        }
+
+        return $this->checkSingleFile($files);
+    }
+
+    protected function checkSingleFile(UploadedFileInterface $file) {
+        foreach ($this->constraints as $errorKey => $constraint) {
+            if (!$constraint->fileValid($file)) {
+                $this->error = $this->resolveErrorMessage("$errorKey");
+
+                return false;
+            }
+        }
+
+        $this->value = $file;
+
+        return $this->valid = true;
+    }
+
+    protected function checkMultipleFiles(array $files): bool
+    {
         $incorrectFiles = [];
 
         foreach ($this->constraints as $errorKey => $constraint) {
