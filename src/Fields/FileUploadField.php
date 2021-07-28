@@ -98,7 +98,7 @@ final class FileUploadField implements IInputField, IFileField, IWrapperField
                 'required' => $this->required,
                 'valid' => $this->valid,
                 'error' => $this->error,
-                'label' => $this->labelText,
+                'label' => $this->labelText ?? $this->name,
                 'attributes' => $attributes
             ]
         ];

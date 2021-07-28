@@ -18,7 +18,7 @@ trait MultipleValueSelectableTrait
             if ($this->required) {
                 $this->error = $this->resolveErrorMessage("-1");
 
-                return false;
+                return $this->valid = false;
             }
             $this->value = $this->multiple ? [] : null;
 
@@ -29,13 +29,13 @@ trait MultipleValueSelectableTrait
             if (!$this->multiple) {
                 $this->error = $this->resolveErrorMessage("-1");
 
-                return false;
+                return $this->valid = false;
             }
 
-            return $this->resolveMultiple($value);
+            return $this->valid = $this->resolveMultiple($value);
         }
 
-        return $this->resolveSingular($value);
+        return $this->valid = $this->resolveSingular($value);
     }
 
 
@@ -47,7 +47,7 @@ trait MultipleValueSelectableTrait
 
         if (!$values) {
             $this->error = $this->resolveErrorMessage('0');
-            return false;
+            return  false;
         }
 
         if (!$this->useIntristicValues) {
@@ -61,7 +61,7 @@ trait MultipleValueSelectableTrait
 
         $this->value = $values;
         
-        return $this->valid = true;
+        return true;
     }
 
 }

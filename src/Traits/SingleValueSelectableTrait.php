@@ -30,7 +30,7 @@ trait SingleValueSelectableTrait
 
         $this->value = $value;
 
-        return $this->valid = true;
+        return true;
     }
 
 }

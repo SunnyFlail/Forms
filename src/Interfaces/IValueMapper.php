@@ -12,8 +12,8 @@ interface IValueMapper
      * 
      * @param IFormElement $form Form to scrape data from
      * 
-     * @return object|array
+     * @return object|array|null
      */
-    public function scrapeValues(IFormElement $form): object|array;
+    public function scrapeValues(IFormElement $form): mixed;
 
 }

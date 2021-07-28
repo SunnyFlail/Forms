@@ -24,9 +24,7 @@ final class CheckBoxGroupField extends AbstractSelectableGroup
         array $wrapperAttributes = [],
         array $labelAttributes = []
     ) {
-        $this->value = null;
-        $this->error = null;
-        $this->valid = null;
+
         $this->radio = false;
         $this->name = $name;
         $this->options = $options;

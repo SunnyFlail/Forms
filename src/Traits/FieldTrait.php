@@ -40,6 +40,7 @@ trait FieldTrait
     public function withError(string $error): IField
     {
         $this->error = $error;
+        $this->valid = false;
         return $this;
     }
 

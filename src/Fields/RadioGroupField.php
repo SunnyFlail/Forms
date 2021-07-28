@@ -2,13 +2,13 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\Forms\Traits\SingleInputFieldTrait;
+use SunnyFlail\Forms\Traits\SingleElementFieldTrait;
 use SunnyFlail\Forms\Traits\SingleValueFieldTrait;
 use SunnyFlail\Forms\Traits\SingleValueSelectableTrait;
 
 final class RadioGroupField extends AbstractSelectableGroup
 {
-    use SingleValueSelectableTrait, SingleInputFieldTrait, SingleValueFieldTrait;
+    use SingleValueSelectableTrait, SingleElementFieldTrait, SingleValueFieldTrait;
 
     public function __construct(
         string $name,
@@ -44,12 +44,12 @@ final class RadioGroupField extends AbstractSelectableGroup
             if ($this->required) {
                 $this->error = $this->resolveErrorMessage("-1");
 
-                return false;
+                return $this->valid = false;
             }
             return $this->valid = true;
         }
 
-        return $this->resolveSingular($value);
+        return $this->valid = $this->resolveSingular($value);
     }
 
     protected function isChecked(string $value): bool

@@ -2,6 +2,7 @@
 
 namespace SunnyFlail\Forms\Mappers;
 
+use SunnyFlail\Forms\Interfaces\IConditionalField;
 use SunnyFlail\Forms\Interfaces\IMappableContainer;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IValueMapper;
@@ -12,7 +13,7 @@ class ValueMapper implements IValueMapper
 {
     public function __construct(private IObjectCreator $creator) {}
 
-    public function scrapeValues(IFormElement $form): object|array
+    public function scrapeValues(IFormElement $form): mixed
     {
         return $this->getFieldValue($form);
     }
@@ -38,6 +39,10 @@ class ValueMapper implements IValueMapper
 
     protected function scrapeArray(IMappableContainer $input): array
     {
+        if ($input instanceof IConditionalField) {
+            return [];
+        }
+
         $vessel = [];
         foreach ($input->getFields() as $name => $field) {
             $vessel[$name] = $this->getFieldValue($field);
@@ -54,10 +59,14 @@ class ValueMapper implements IValueMapper
      *
      * @return void 
      */
-    protected function scrapeObject(IMappableContainer $input, string $classFQCN): object
+    protected function scrapeObject(IMappableContainer $input, string $classFQCN): ?object
     {
-        $creator = $this->creator->create($classFQCN);
+        if ($input instanceof IConditionalField) {
+            return null;
+        }
+
         $fields = $input->getFields();
+        $creator = $this->creator->create($classFQCN);
 
         foreach ($fields as $field) {
             $name = $field->getName();

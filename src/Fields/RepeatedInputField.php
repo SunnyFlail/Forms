@@ -65,7 +65,7 @@ final class RepeatedInputField implements IField, IFieldContainer
 
         $this->field->withError($this->missmatchError);
 
-        return false;
+        return $this->valid = false;
     }
 
     public function __toString(): string

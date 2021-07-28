@@ -10,27 +10,12 @@ use SunnyFlail\Forms\Interfaces\IField;
 trait InputFieldTrait
 {
 
-    use FieldTrait;
+    use IdentifableFieldTrait;
 
-    /**
-     * @var string $name Name of the input element
-     */
-    protected string $name;
-    
     /**
      * @var mixed $value Value of the field
      */
     protected mixed $value;
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getInputId(): string
-    {
-        return $this->form->getName() . "-"  . $this->name;
-    }
 
     public function getValue(): mixed
     {

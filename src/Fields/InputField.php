@@ -2,11 +2,14 @@
 
 namespace SunnyFlail\Forms\Fields;
 
+use SunnyFlail\Forms\Traits\ResolveInputTrait;
 use SunnyFlail\HtmlAbstraction\Elements\InputElement;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 class InputField extends AbstractInputField
 {
+
+    use ResolveInputTrait;
 
     public function __construct(
         string $name,
@@ -65,7 +68,7 @@ class InputField extends AbstractInputField
                 'id' => $this->getInputId(),
                 'required' => $this->required,
                 'valid' => $this->valid,
-                'label' => $this->labelText,
+                'label' => $this->labelText ?? $this->name,
                 'value' => $this->value,
                 'error' => $this->error,
                 'attributes' => $attributes

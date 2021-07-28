@@ -9,13 +9,13 @@ use SunnyFlail\HtmlAbstraction\Elements\SelectElement;
 use SunnyFlail\Forms\Interfaces\ISelectableField;
 use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\Forms\Traits\MultipleValueSelectableTrait;
-use SunnyFlail\Forms\Traits\SingleInputFieldTrait;
+use SunnyFlail\Forms\Traits\SingleElementFieldTrait;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
 final class SelectField implements ISelectableField, IInputField, IWrapperField
 {
 
-    use MultipleValueSelectableTrait, SingleInputFieldTrait;
+    use MultipleValueSelectableTrait, SingleElementFieldTrait;
     
     /**
      * @param string[]|string[][] $options
@@ -66,7 +66,7 @@ final class SelectField implements ISelectableField, IInputField, IWrapperField
                 'fieldName' => static::class,
                 'tagName' => 'SELECT',
                 'name' => $this->getFullName(),
-                'label' => $this->labelText,
+                'label' => $this->labelText ?? $this->name,
                 'valid' => $this->valid,
                 'id' => $this->getInputId(),
                 'required' => $this->required,

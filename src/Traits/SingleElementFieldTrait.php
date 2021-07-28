@@ -8,7 +8,7 @@ use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 /**
  * Trait for classes having only one Input Element
  */
-trait SingleInputFieldTrait
+trait SingleElementFieldTrait
 {
 
     use InputFieldTrait, WrapperFieldTrait, LabeledElementTrait;

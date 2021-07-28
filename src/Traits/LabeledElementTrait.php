@@ -11,7 +11,7 @@ use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 trait LabeledElementTrait
 {
     
-    use InputFieldTrait;
+    use IdentifableFieldTrait;
 
     /**
      * @var string|null Text to show in label

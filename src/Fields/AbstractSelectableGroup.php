@@ -46,6 +46,7 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
     {
         $attributes = $this->inputAttributes;
         $attributes['type'] = $this->radio ? 'radio' : 'checkbox';
+        $attributes['checked'] = $this->isChecked($value);
 
         return [
             'fieldName' => static::class,

@@ -5,7 +5,6 @@ namespace SunnyFlail\Forms\Traits;
 use SunnyFlail\Forms\Interfaces\IMappableContainer;
 use SunnyFlail\Forms\Interfaces\IField;
 use SunnyFlail\Forms\Interfaces\IFieldContainer;
-use SunnyFlail\Forms\Interfaces\ISelectableField;
 
 /**
  * Trait for classes implementing IMappableContainer interface

@@ -2,14 +2,18 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\Forms\Traits\ResolveInputTrait;
+use SunnyFlail\Forms\Interfaces\IInputField;
+use SunnyFlail\Forms\Traits\InputFieldTrait;
+use SunnyFlail\Forms\Traits\SingleElementFieldTrait;
+use SunnyFlail\Forms\Traits\SingleValueFieldTrait;
+use SunnyFlail\Forms\Traits\WrapperFieldTrait;
+use SunnyFlail\HtmlAbstraction\Elements\CheckableElement;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
-use SunnyFlail\HtmlAbstraction\Elements\TextAreaElement;
 
-final class TextAreaField extends AbstractInputField
+final class CheckboxField extends AbstractInputField
 {
 
-    use ResolveInputTrait;
+    protected array $wrapperAttributes;
 
     public function __construct(
         string $name,
@@ -26,39 +30,56 @@ final class TextAreaField extends AbstractInputField
         ?string $labelText = null,
         array $labelAttributes = []
     ) {
-        parent::__construct();
 
         $this->name = $name;
         $this->required = $required;
         $this->labelText = $labelText;
         $this->constraints = $constraints;
-        $this->errorMessages = $errorMessages;
         $this->topElements = $topElements;
         $this->middleElements = $middleElements;
         $this->bottomElements = $bottomElements;
+        $this->errorMessages = $errorMessages;
         $this->errorAttributes = $errorAttributes;
         $this->labelAttributes = $labelAttributes;
         $this->wrapperAttributes = $wrapperAttributes;
     }
 
-    public function getInputElement(): IElement
+    public function resolve(array $values): bool
     {
-        $value = $this->rememberValue ? $this->value : null;
+        if (!isset($values[$this->name])) {
+            if ($this->required) {
+                $this->error = $this->requiredMessage;
+                return $this->valid = false;
+            }
 
-        return new TextAreaElement(
+            $this->value = false;
+            return $this->valid = true;
+        }
+
+        $this->value = true;
+        return $this->valid = true;
+    }
+
+    public function getInputElement(): IElement|array
+    {
+        return new CheckableElement(
             id: $this->getInputId(),
             name: $this->getFullName(),
             attributes: $this->inputAttributes,
-            value: $value
+            checked: $this->rememberValue ? $this->value : null
         );
     }
 
     public function jsonSerialize()
     {
+        $attributes = $this->inputAttributes;
+        $attributes['type'] = 'checkbox';
+        $attributes['checked'] = $this->value ?? false;
+
         return [
             [
                 'fieldName' => static::class,
-                'tagName' => "TEXTAREA",
+                'tagName' => 'INPUT',
                 'name' => $this->getFullName(),
                 'id' => $this->getInputId(),
                 'required' => $this->required,
@@ -66,7 +87,7 @@ final class TextAreaField extends AbstractInputField
                 'label' => $this->labelText ?? $this->name,
                 'value' => $this->value,
                 'error' => $this->error,
-                'attributes' => $this->inputAttributes
+                'attributes' => $attributes
             ]
         ];
     }

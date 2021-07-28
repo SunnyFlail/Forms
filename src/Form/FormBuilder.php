@@ -17,6 +17,7 @@ final class FormBuilder implements IFormBuilder
 {
 
     private ?IFormElement $form = null;
+    private ?bool $valid = null;
 
     public function __construct(
         private IValueMapper $mapper,
@@ -87,13 +88,13 @@ final class FormBuilder implements IFormBuilder
         $this->checkFormValidity();
 
         if (($params = $this->getFormParameters($request)) === null) {
-            return false;
+            return $this->valid = false;
         }
         
         $formName = $this->form->getName();
 
         if (!isset($params[$formName])) {
-            return false;
+            return $this->valid = false;
         }
         
         $params = $params[$this->formName];
