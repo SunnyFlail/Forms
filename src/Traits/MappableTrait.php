@@ -20,10 +20,10 @@ trait MappableTrait
     protected array $fields = [];
 
     /**
-     * @var string|null $className Fully qualified class name of class this field will be mapped to
+     * @var string|null $classFQCN Fully qualified class name of class this field will be mapped to
      *                  null defaults to primitve array
      */
-    protected ?string $className = null;
+    protected ?string $classFQCN = null;
 
     public function withFields(IField ...$fields): IMappableContainer
     {
@@ -56,7 +56,7 @@ trait MappableTrait
 
     public function getClassName(): ?string
     {
-        return $this->className;
+        return $this->classFQCN;
     }
 
     public function getError(): mixed

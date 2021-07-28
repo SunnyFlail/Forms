@@ -16,12 +16,12 @@ final class ClassMappedField implements IMappableContainer, IField
     
     public function __construct(
         string $fieldName,
-        string $className,
+        string $classFQCN,
         IField ...$fields
     ) {
         $this->valid = null;
         $this->fieldName = $fieldName;
-        $this->className = $className;
+        $this->classFQCN = $classFQCN;
 
         $elements = [];
         foreach ($fields as $field) {
@@ -44,6 +44,7 @@ final class ClassMappedField implements IMappableContainer, IField
 
     public function withForm(IFormElement $form): IField
     {
+        $this->form = $form;
         foreach ($this->fields as $field) {
             $field->withForm($form);
         }

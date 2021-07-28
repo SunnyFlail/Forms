@@ -28,8 +28,8 @@ class ValueMapper implements IValueMapper
     protected function getFieldValue(IField|IFormElement $field): mixed
     {
         if ($field instanceof IMappableContainer) {
-            if (null !== ($className = $field->getClassName())) {
-                return $this->scrapeObject($field, $className);
+            if (null !== ($classFQCN = $field->getClassName())) {
+                return $this->scrapeObject($field, $classFQCN);
             }
             return $this->scrapeArray($field);
         }

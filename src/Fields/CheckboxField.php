@@ -19,8 +19,7 @@ final class CheckboxField extends AbstractInputField
         string $name,
         bool $required = true,
         protected bool $rememberValue = true,
-        array $constraints = [],
-        array $errorMessages = [],
+        protected string $requiredMessage = 'This field must be filled!',
         array $topElements = [],
         array $middleElements = [],
         array $bottomElements = [],
@@ -34,11 +33,9 @@ final class CheckboxField extends AbstractInputField
         $this->name = $name;
         $this->required = $required;
         $this->labelText = $labelText;
-        $this->constraints = $constraints;
         $this->topElements = $topElements;
         $this->middleElements = $middleElements;
         $this->bottomElements = $bottomElements;
-        $this->errorMessages = $errorMessages;
         $this->errorAttributes = $errorAttributes;
         $this->labelAttributes = $labelAttributes;
         $this->wrapperAttributes = $wrapperAttributes;

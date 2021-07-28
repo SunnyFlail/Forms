@@ -10,11 +10,7 @@ use SunnyFlail\Forms\Interfaces\IMappableContainer;
 use SunnyFlail\Forms\Interfaces\IWrapperField;
 use SunnyFlail\Forms\Traits\ClassMappedTrait;
 use SunnyFlail\Forms\Traits\FieldTrait;
-use SunnyFlail\Forms\Traits\IdentifableFieldTrait;
-use SunnyFlail\Forms\Traits\LabeledElementTrait;
-use SunnyFlail\Forms\Traits\MappableTrait;
 use SunnyFlail\Forms\Traits\WrapperFieldTrait;
-use SunnyFlail\HtmlAbstraction\Elements\CheckableElement;
 use SunnyFlail\HtmlAbstraction\Elements\ContainerElement;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
@@ -27,8 +23,8 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
 
     public function __construct(
         string $fieldName,
-        string $classFQCN,
         private IInputField $condition,
+        ?string $classFQCN = null,
         private array $fields = [],
         private array $outerWrapperAttributes = [],
         private array $innerWrapperAttributes = [],
@@ -40,7 +36,7 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
         $this->required = false;
 
         $this->fieldName = $fieldName;
-        $this->className = $classFQCN;
+        $this->classFQCN = $classFQCN;
         $this->topElements = $topElements;
         $this->middleElements = $middleElements;
         $this->bottomElements = $bottomElements;
@@ -104,7 +100,7 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
     public function getValue(): mixed
     {
         if (!$this->required) {
-            if ($this->className) {
+            if ($this->classFQCN) {
                 return null;
             }
             return [];

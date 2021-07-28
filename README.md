@@ -32,7 +32,7 @@ Inside the `` method you can change properties
 `IElement[] $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before all fields   
 `IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before after fields, before button  
 `IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed after submit button  
-`string|null $className` - FQCN of (POPO) class to which this form will resolve to, resolves to **array** if this is null  
+`string|null $classFQCN` - FQCN of (Plain Old Php Object) class to which this form will resolve to, resolves to **array** if this is null  
 `bool $useHtmlValidation` - Should this form use Html Validation (defaults to **true**)  
 `bool $withFiles` If set to true sets the enctype (encoding type) to multipart/form-data  
 
@@ -255,7 +255,7 @@ $input = new SunnyFlail\Forms\Fields\ClassMappedField();
 Class mapping field constructor takes parameters:  
 
 `string $fieldName` - Name of the field  
-`string $className` - Class name  
+`string $classFQCN` - Class name  
 `IField ...$fields` - Fields with names defaulting to Class property names  
 
 ## 3.10 FileUploadField

@@ -11,7 +11,7 @@ use SunnyFlail\Forms\Traits\SingleValueFieldTrait;
 abstract class AbstractInputField implements IInputField
 {
 
-    use WrapperFieldTrait, SingleElementFieldTrait, SingleValueFieldTrait;
+    use SingleElementFieldTrait, SingleValueFieldTrait;
 
     protected array $wrapperAttributes;
 
