@@ -39,7 +39,7 @@ class ValueMapper implements IValueMapper
 
     protected function scrapeArray(IMappableContainer $input): array
     {
-        if ($input instanceof IConditionalField) {
+        if (($input instanceof IConditionalField) && !$input->isRequired()) {
             return [];
         }
 
@@ -61,7 +61,7 @@ class ValueMapper implements IValueMapper
      */
     protected function scrapeObject(IMappableContainer $input, string $classFQCN): ?object
     {
-        if ($input instanceof IConditionalField) {
+        if (($input instanceof IConditionalField) && !$input->isRequired()) {
             return null;
         }
 

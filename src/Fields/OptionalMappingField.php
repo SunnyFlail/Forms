@@ -28,9 +28,9 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
         private array $fields = [],
         private array $outerWrapperAttributes = [],
         private array $innerWrapperAttributes = [],
-        array $topElements,
-        array $middleElements,
-        array $bottomElements,
+        array $topElements = [],
+        array $middleElements = [],
+        array $bottomElements = []
     ) {
         $this->valid = null;
         $this->required = false;
