@@ -2,10 +2,11 @@
 
 namespace SunnyFlail\Forms\Interfaces;
 
+use JsonSerializable;
 use SunnyFlail\Forms\Exceptions\FormFillingException;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
-interface IField
+interface IField extends JsonSerializable
 {
     
     /**

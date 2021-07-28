@@ -86,7 +86,44 @@ final class FormBuilder implements IFormBuilder
     {
         $this->checkFormValidity();
 
-        return $this->form->resolveForm($request);
+        if (($params = $this->getFormParameters($request)) === null) {
+            return false;
+        }
+        
+        $formName = $this->form->getName();
+
+        if (!isset($params[$formName])) {
+            return false;
+        }
+        
+        $params = $params[$this->formName];
+        $files = $request->getUploadedFiles()[$this->formName] ?? [];
+
+        return $this->form->resolveForm($params, $files);
+    }
+
+    /**
+     * Returns form parameters based on request method
+     * 
+     * @param ServerRequestInterface $request
+     * 
+     * @return array|null
+     */
+    private function getFormParameters(ServerRequestInterface $request): ?array
+    {
+        $requestMethod = $request->getMethod();
+
+        if (strcasecmp($this->form->getFormMethod(), $requestMethod) !== 0) {
+            return null;
+        }
+        if (strcasecmp($requestMethod, 'POST') === 0) {
+            return $request->getParsedBody();
+        }
+        if (strcasecmp($requestMethod, 'GET') === 0) {
+            return $request->getQueryParams();
+        }
+
+        return null;
     }
 
     public function buildForm(string $formFQCN, array|object|null $value = null): IFormBuilder

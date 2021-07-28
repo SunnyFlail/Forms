@@ -28,6 +28,37 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
         return implode('', $elements);
     }
 
+    public function jsonSerialize()
+    {
+        $baseId = $this->getInputId();
+        $name = $this->getFullName();
+        $options = [];
+        foreach ($this->options as $label => $value) {
+            $id = $this->resolveId($baseId, $label);
+            $options[] = $this->serializeOption($id, $label, $value);
+        }
+
+
+        return $options;
+    }
+
+    protected function serializeOption($id, $label, $value): array
+    {
+        $attributes = $this->inputAttributes;
+        $attributes['type'] = $this->radio ? 'radio' : 'checkbox';
+
+        return [
+            'fieldName' => static::class,
+            'tagName' => 'INPUT',
+            'id' => $id,
+            'label' => $label,
+            'valid' => $this->valid,
+            'value' => $value,
+            'error' => $this->error,
+            'attributes' => $attributes
+        ];
+    }
+
     public function getContainerElement(): IElement|array
     {
         $name = $this->getFullName();

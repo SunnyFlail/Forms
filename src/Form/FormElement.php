@@ -7,7 +7,7 @@ use SunnyFlail\HtmlAbstraction\Traits\AttributeTrait;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IFileField;
 use SunnyFlail\Forms\Traits\MappableTrait;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UploadedFileInterface;
 use SunnyFlail\Forms\Traits\WrapperFieldTrait;
 use SunnyFlail\Forms\Traits\ErrorTrait;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
@@ -20,16 +20,46 @@ abstract class FormElement implements IFormElement
 
     use AttributeTrait, MappableTrait, WrapperFieldTrait, ErrorTrait;
     
+    /**
+     * @var bool $valid Whether form's field values are valid
+     */
+    protected ?bool $valid = null;
+
+    /**
+     * @var string $attributes Attributes for this form's html tag
+     */
     protected array $attributes = [];
 
+    /**
+     * @var string $formMethod HTTP method name this form will respond to
+     */
     protected string $formMethod = 'GET';
 
+    /**
+     * @var string $formName Name of the form 
+     */
     protected string $formName;
 
+    /**
+     * @var string|null $formAction Action attribute of form 
+     */
+    protected ?string $formAction = null;
+
+    /**
+     * @var string $buttonText Text to be displayed inside submit button
+     */
     protected string $buttonText = 'Submit';
 
+    /**
+     * @var bool $useHtmlValidation Should this form use client-side browser form validation
+     */
     protected bool $useHtmlValidation = true;
-    
+
+    /**
+     * @var bool $renderButton Should submit button be rendered
+     */
+    protected bool $renderButton = true;
+
     /**
      * @var bool $withFiles If set to true sets the enctype (encoding type) to multipart/form-data
      */
@@ -43,35 +73,28 @@ abstract class FormElement implements IFormElement
         return $this->formName;
     }
 
-    public function resolveForm(ServerRequestInterface $request): bool
+    public function getFormMethod(): string
     {
-        if (($params = $this->getFormParameters($request)) === null) {
-            return false;
-        }
+        return $this->formMethod;
+    }
 
-        if (isset($params[$this->formName])) {
-            $valid = true;
-            $params = $params[$this->formName];
-            
-            $files = [];
-            if ($this->withFiles) {
-                $files = $request->getUploadedFiles()[$this->formName] ?? [];
+    public function resolveForm(array $requestParams, UploadedFileInterface|array $uploadedFiles): bool
+    {
+        $valid = true;
+
+        foreach ($this->fields as $field) {
+            if ($field instanceof IFileField) {
+                $field->resolve($uploadedFiles);
+                continue;
             }
+            $field->resolve($requestParams);
 
-            foreach ($this->fields as $field) {
-                if ($field instanceof IFileField) {
-                    $field->resolve($files);
-                    continue;
-                }
-                $field->resolve($params);
-
-                if (!$field->isValid() && $field->isRequired()) {
-                    $valid = false;
-                }
+            if (!$field->isValid() && $field->isRequired()) {
+                $valid = false;
             }
         }
 
-        return $this->valid = $valid ?? false;
+        return ($this->valid = $valid);
     }
 
     public function addError(string $error): IFormElement
@@ -89,19 +112,49 @@ abstract class FormElement implements IFormElement
      */
     public function __toString(): string
     {
+        $button = '';
+
+        if ($this->renderButton) {
+            $button = $this->getSubmitButton();
+        }
+
         $elements = implode('', [
             ...$this->topElements,
             ...array_values($this->fields),
             ...$this->middleElements,
             $this->getErrorElement(),
-            $this->getSubmitButton(),
+            $button,
             ...$this->bottomElements  
         ]);
 
         return '<form' . $this->getHTMLAttributes() . '>' .  $elements . '</form>';
     }
+    
+    /**
+     * Returns an array representing this form
+     * 
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $fields = $this->serializeFieldContainer($this);
+        $attributes = $this->getAttributes();
+        $id = array_assoc_shift('id', $attributes);
+        $method = array_assoc_shift('method', $attributes);
 
-    public function getHTMLAttributes(): string
+        return [
+            'tagName' => 'FORM',
+            'id' => $id,
+            'valid' => $this->valid,
+            'method' => $method,
+            'attributes' => $attributes,
+            'action' => $this->formAction,
+            'fields' => $fields,
+            'error' => $this->error
+        ];
+    }
+
+    public function getAttributes(): array
     {
         $attributes = $this->attributes;
         if (!$this->useHtmlValidation) {
@@ -114,7 +167,14 @@ abstract class FormElement implements IFormElement
         $attributes['id'] = $attributes['id'] ?? 'form__' . $this->formName;
         $attributes['method'] = $this->formMethod;
 
-        return $this->getAttributeString($attributes);
+        return $attributes;
+    }
+
+    public function getHTMLAttributes(): string
+    {
+        return $this->getAttributeString(
+            $this->getAttributes()
+        );
     }
 
     public function getSubmitButton(): IElement
@@ -127,27 +187,4 @@ abstract class FormElement implements IFormElement
         );
     }
 
-    /**
-     * Returns form parameters based on request method
-     * 
-     * @param ServerRequestInterface $request
-     * 
-     * @return array|null
-     */
-    private function getFormParameters(ServerRequestInterface $request): ?array
-    {
-        $requestMethod = $request->getMethod();
-
-        if (strcasecmp($this->formMethod, $requestMethod) !== 0) {
-            return null;
-        }
-        if (strcasecmp($requestMethod, 'POST') === 0) {
-            return $request->getParsedBody();
-        }
-        if (strcasecmp($requestMethod, 'GET') === 0) {
-            return $request->getQueryParams();
-        }
-
-        return null;
-    }
 }

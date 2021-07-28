@@ -26,7 +26,7 @@ final class RadioGroupField extends AbstractSelectableGroup
         $this->error = null;
         $this->value = null;
         $this->radio = true;
-        $this->valid = false;
+        $this->valid = null;
         $this->name = $name;
         $this->options = $options;
         $this->required = $required;

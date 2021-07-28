@@ -26,7 +26,7 @@ final class CheckBoxGroupField extends AbstractSelectableGroup
     ) {
         $this->value = null;
         $this->error = null;
-        $this->valid = false;
+        $this->valid = null;
         $this->radio = false;
         $this->name = $name;
         $this->options = $options;

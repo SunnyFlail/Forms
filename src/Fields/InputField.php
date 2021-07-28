@@ -5,7 +5,7 @@ namespace SunnyFlail\Forms\Fields;
 use SunnyFlail\HtmlAbstraction\Elements\InputElement;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
-final class InputField extends AbstractInputField
+class InputField extends AbstractInputField
 {
 
     public function __construct(
@@ -50,6 +50,27 @@ final class InputField extends AbstractInputField
             attributes: $this->inputAttributes,
             value: $value
         );
+    }
+
+    public function jsonSerialize()
+    {
+        $attributes = $this->inputAttributes;
+        $attributes['type'] = $this->type;
+
+        return [
+            [
+                'fieldName' => static::class,
+                'tagName' => 'INPUT',
+                'name' => $this->getFullName(),
+                'id' => $this->getInputId(),
+                'required' => $this->required,
+                'valid' => $this->valid,
+                'label' => $this->labelText,
+                'value' => $this->value,
+                'error' => $this->error,
+                'attributes' => $attributes
+            ]
+        ];
     }
 
 }

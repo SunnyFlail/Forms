@@ -36,7 +36,7 @@ final class FileUploadField implements IInputField, IFileField, IWrapperField
         protected array $inputAttributes = [],
         protected bool $terminateOnError = false
     ) {
-        $this->valid = false;
+        $this->valid = null;
         $this->error = null;
         $this->value = null;
         $this->name = $name;
@@ -73,12 +73,35 @@ final class FileUploadField implements IInputField, IFileField, IWrapperField
 
     public function getInputElement(): IElement|array
     {
+        $attributes = $this->inputAttributes;
+        $attributes['required'] = $this->required;
+
         return new FileElement(
             name: $this->getFullName(),
             id: $this->getInputId(),
             multiple: $this->multiple,
             attributes: $this->inputAttributes
         );
+    }
+
+    public function jsonSerialize()
+    {
+        $attributes = $this->inputAttributes;
+        $attributes['type'] = 'file';
+
+        return [
+            [
+                'fieldName' => static::class,
+                'tagName' => 'INPUT',
+                'id' => $this->getInputId(),
+                'multiple' => $this->multiple,
+                'required' => $this->required,
+                'valid' => $this->valid,
+                'error' => $this->error,
+                'label' => $this->labelText,
+                'attributes' => $attributes
+            ]
+        ];
     }
 
 }

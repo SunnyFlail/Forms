@@ -63,7 +63,7 @@ final class FileUploadGroupField implements IInputField, IFileField
             ));
         }
 
-        $this->valid = false;
+        $this->valid = null;
         $this->error = null;
         $this->value = null;
         $this->name = $name;
@@ -75,6 +75,49 @@ final class FileUploadGroupField implements IInputField, IFileField
         $this->constraints = $constraints;
         $this->labelAttributes = $labelAttributes;
         $this->errorMessages = $errorMessages;
+    }
+
+    public function jsonSerialize()
+    {
+        $inputs = [];
+        $baseId = $this->getInputId();
+        $name = $this->getFullName();
+
+        for ($i = 0; $i < $this->inputCount; $i++) {
+            $inputs[] = $this->serializeInput($baseId, $i, $name);
+        }
+
+        return $inputs;
+    }
+
+    /**
+     * Serializes the input element
+     * 
+     * @param string $baseId
+     * @param string $repeat
+     * @param string $name
+     * 
+     * @return array
+     */
+    protected function serializeInput(string $baseId, string $repeat, string $name): array
+    {
+        $id = $this->resolveId($baseId, $repeat);
+        $label = $this->labelTexts[$repeat] ?? $repeat;
+        $attributes = $this->inputAttributes;
+        $attributes['type'] = 'file';
+
+        return [
+            'fieldName' => static::class,
+            'tagName' => 'INPUT',
+            'name' => $name,
+            'id' => $id,
+            'label' => $label,
+            'valid' => $this->valid,
+            'error' => $this->error,
+            'required' => ($repeat < $this->requiredAmount),
+            'multiple' => false,
+            'attributes' => $attributes
+        ];
     }
 
     public function getContainerElement(): IElement|array

@@ -6,7 +6,7 @@ use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 use SunnyFlail\HtmlAbstraction\Elements\InputElement;
 use SunnyFlail\Forms\Constraints\EmailConstraint;
 
-final class EmailField extends AbstractInputField
+final class EmailField extends InputField
 {
 
     protected string $type = "email";
@@ -25,19 +25,20 @@ final class EmailField extends AbstractInputField
         ?string $labelText = null,
         array $labelAttributes = []
     ) {
-        parent::__construct();
-
-        $this->name = $name;
-        $this->required = $required;
-        $this->labelText = $labelText;
-        $this->errorMessages = $errorMessages;
-        $this->topElements = $topElements;
-        $this->middleElements = $middleElements;
-        $this->bottomElements = $bottomElements;
-        $this->errorAttributes = $errorAttributes;
-        $this->labelAttributes = $labelAttributes;
-        $this->wrapperAttributes = $wrapperAttributes;
-        $this->constraints = [new EmailConstraint()];
+        parent::__construct(
+            name: $name,
+            type: 'email',
+            required: $required,
+            labelText: $labelText,
+            errorMessages: $errorMessages,
+            topElements: $topElements,
+            middleElements: $middleElements,
+            bottomElements: $bottomElements,
+            errorAttributes: $errorAttributes,
+            labelAttributes: $labelAttributes,
+            wrapperAttributes: $wrapperAttributes,
+            constraints: [new EmailConstraint()]
+        );
     }
 
     public function getInputElement(): IElement
@@ -49,7 +50,7 @@ final class EmailField extends AbstractInputField
 
         return new InputElement(
             id: $this->getInputId(),
-            type: 'email',
+            type: $this->type,
             name: $this->getFullName(),
             attributes: $attributes,
             value: $value

@@ -41,7 +41,7 @@ final class SelectField implements ISelectableField, IInputField, IWrapperField
         array $errorAttributes = []
     ) {
         $this->error = null;
-        $this->valid = false;
+        $this->valid = null;
         $this->value = null;
         $this->options = $options;
         $this->required = $required;
@@ -55,6 +55,94 @@ final class SelectField implements ISelectableField, IInputField, IWrapperField
         $this->labelAttributes = $labelAttributes;
         $this->errorAttributes = $errorAttributes;
         $this->useIntristicValues = $useIntristicValues;
+    }
+
+    public function jsonSerialize()
+    {
+        $options = $this->serializeOptions($this->options);
+
+        return[
+            [
+                'fieldName' => static::class,
+                'tagName' => 'SELECT',
+                'name' => $this->getFullName(),
+                'label' => $this->labelText,
+                'valid' => $this->valid,
+                'id' => $this->getInputId(),
+                'required' => $this->required,
+                'multiple' => $this->multiple,
+                'error' => $this->error,
+                'options' => $options,
+                'attributes' => $this->inputAttributes
+            ]
+        ];
+    }
+
+    /**
+     * Serializes provided options
+     * 
+     * @param array $options Array confirming to options schema
+     * 
+     * @return array
+     */
+    private function serializeOptions(array $options): array
+    {
+        $options = [];
+        
+        foreach ($this->options as $label => $value) {
+            /** Check if this is a group */
+            if (is_array($value)) {
+                $options[] = $this->serializeOptionGroup($label, $value);
+
+                continue;
+            }
+
+            $options[] = $this->serializeOption($label, $value);
+        }
+
+        return $options;
+    }
+
+    /**
+     * Serializes option group
+     * 
+     * @param string $groupName Name to be displayed
+     * @param string[] $options Options of this group
+     * 
+     * @return array
+     */
+    private function serializeOptionGroup(string $groupName, array $options): array
+    {
+        $options = $this->serializeOptions($options);
+
+        return [
+            'tagName' => 'OPTGROUP',
+            'attributes' => [
+                'label' => $groupName
+            ],
+            'options' => $options
+        ];
+    }
+    
+    /**
+     * Serializes option
+     * 
+     * @param string $label If numeric will be replaced with value
+     * @param string $value Value of option
+     * 
+     * @return array
+     */
+    private function serializeOption(string $label, string $value): array
+    {
+        $label = is_numeric($label) ? $value : $label;
+
+        return [
+            'tagName' => 'OPTION',
+            'label' => $label,
+            'value' => $value,
+            'selected' => $this->isSelected($value),
+            'attributes' => $this->optionAttributes
+        ];
     }
 
     public function getInputElement(): IElement|array

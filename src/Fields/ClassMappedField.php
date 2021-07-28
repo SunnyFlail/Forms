@@ -3,7 +3,7 @@
 namespace SunnyFlail\Forms\Fields;
 
 use SunnyFlail\Forms\Exceptions\InvalidFieldException;
-use SunnyFlail\Forms\Interfaces\IMappableField;
+use SunnyFlail\Forms\Interfaces\IMappableContainer;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IField;
 use SunnyFlail\Forms\Traits\MappableTrait;
@@ -13,7 +13,7 @@ use ReflectionObject;
 use SunnyFlail\Forms\Exceptions\FormFillingException;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
-final class ClassMappedField implements IMappableField, IField
+final class ClassMappedField implements IMappableContainer, IField
 {
 
     use FieldTrait, MappableTrait;
@@ -48,7 +48,7 @@ final class ClassMappedField implements IMappableField, IField
         $this->valid = true;
         foreach ($this->fields as $name => $field) {
             if (!$field->resolve($values) && $field->isRequired()) {
-                $this->valid = false;
+                $this->valid = null;
             }
         }
         return $this->valid;
@@ -100,10 +100,10 @@ final class ClassMappedField implements IMappableField, IField
      * 
      * @param array $arr An associative array
      * 
-     * @return IMappableField
+     * @return IMappableContainer
      * @throws FormFillingException If the array doesn't have value with a required field's name as key
      */
-    protected function scrapeArrayProperties(array $arr): IMappableField
+    protected function scrapeArrayProperties(array $arr): IMappableContainer
     {
         foreach ($this->fields as $name => $field) {
             if (!isset($arr[$name])) {
@@ -129,10 +129,10 @@ final class ClassMappedField implements IMappableField, IField
      * 
      * @param object $obj
      * 
-     * @return IMappableField
+     * @return IMappableContainer
      * @throws FormFillingException If the object doesn't have property with a required field's name
      */
-    protected function scrapeValuesProperties(object $obj): IMappableField
+    protected function scrapeValuesProperties(object $obj): IMappableContainer
     {
         $reflection = new ReflectionObject($obj);
 
@@ -184,6 +184,11 @@ final class ClassMappedField implements IMappableField, IField
     public function __toString()
     {
         return implode('', $this->fields);
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->serializeFieldContainer($this);
     }
 
 }

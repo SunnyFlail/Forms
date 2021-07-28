@@ -2,11 +2,13 @@
 
 namespace SunnyFlail\Forms\Traits;
 
-use SunnyFlail\Forms\Interfaces\IMappableField;
+use SunnyFlail\Forms\Interfaces\IMappableContainer;
 use SunnyFlail\Forms\Interfaces\IField;
+use SunnyFlail\Forms\Interfaces\IFieldContainer;
+use SunnyFlail\Forms\Interfaces\ISelectableField;
 
 /**
- * Trait for classes implementing IMappableField interface
+ * Trait for classes implementing IMappableContainer interface
  */
 trait MappableTrait
 {
@@ -24,7 +26,7 @@ trait MappableTrait
      */
     protected ?string $className = null;
 
-    public function withFields(IField ...$fields): IMappableField
+    public function withFields(IField ...$fields): IMappableContainer
     {
         foreach ($fields as $field) {
             $fieldName = $field->getName();
@@ -34,7 +36,7 @@ trait MappableTrait
         return $this;
     }
 
-    public function withFieldValue(string $fieldName, $value): IMappableField
+    public function withFieldValue(string $fieldName, $value): IMappableContainer
     {
         $this->field[$fieldName]->withValue($value);
 
@@ -67,6 +69,31 @@ trait MappableTrait
         $errors[$this->getName()] = $this->error;
         
         return $errors;
+    }
+
+    /**
+     * Serializes Field Container (MappableField, RepeatedField or Form)
+     * 
+     * @param IFieldContainer $field
+     * 
+     * @return array
+     */
+    protected function serializeFieldContainer(IFieldContainer $field): array
+    {
+        $fields = [];
+
+        foreach ($field->getFields() as $nestedField) {
+            if ($nestedField instanceof IFieldContainer) {
+                $fields += $this->serializeFieldContainer($nestedField);
+                continue;
+            }
+            /**
+             * @var IInputField $nestedField 
+             */
+            $fields += [$nestedField->getFullName() => $nestedField->jsonSerialize()];
+        }
+
+        return $fields;
     }
 
 }

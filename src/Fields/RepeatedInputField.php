@@ -5,10 +5,11 @@ namespace SunnyFlail\Forms\Fields;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IInputField;
 use SunnyFlail\Forms\Interfaces\IField;
+use SunnyFlail\Forms\Interfaces\IFieldContainer;
 use SunnyFlail\Forms\Traits\FieldTrait;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
-final class RepeatedInputField implements IField
+final class RepeatedInputField implements IField, IFieldContainer
 {
 
     use FieldTrait;
@@ -18,7 +19,7 @@ final class RepeatedInputField implements IField
         protected IInputField $repeatedField,
         protected string $missmatchError = "Fields must match!"
     ) {
-        $this->valid = false;
+        $this->valid = null;
         $this->error = null;
     }
 
@@ -72,6 +73,14 @@ final class RepeatedInputField implements IField
         return $this->field . $this->repeatedField;
     }
 
+    public function getFields(): array
+    {
+        return [
+            $this->field->getName() => $this->field,
+            $this->repeatedField->getName() => $this->repeatedField
+        ];
+    }
+
     public function getInputElement(): IElement|array
     {
         return [
@@ -85,6 +94,14 @@ final class RepeatedInputField implements IField
         return [
             $this->field->getInputElement(),
             $this->repeatedField->getInputElement()
+        ];
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            $this->field->getFullName() => $this->field->jsonSerialize(),
+            $this->repeatedField->getFullName() => $this->repeatedField->jsonSerialize(),
         ];
     }
 

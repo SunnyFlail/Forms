@@ -18,9 +18,9 @@ trait FieldTrait
     protected IFormElement $form;
 
     /**
-     * @var bool $valid
+     * @var bool|null $valid
      */
-    protected bool $valid;
+    protected ?bool $valid;
 
     /**
      * @var bool $required Bool indicating whether this field needs to be valid

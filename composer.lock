@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3176e5842cb69937e9aed6828e042184",
+    "content-hash": "acf2bbce50b2a98ff7000d5384a3ed2a",
     "packages": [
         {
             "name": "psr/http-message",
@@ -58,6 +58,40 @@
                 "source": "https://github.com/php-fig/http-message/tree/master"
             },
             "time": "2016-08-06T14:39:51+00:00"
+        },
+        {
+            "name": "sunnyflail/assoc_shift",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SunnyFlail/AssocShift.git",
+                "reference": "063a94687cdb3e22131a73ee02548c6f398e9bb7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SunnyFlail/AssocShift/zipball/063a94687cdb3e22131a73ee02548c6f398e9bb7",
+                "reference": "063a94687cdb3e22131a73ee02548c6f398e9bb7",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Function.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Array shift for associative arrays",
+            "support": {
+                "issues": "https://github.com/SunnyFlail/AssocShift/issues",
+                "source": "https://github.com/SunnyFlail/AssocShift/tree/1.0.0"
+            },
+            "time": "2021-07-28T10:52:16+00:00"
         },
         {
             "name": "sunnyflail/html-abstraction",

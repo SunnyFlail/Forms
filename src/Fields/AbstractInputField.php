@@ -17,7 +17,7 @@ abstract class AbstractInputField implements IInputField
 
     public function __construct()
     {
-        $this->valid = false;
+        $this->valid = null;
         $this->error = null;
         $this->value = null;
     }
@@ -25,6 +25,7 @@ abstract class AbstractInputField implements IInputField
     public function resolve(array $values): bool
     {
         $value = $values[$this->name] ?? null;
+        
         if ($value === null) {
             if ($this->required) {
                 $this->error = $this->resolveErrorMessage("-1");
