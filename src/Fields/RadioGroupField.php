@@ -8,7 +8,7 @@ use SunnyFlail\Forms\Traits\SingleValueSelectableTrait;
 
 final class RadioGroupField extends AbstractSelectableGroup
 {
-    use SingleValueSelectableTrait, SingleElementFieldTrait, SingleValueFieldTrait;
+    use SingleValueSelectableTrait, SingleValueFieldTrait;
 
     public function __construct(
         string $name,

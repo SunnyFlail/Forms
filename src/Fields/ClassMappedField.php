@@ -16,7 +16,7 @@ final class ClassMappedField implements IMappableContainer, IField
     
     public function __construct(
         string $fieldName,
-        string $classFQCN,
+        ?string $classFQCN,
         IField ...$fields
     ) {
         $this->valid = null;
