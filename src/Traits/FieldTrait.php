@@ -50,9 +50,4 @@ trait FieldTrait
         return $this;
     }
 
-    public function getError(): mixed
-    {
-        return $this->error;
-    }
-
 }

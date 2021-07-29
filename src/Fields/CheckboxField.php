@@ -29,6 +29,7 @@ final class CheckboxField extends AbstractInputField
         ?string $labelText = null,
         array $labelAttributes = []
     ) {
+        parent::__construct();
 
         $this->name = $name;
         $this->required = $required;
@@ -63,7 +64,7 @@ final class CheckboxField extends AbstractInputField
             id: $this->getInputId(),
             name: $this->getFullName(),
             attributes: $this->inputAttributes,
-            checked: $this->rememberValue ? $this->value : null
+            checked: $this->rememberValue ? boolval($this->value) : false
         );
     }
 
@@ -71,7 +72,7 @@ final class CheckboxField extends AbstractInputField
     {
         $attributes = $this->inputAttributes;
         $attributes['type'] = 'checkbox';
-        $attributes['checked'] = $this->value ?? false;
+        $attributes['checked'] = $this->value ? true : false;
 
         return [
             [

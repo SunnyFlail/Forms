@@ -38,6 +38,11 @@ final class RepeatedInputField implements IField, IFieldContainer
         return $this->field->getName();
     }
 
+    public function getError(): mixed
+    {
+        return $this->error;
+    }
+
     public function withValue(mixed $value): IField
     {
         $this->field->withValue($value);

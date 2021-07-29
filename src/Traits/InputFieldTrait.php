@@ -10,7 +10,7 @@ use SunnyFlail\Forms\Interfaces\IField;
 trait InputFieldTrait
 {
 
-    use IdentifableFieldTrait;
+    use IdentifableFieldTrait, ErrorTrait;
 
     /**
      * @var mixed $value Value of the field
@@ -26,6 +26,11 @@ trait InputFieldTrait
     {
         $this->value = $value;
         return $this;
+    }
+
+    public function getError(): mixed
+    {
+        return $this->error;
     }
 
 }

@@ -25,7 +25,7 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
         string $fieldName,
         private IInputField $condition,
         ?string $classFQCN = null,
-        private array $fields = [],
+        array $fields = [],
         private array $outerWrapperAttributes = [],
         private array $innerWrapperAttributes = [],
         array $topElements = [],
@@ -80,10 +80,10 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
             $this->bottomElements
         ];
 
-        return new ContainerElement(
+        return (new ContainerElement(
             attributes: $this->outerWrapperAttributes,
             nestedElements: $elements
-        );
+        ))->__toString();
     }
 
     public function withForm(IFormElement $form): IField
