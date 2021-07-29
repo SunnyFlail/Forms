@@ -5,7 +5,8 @@
     "require": {
         "sunnyflail/html-abstraction": "^1.1.6",
         "sunnyflail/object-creator": "^1.0",
-        "sunnyflail/assoc_shift": "1.0.0"
+        "sunnyflail/assoc_shift": "1.0.0",
+        "sunnyflail/constraints": "^1.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.6"

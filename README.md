@@ -96,7 +96,7 @@ Input field constructor takes parameters:
 `string $type` - Field type  
 `bool $required`- Whether this field must be filled  
 `bool $rememberValue` - Whether this field should retain provided value of error  
-`IConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IConstraint`](src/Interfaces/IConstraint.php) interface  
+`IConstraint[] $constraints` - Array of objects implementing `SunnyFlail\Constraints\Interfaces\IConstraint` interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `IElement[] $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
 `IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
@@ -138,7 +138,7 @@ Password field constructor takes parameters:
 `string $name` - Name of the field  
 `bool $required`- Whether this field must be filled  
 `bool $rememberValue` - Whether this field should retain provided value of error  
-`IConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IConstraint`](src/Interfaces/IConstraint.php) interface  
+`IConstraint[] $constraints` - Array of objects implementing `SunnyFlail\Constraints\Interfaces\IConstraint` interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `IElement[] $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
 `IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
@@ -161,7 +161,7 @@ TextArea field constructor takes parameters:
 `string $name` - Name of the field  
 `bool $required`- Whether this field must be filled  
 `bool $rememberValue` - Whether this field should retain provided value of error  
-`IConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IConstraint`](src/Interfaces/IConstraint.php) interface  
+`IConstraint[] $constraints` - Array of objects implementing `SunnyFlail\Constraints\Interfaces\IConstraint` interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `IElement[] $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
 `IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
@@ -185,7 +185,7 @@ Select field constructor takes parameters:
 `bool $rememberValue` - Whether this field should retain provided value of error  
 `bool $multiple` - Should this field allow multiple values  
 `bool $useIntristicValues` - Should this only check for values provided in $options parameter or should accept any value matching provided constraints  
-`IConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IConstraint`](src/Interfaces/IConstraint.php) interface  
+`IConstraint[] $constraints` - Array of objects implementing `SunnyFlail\Constraints\Interfaces\IConstraint` interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `IElement[] $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
 `IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
@@ -210,7 +210,7 @@ Checkbox field constructor takes parameters:
 `bool $rememberValue` - Whether this field should retain provided value of error  
 `bool $multiple` - Should this field allow multiple values  
 `bool $useIntristicValues` - Should this only check for values provided in $options parameter or should accept any value matching provided constraints  
-`IConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IConstraint`](src/Interfaces/IConstraint.php) interface  
+`IConstraint[] $constraints` - Array of objects implementing `SunnyFlail\Constraints\Interfaces\IConstraint` interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
 `array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
@@ -229,7 +229,7 @@ Radio field constructor takes parameters:
 `bool $required`- Whether this field must be filled  
 `bool $rememberValue` - Whether this field should retain provided value of error  
 `bool $useIntristicValues` - Should this only check for values provided in $options parameter or should accept any value matching provided constraints  
-`IConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IConstraint`](src/Interfaces/IConstraint.php) interface  
+`IConstraint[] $constraints` - Array of objects implementing `SunnyFlail\Constraints\Interfaces\IConstraint` interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
 `array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
@@ -266,7 +266,7 @@ File upload field constructor takes parameters:
 `string $name` - Name of the field  
 `bool $required`- Whether this field must be filled  
 `bool $multiple` - Should this field allow multiple values  
-`IFileConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IFileConstraint`](src/Interfaces/IFileConstraint.php) interface  
+`IFileConstraint[] $constraints` - Array of objects implementing `SunnyFlail\Constraints\Interfaces\IFileConstraint` interface  
 `IElement[] $topElements`- Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before label  
 `IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
 `IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
@@ -286,7 +286,7 @@ File upload field constructor takes parameters:
 `string $name` - Name of the field  
 `int $inputCount` - How many inputs should this render - must be at least 1, if set to 1 this fields multiple property is set to false  
 `int $required`- Minimal number of required files  
-`IFileConstraint[] $constraints` - Array of objects implementing [`SunnyFlail\Forms\Interfaces\IFileConstraint`](src/Interfaces/IFileConstraint.php) interface  
+`IFileConstraint[] $constraints` - Array of objects implementing `SunnyFlail\Constraints\Interfaces\IFileConstraint` interface   
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `string[] $labelTexts` - Text to be shown inside label, If set must be an incremental array with same amout of keys as set in $inputCount, otherwise shows numbers  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  

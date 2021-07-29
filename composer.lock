@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "acf2bbce50b2a98ff7000d5384a3ed2a",
+    "content-hash": "b9c259bbd0143920c7e5e264f50a55f8",
     "packages": [
         {
             "name": "psr/http-message",
@@ -92,6 +92,40 @@
                 "source": "https://github.com/SunnyFlail/AssocShift/tree/1.0.0"
             },
             "time": "2021-07-28T10:52:16+00:00"
+        },
+        {
+            "name": "sunnyflail/constraints",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SunnyFlail/Constraints.git",
+                "reference": "3aa4e0c52ee39372505b6d7a955eb859575742d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SunnyFlail/Constraints/zipball/3aa4e0c52ee39372505b6d7a955eb859575742d3",
+                "reference": "3aa4e0c52ee39372505b6d7a955eb859575742d3",
+                "shasum": ""
+            },
+            "require": {
+                "psr/http-message": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SunnyFlail\\Constraints\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A simple validation library",
+            "support": {
+                "issues": "https://github.com/SunnyFlail/Constraints/issues",
+                "source": "https://github.com/SunnyFlail/Constraints/tree/1.0.0"
+            },
+            "time": "2021-07-29T00:09:19+00:00"
         },
         {
             "name": "sunnyflail/html-abstraction",

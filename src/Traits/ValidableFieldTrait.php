@@ -2,7 +2,7 @@
 
 namespace SunnyFlail\Forms\Traits;
 
-use SunnyFlail\Forms\Interfaces\IConstraint;
+use SunnyFlail\Constraints\Interfaces\IConstraint;
 
 trait ValidableFieldTrait
 {
