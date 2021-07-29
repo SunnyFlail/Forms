@@ -77,7 +77,7 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
             $this->condition->getContainerElement(),
             ...$this->middleElements,
             $field,
-            $this->bottomElements
+            ...$this->bottomElements
         ];
 
         return (new ContainerElement(
