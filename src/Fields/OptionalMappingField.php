@@ -156,8 +156,9 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
 
     public function getFields(): array
     {
-        $fields = $this->field->getFields();
+        $fields = $this->fields;
         $fields[$this->condition->getName()] = $this->condition;
+
         return $fields;
     }
 
