@@ -5,7 +5,7 @@ namespace SunnyFlail\Forms\Interfaces;
 /**
  * Interface for fields that hold serialized entities
  */
-interface ISerializedEntityField extends IField
+interface ISerializedEntityField
 {
 
     /**

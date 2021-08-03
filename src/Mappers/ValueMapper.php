@@ -7,6 +7,7 @@ use SunnyFlail\Forms\Interfaces\IMappableContainer;
 use SunnyFlail\Forms\Interfaces\IFormElement;
 use SunnyFlail\Forms\Interfaces\IValueMapper;
 use SunnyFlail\Forms\Interfaces\IField;
+use SunnyFlail\Forms\Interfaces\ISerializedEntityField;
 use SunnyFlail\ObjectCreator\IObjectCreator;
 
 class ValueMapper implements IValueMapper
@@ -73,6 +74,28 @@ class ValueMapper implements IValueMapper
             $value = $field->getValue();
 
             $creator->withProperty($name, $value);
+        }
+
+        return $creator->getObject();
+    }
+
+    /**
+     * @param ISerializedEntityField $field
+     */
+    protected function scrapeSerializingField(IField $field): mixed
+    {
+        if (null === ($classFQCN = $field->getClassName())) {
+            return $field->getValue();
+        }
+        return $this->scrapeSerializedEntity($field->getValue(), $classFQCN);
+    }
+
+    protected function scrapeSerializedEntity(array $values, string $classFQCN): Object
+    {
+        $creator = $this->creator->create($classFQCN);
+
+        foreach ($values as $property => $value) {
+            $creator->withProperty($property, $value);
         }
 
         return $creator->getObject();
