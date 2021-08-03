@@ -5,15 +5,8 @@ namespace SunnyFlail\Forms\Interfaces;
 /**
  * Interface for FieldContainers whose values are mapped into an object/array
  */
-interface IMappableContainer extends IFieldContainer
+interface IMappableContainer extends IFieldContainer, ISerializedEntityField
 {
-
-    /**
-     * Returns the name of class 
-     * 
-     * @return string
-     */
-    public function getClassName(): ?string;
 
     /**
      * Checks whether this form has field with provided name

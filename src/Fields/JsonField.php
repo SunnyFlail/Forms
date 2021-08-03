@@ -2,18 +2,27 @@
 
 namespace SunnyFlail\Forms\Fields;
 
+use SunnyFlail\Forms\Exceptions\FieldBuildingException;
+use SunnyFlail\Forms\Interfaces\ISerializedEntityField;
 use SunnyFlail\Forms\Traits\ValidableFieldTrait;
 use SunnyFlail\HtmlAbstraction\Elements\InputElement;
 use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
-final class JsonField extends AbstractInputField
+final class JsonField extends AbstractInputField implements ISerializedEntityField
 {
 
     use ValidableFieldTrait;
 
+    /**
+     * @var string|null $classFQCN Class to which this field's value should
+     * try to be mapped to, returns array if null
+     */
+    protected ?string $classFQCN;
+
     public function __construct(
         string $name,
+        ?string $classFQCN = null,
         bool $required = true,
         array $constraints = [],
         array $errorMessages = [],
@@ -27,11 +36,24 @@ final class JsonField extends AbstractInputField
         $this->required = $required;
         $this->labelText = $labelText;
         $this->constraints = $constraints;
+
+        if ($classFQCN && !class_exists('\\'.$classFQCN)) {
+            throw new FieldBuildingException(sprintf(
+                'Class %s not found!', $classFQCN
+            ));
+        }
+
+        $this->classFQCN = $classFQCN;
         $errorMessages['-2'] = $errorMessages['-2'] ?? "Provided value wasn't proper json code!";
         $this->errorMessages = $errorMessages;
         $this->errorAttributes = $errorAttributes;
         $this->labelAttributes = $labelAttributes;
         $this->containerAttributes = $containerAttributes;
+    }
+
+    public function getClassName(): ?string
+    {
+        return $this->classFQCN;
     }
 
     public function getInputElement(): IElement
