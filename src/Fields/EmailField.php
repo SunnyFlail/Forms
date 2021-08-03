@@ -20,7 +20,7 @@ final class EmailField extends InputField
         array $middleElements = [],
         array $bottomElements = [],
         protected array $inputAttributes = [],
-        array $wrapperAttributes = [],
+        array $containerAttributes = [],
         array $errorAttributes = [],
         ?string $labelText = null,
         array $labelAttributes = []
@@ -36,7 +36,7 @@ final class EmailField extends InputField
             bottomElements: $bottomElements,
             errorAttributes: $errorAttributes,
             labelAttributes: $labelAttributes,
-            wrapperAttributes: $wrapperAttributes,
+            containerAttributes: $containerAttributes,
             constraints: [new EmailConstraint()]
         );
     }

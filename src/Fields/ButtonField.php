@@ -16,7 +16,7 @@ class ButtonField extends AbstractInputField
         array $middleElements = [],
         array $bottomElements = [],
         protected array $inputAttributes = [],
-        array $wrapperAttributes = [],
+        array $containerAttributes = [],
         array $errorAttributes = [],
         ?string $labelText = null,
         array $labelAttributes = []
@@ -31,7 +31,7 @@ class ButtonField extends AbstractInputField
         $this->bottomElements = $bottomElements;
         $this->errorAttributes = $errorAttributes;
         $this->labelAttributes = $labelAttributes;
-        $this->wrapperAttributes = $wrapperAttributes;
+        $this->containerAttributes = $containerAttributes;
     }
 
     public function resolve(array $values): bool

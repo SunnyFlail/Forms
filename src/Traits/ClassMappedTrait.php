@@ -100,4 +100,9 @@ trait ClassMappedTrait
         return $this;
     }
 
+    public function jsonSerialize()
+    {
+        return $this->serializeFieldContainer($this);
+    }
+
 }

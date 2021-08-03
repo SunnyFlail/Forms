@@ -102,7 +102,7 @@ Input field constructor takes parameters:
 `IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
 `IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
-`array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
+`array $containerAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
 `?string $labelText` - Text to be shown inside label, if unset it shows the field name  
 `array $labelAttributes` - Array of html attributes to be provided to label Element  
@@ -121,7 +121,7 @@ Email field constructor takes parameters
 `IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
 `IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
-`array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
+`array $containerAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
 `?string $labelText` - Text to be shown inside label, if unset it shows the field name  
 `array $labelAttributes` - Array of html attributes to be provided to label Element  
@@ -146,7 +146,7 @@ Password field constructor takes parameters:
 `bool $withPeeper` - Whether this field should be rendered with an peeper  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
 `array $peeperAttributes` - Array of html attributes to be provided to peeper Element  
-`array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
+`array $containerAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
 `?string $labelText` - Text to be shown inside label, if unset it shows the field name  
 `array $labelAttributes` - Array of html attributes to be provided to label Element  
@@ -167,7 +167,7 @@ TextArea field constructor takes parameters:
 `IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
 `IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
-`array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
+`array $containerAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
 `?string $labelText` - Text to be shown inside label, if unset it shows the field name  
 `array $labelAttributes` - Array of html attributes to be provided to label Element  
@@ -191,7 +191,7 @@ Select field constructor takes parameters:
 `IElement[] $middleElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before input  
 `IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
-`array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
+`array $containerAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
 `?string $labelText` - Text to be shown inside label, if unset it shows the field name  
 `array $optionAttributes` - Array of html attributes to be provided to option Element  
@@ -213,7 +213,7 @@ Checkbox field constructor takes parameters:
 `IConstraint[] $constraints` - Array of objects implementing `SunnyFlail\Constraints\Interfaces\IConstraint` interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
-`array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
+`array $containerAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
 `array $labelAttributes` - Array of html attributes to be provided to label Element  
 
@@ -232,7 +232,7 @@ Radio field constructor takes parameters:
 `IConstraint[] $constraints` - Array of objects implementing `SunnyFlail\Constraints\Interfaces\IConstraint` interface  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
-`array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
+`array $containerAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
 `array $labelAttributes` - Array of html attributes to be provided to label Element  
 
@@ -272,7 +272,7 @@ File upload field constructor takes parameters:
 `IElement[] $bottomElements` - Array of objects implementing `SunnyFlail\HtmlAbstraction\Interfaces\IElement` interface - Elements to be printed before error  
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
-`array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
+`array $containerAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
 `?string $labelText` - Text to be shown inside label, if unset it shows the field name  
 `array $labelAttributes` - Array of html attributes to be provided to label Element  
@@ -290,7 +290,7 @@ File upload field constructor takes parameters:
 `array $errorMessages` - Array of strings, keys must be numeric strings, '-1' is for no value error, positive keys are for failed constraint errors  
 `string[] $labelTexts` - Text to be shown inside label, If set must be an incremental array with same amout of keys as set in $inputCount, otherwise shows numbers  
 `array $inputAttributes` - Array of html attributes to be provided to input Element  
-`array $wrapperAttributes` - Array of html attributes to be provided to wrapper Element  
+`array $containerAttributes` - Array of html attributes to be provided to wrapper Element  
 `array $errorAttributes` - Array of html attributes to be provided to error Element  
 `array $labelAttributes` - Array of html attributes to be provided to label Element  
 `bool $terminateOnError` - Whether http upload error of one of the files should make this field invalid

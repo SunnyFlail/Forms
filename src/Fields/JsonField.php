@@ -2,40 +2,32 @@
 
 namespace SunnyFlail\Forms\Fields;
 
-use SunnyFlail\Forms\Traits\ResolveInputTrait;
+use SunnyFlail\Forms\Traits\ValidableFieldTrait;
 use SunnyFlail\HtmlAbstraction\Elements\InputElement;
+use SunnyFlail\HtmlAbstraction\Elements\TextNodeElement;
 use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 
-class InputField extends AbstractInputField
+final class JsonField extends AbstractInputField
 {
 
-    use ResolveInputTrait;
+    use ValidableFieldTrait;
 
     public function __construct(
         string $name,
-        protected string $type = "text",
         bool $required = true,
-        protected bool $rememberValue = true,
         array $constraints = [],
         array $errorMessages = [],
-        array $topElements = [],
-        array $middleElements = [],
-        array $bottomElements = [],
+        string $labelText = '',
+        array $labelAttributes = [],
         protected array $inputAttributes = [],
         array $containerAttributes = [],
         array $errorAttributes = [],
-        ?string $labelText = null,
-        array $labelAttributes = []
     ) {
-        parent::__construct();
-
         $this->name = $name;
         $this->required = $required;
         $this->labelText = $labelText;
         $this->constraints = $constraints;
-        $this->topElements = $topElements;
-        $this->middleElements = $middleElements;
-        $this->bottomElements = $bottomElements;
+        $errorMessages['-2'] = $errorMessages['-2'] ?? "Provided value wasn't proper json code!";
         $this->errorMessages = $errorMessages;
         $this->errorAttributes = $errorAttributes;
         $this->labelAttributes = $labelAttributes;
@@ -48,17 +40,50 @@ class InputField extends AbstractInputField
 
         return new InputElement(
             id: $this->getInputId(),
-            type: $this->type,
+            type: 'hidden',
             name: $this->getFullName(),
             attributes: $this->inputAttributes,
             value: $value
         );
     }
 
+    public function resolve(array $values): bool
+    {
+        if (!isset($values[$this->name])) {
+            if ($this->required) {
+                $this->error = $this->resolveErrorMessage('-1');
+                return $this->valid = false;
+            }
+            $this->value = [];
+            return $this->valid = true;
+        }
+        try {
+            $value = json_decode(
+                json: $values[$this->name],
+                associative: true,
+                flags: JSON_THROW_ON_ERROR
+            );
+        } catch (\Throwable) {
+            $this->error = $this->resolveErrorMessage('-2');
+            return $this->valid = false;
+        }
+
+        if ($this->checkConstraints($value)) {
+            $this->value = $value;
+        }
+
+        return $this->valid;
+    }
+
+    public function getLabelElement(): IElement|array
+    {
+        return new TextNodeElement('');
+    }
+
     public function jsonSerialize()
     {
         $attributes = $this->inputAttributes;
-        $attributes['type'] = $this->type;
+        $attributes['type'] = 'hidden';
 
         return [
             [

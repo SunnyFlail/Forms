@@ -13,7 +13,7 @@ abstract class AbstractInputField implements IInputField
 
     use SingleElementFieldTrait, SingleValueFieldTrait;
 
-    protected array $wrapperAttributes;
+    protected array $containerAttributes;
 
     public function __construct()
     {

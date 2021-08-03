@@ -34,7 +34,7 @@ final class SelectField implements ISelectableField, IInputField, IWrapperField
         array $middleElements = [],
         array $bottomElements = [],
         protected array $inputAttributes = [],
-        protected array $wrapperAttributes = [],
+        protected array $containerAttributes = [],
         ?string $labelText = null,
         array $labelAttributes = [],
         protected array $optionAttributes = [],

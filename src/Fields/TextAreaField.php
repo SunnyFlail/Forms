@@ -21,7 +21,7 @@ final class TextAreaField extends AbstractInputField
         array $middleElements = [],
         array $bottomElements = [],
         protected array $inputAttributes = [],
-        array $wrapperAttributes = [],
+        array $containerAttributes = [],
         array $errorAttributes = [],
         ?string $labelText = null,
         array $labelAttributes = []
@@ -38,7 +38,7 @@ final class TextAreaField extends AbstractInputField
         $this->bottomElements = $bottomElements;
         $this->errorAttributes = $errorAttributes;
         $this->labelAttributes = $labelAttributes;
-        $this->wrapperAttributes = $wrapperAttributes;
+        $this->containerAttributes = $containerAttributes;
     }
 
     public function getInputElement(): IElement

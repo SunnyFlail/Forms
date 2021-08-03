@@ -17,7 +17,7 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
     use SelectableTrait, ValidableFieldTrait, MultipleElementFieldTrait;
 
     protected bool $radio;
-    protected array $wrapperAttributes;
+    protected array $containerAttributes;
 
     public function __toString(): string
     {
@@ -35,14 +35,14 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
         $options = [];
         foreach ($this->options as $label => $value) {
             $id = $this->resolveId($baseId, $label);
-            $options[] = $this->serializeOption($id, $label, $value);
+            $options[] = $this->serializeOption($id, $label, $value, $name);
         }
 
 
         return $options;
     }
 
-    protected function serializeOption($id, $label, $value): array
+    protected function serializeOption(string $id, string $label, string $value, string $name): array
     {
         $attributes = $this->inputAttributes;
         $attributes['type'] = $this->radio ? 'radio' : 'checkbox';
@@ -72,7 +72,7 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
             $input = $this->createInputElement($id, $name, $value); 
 
             $elements[] = new ContainerElement(
-                attributes: $this->wrapperAttributes,
+                attributes: $this->containerAttributes,
                 nestedElements: [
                     $label,
                     $input

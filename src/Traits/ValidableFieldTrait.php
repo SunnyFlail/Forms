@@ -29,17 +29,19 @@ trait ValidableFieldTrait
     {
         if ($value === null) {
             if ($this->isRequired()) {
+                $this->valid = false;
                 return $this->resolveErrorMessage("-1");
             }
         }
 
         foreach ($this->constraints as $index => $constraint) {
             if (false === $constraint->matchesConstraint($value)) {
+                $this->valid = false;
                 return $this->resolveErrorMessage("$index");
             }
         }
 
-        return true;
+        return $this->valid = true;
     }
 
     /**

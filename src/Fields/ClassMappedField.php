@@ -97,9 +97,4 @@ final class ClassMappedField implements IMappableContainer, IField
         return implode('', $this->fields);
     }
 
-    public function jsonSerialize()
-    {
-        return $this->serializeFieldContainer($this);
-    }
-
 }

@@ -21,7 +21,7 @@ trait SingleElementFieldTrait
     public function getContainerElement(): IElement|array
     {
         return new ContainerElement(
-            attributes: $this->wrapperAttributes,
+            attributes: $this->containerAttributes,
             nestedElements: [
                 ...$this->topElements,
                 $this->getLabelElement(),

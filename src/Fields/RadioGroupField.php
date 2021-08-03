@@ -20,7 +20,7 @@ final class RadioGroupField extends AbstractSelectableGroup
         array $errorMessages = [],
         array $nestedElements = [],
         protected array $inputAttributes = [],
-        protected array $wrapperAttributes = [],
+        protected array $containerAttributes = [],
         protected array $labelAttributes = [],
     ) {
         $this->error = null;

@@ -45,7 +45,7 @@ final class FileUploadGroupField implements IInputField, IFileField
         array $errorMessages = [],
         array $labelTexts = [],
         protected array $labelElements = [],
-        protected array $wrapperAttributes = [],
+        protected array $containerAttributes = [],
         array $labelAttributes = [],
         protected array $inputAttributes = [],
         protected bool $terminateOnError = false
@@ -132,7 +132,7 @@ final class FileUploadGroupField implements IInputField, IFileField
             $input = $this->createInputElement($id, $name, $i); 
 
             $elements[] = new ContainerElement(
-                attributes: $this->wrapperAttributes,
+                attributes: $this->containerAttributes,
                 nestedElements: [
                     $label,
                     $input

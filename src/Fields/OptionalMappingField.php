@@ -26,8 +26,8 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
         private IInputField $condition,
         ?string $classFQCN = null,
         array $fields = [],
-        private array $outerWrapperAttributes = [],
-        private array $innerWrapperAttributes = [],
+        private array $outercontainerAttributes = [],
+        private array $innercontainerAttributes = [],
         array $topElements = [],
         array $middleElements = [],
         array $bottomElements = []
@@ -68,7 +68,7 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
     public function __toString(): string
     {
         $field = new ContainerElement(
-            attributes: $this->innerWrapperAttributes,
+            attributes: $this->innercontainerAttributes,
             nestedElements: $this->fields
         );
 
@@ -81,7 +81,7 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
         ];
 
         return (new ContainerElement(
-            attributes: $this->outerWrapperAttributes,
+            attributes: $this->outercontainerAttributes,
             nestedElements: $elements
         ))->__toString();
     }
@@ -160,11 +160,6 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
         $fields[$this->condition->getName()] = $this->condition;
 
         return $fields;
-    }
-
-    public function jsonSerialize()
-    {
-        return $this->serializeFieldContainer($this);
     }
 
 }

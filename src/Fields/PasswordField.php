@@ -23,7 +23,7 @@ final class PasswordField extends InputField
         array $inputAttributes = [],
         protected bool $withPeeper = true,
         protected array $peeperAttributes = [],
-        array $wrapperAttributes = [],
+        array $containerAttributes = [],
         array $errorAttributes = [],
         ?string $labelText = null,
         array $labelAttributes = []
@@ -41,7 +41,7 @@ final class PasswordField extends InputField
             errorAttributes: $errorAttributes,
             inputAttributes: $inputAttributes,
             labelAttributes: $labelAttributes,
-            wrapperAttributes: $wrapperAttributes
+            containerAttributes: $containerAttributes
         );
     }
 

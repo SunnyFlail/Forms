@@ -13,7 +13,7 @@ use SunnyFlail\HtmlAbstraction\Interfaces\IElement;
 final class CheckboxField extends AbstractInputField
 {
 
-    protected array $wrapperAttributes;
+    protected array $containerAttributes;
 
     public function __construct(
         string $name,
@@ -24,7 +24,7 @@ final class CheckboxField extends AbstractInputField
         array $middleElements = [],
         array $bottomElements = [],
         protected array $inputAttributes = [],
-        array $wrapperAttributes = [],
+        array $containerAttributes = [],
         array $errorAttributes = [],
         ?string $labelText = null,
         array $labelAttributes = []
@@ -39,7 +39,7 @@ final class CheckboxField extends AbstractInputField
         $this->bottomElements = $bottomElements;
         $this->errorAttributes = $errorAttributes;
         $this->labelAttributes = $labelAttributes;
-        $this->wrapperAttributes = $wrapperAttributes;
+        $this->containerAttributes = $containerAttributes;
     }
 
     public function resolve(array $values): bool

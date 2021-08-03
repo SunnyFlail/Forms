@@ -30,7 +30,7 @@ final class FileUploadField implements IInputField, IFileField, IWrapperField
         array $middleElements = [],
         array $bottomElements = [],
         array $errorMessages = [],
-        protected array $wrapperAttributes = [],
+        protected array $containerAttributes = [],
         array $labelAttributes = [],
         ?string $labelText = null,
         protected array $inputAttributes = [],
@@ -59,7 +59,7 @@ final class FileUploadField implements IInputField, IFileField, IWrapperField
     public function getContainerElement(): IElement|array
     {
         return new ContainerElement(
-            attributes: $this->wrapperAttributes,
+            attributes: $this->containerAttributes,
             nestedElements: [
                 ...$this->topElements,
                 $this->getLabelElement(),

@@ -21,7 +21,7 @@ final class CheckBoxGroupField extends AbstractSelectableGroup
         array $constraints = [],
         array $errorMessages = [],
         array $inputAttributes = [],
-        array $wrapperAttributes = [],
+        array $containerAttributes = [],
         array $labelAttributes = []
     ) {
 
@@ -35,7 +35,7 @@ final class CheckBoxGroupField extends AbstractSelectableGroup
         $this->rememberValue = $rememberValue;
         $this->labelAttributes = $labelAttributes;
         $this->inputAttributes = $inputAttributes;
-        $this->wrapperAttributes = $wrapperAttributes;
+        $this->containerAttributes = $containerAttributes;
         $this->useIntristicValues = $useIntristicValues;
     }
 
