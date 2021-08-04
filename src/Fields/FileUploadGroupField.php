@@ -79,42 +79,30 @@ final class FileUploadGroupField implements IInputField, IFileField
 
     public function jsonSerialize()
     {
-        $inputs = [];
+        $options = [];
         $baseId = $this->getInputId();
-        $name = $this->getFullName();
 
         for ($i = 0; $i < $this->inputCount; $i++) {
-            $inputs[] = $this->serializeInput($baseId, $i, $name);
+            $required = ($i < $this->requiredAmount);
+            $label = $this->labelTexts[$i] ?? $i;
+            $id = $this->resolveId($baseId, $i);
+
+            $options[$label] = [
+                'id' => $id,
+                'label' => $label,
+                'required' => $required
+            ];
         }
 
-        return $inputs;
-    }
-
-    /**
-     * Serializes the input element
-     * 
-     * @param string $baseId
-     * @param string $repeat
-     * @param string $name
-     * 
-     * @return array
-     */
-    protected function serializeInput(string $baseId, string $repeat, string $name): array
-    {
-        $id = $this->resolveId($baseId, $repeat);
-        $label = $this->labelTexts[$repeat] ?? $repeat;
         $attributes = $this->inputAttributes;
         $attributes['type'] = 'file';
 
         return [
-            'fieldName' => static::class,
             'tagName' => 'INPUT',
-            'name' => $name,
-            'id' => $id,
-            'label' => $label,
+            'name' => $this->getFullName(),
+            'options' => $options,
             'valid' => $this->valid,
             'error' => $this->error,
-            'required' => ($repeat < $this->requiredAmount),
             'multiple' => false,
             'attributes' => $attributes
         ];

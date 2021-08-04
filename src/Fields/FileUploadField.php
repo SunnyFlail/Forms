@@ -90,17 +90,14 @@ final class FileUploadField implements IInputField, IFileField, IWrapperField
         $attributes['type'] = 'file';
 
         return [
-            [
-                'fieldName' => static::class,
-                'tagName' => 'INPUT',
-                'id' => $this->getInputId(),
-                'multiple' => $this->multiple,
-                'required' => $this->required,
-                'valid' => $this->valid,
-                'error' => $this->error,
-                'label' => $this->labelText ?? $this->name,
-                'attributes' => $attributes
-            ]
+            'tagName' => 'INPUT',
+            'id' => $this->getInputId(),
+            'multiple' => $this->multiple,
+            'required' => $this->required,
+            'valid' => $this->valid,
+            'error' => $this->error,
+            'label' => $this->labelText ?? $this->name,
+            'attributes' => $attributes
         ];
     }
 

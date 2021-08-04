@@ -62,19 +62,16 @@ final class SelectField implements ISelectableField, IInputField, IWrapperField
         $options = $this->serializeOptions($this->options);
 
         return[
-            [
-                'fieldName' => static::class,
-                'tagName' => 'SELECT',
-                'name' => $this->getFullName(),
-                'label' => $this->labelText ?? $this->name,
-                'valid' => $this->valid,
-                'id' => $this->getInputId(),
-                'required' => $this->required,
-                'multiple' => $this->multiple,
-                'error' => $this->error,
-                'options' => $options,
-                'attributes' => $this->inputAttributes
-            ]
+            'tagName' => 'SELECT',
+            'name' => $this->getFullName(),
+            'label' => $this->labelText ?? $this->name,
+            'valid' => $this->valid,
+            'id' => $this->getInputId(),
+            'required' => $this->required,
+            'multiple' => $this->multiple,
+            'error' => $this->error,
+            'options' => $options,
+            'attributes' => $this->inputAttributes
         ];
     }
 
@@ -92,12 +89,12 @@ final class SelectField implements ISelectableField, IInputField, IWrapperField
         foreach ($this->options as $label => $value) {
             /** Check if this is a group */
             if (is_array($value)) {
-                $options[] = $this->serializeOptionGroup($label, $value);
+                $options[$label] = $this->serializeOptionGroup($label, $value);
 
                 continue;
             }
 
-            $options[] = $this->serializeOption($label, $value);
+            $options[$label] = $this->serializeOption($label, $value);
         }
 
         return $options;
@@ -116,10 +113,7 @@ final class SelectField implements ISelectableField, IInputField, IWrapperField
         $options = $this->serializeOptions($options);
 
         return [
-            'tagName' => 'OPTGROUP',
-            'attributes' => [
-                'label' => $groupName
-            ],
+            'label' => $groupName,
             'options' => $options
         ];
     }
@@ -137,11 +131,9 @@ final class SelectField implements ISelectableField, IInputField, IWrapperField
         $label = is_numeric($label) ? $value : $label;
 
         return [
-            'tagName' => 'OPTION',
             'label' => $label,
             'value' => $value,
-            'selected' => $this->isSelected($value),
-            'attributes' => $this->optionAttributes
+            'selected' => $this->isSelected($value)
         ];
     }
 

@@ -31,32 +31,45 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
     public function jsonSerialize()
     {
         $baseId = $this->getInputId();
-        $name = $this->getFullName();
-        $options = [];
-        foreach ($this->options as $label => $value) {
-            $id = $this->resolveId($baseId, $label);
-            $options[] = $this->serializeOption($id, $label, $value, $name);
-        }
 
-
-        return $options;
-    }
-
-    protected function serializeOption(string $id, string $label, string $value, string $name): array
-    {
         $attributes = $this->inputAttributes;
         $attributes['type'] = $this->radio ? 'radio' : 'checkbox';
-        $attributes['checked'] = $this->isChecked($value);
+
+        $options = [];
+
+        foreach ($this->options as $label => $value) {
+            $id = $this->resolveId($baseId, $label);
+            $options[$label] = $this->serializeOption($id, $label, $value);
+        }
 
         return [
-            'fieldName' => static::class,
             'tagName' => 'INPUT',
-            'id' => $id,
+            'name' => $this->getFullName(),
             'label' => $label,
             'valid' => $this->valid,
-            'value' => $value,
+            'value' => $this->value,
+            'options' => $options,
             'error' => $this->error,
             'attributes' => $attributes
+        ];
+    }
+
+    /**
+     * Returns a JSON representation of an option
+     * 
+     * @param string $id Html ID attribute of input
+     * @param string $label Label text to be displayed
+     * @param string $value Value of this option
+     * 
+     * @return array 
+     */
+    protected function serializeOption(string $id, string $label, string $value): array
+    {
+        return [
+            'label' => $label,
+            'id' => $id,
+            'value' => $value,
+            'checked' => $this->isChecked($value)
         ];
     }
 

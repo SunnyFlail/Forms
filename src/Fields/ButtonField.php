@@ -55,20 +55,17 @@ class ButtonField extends AbstractInputField
     public function jsonSerialize()
     {
         $attributes = $this->inputAttributes;
-        $attributes['type'] = $this->type;
+        $attributes['type'] = 'button';
 
         return [
-            [
-                'fieldName' => static::class,
-                'tagName' => "INPUT",
-                'name' => $this->getFullName(),
-                'id' => $this->getInputId(),
-                'valid' => true,
-                'label' => $this->labelText,
-                'value' => $this->labelText,
-                'error' => $this->error,
-                'attributes' => $attributes
-            ]
+            'tagName' => "INPUT",
+            'name' => $this->getFullName(),
+            'id' => $this->getInputId(),
+            'valid' => true,
+            'label' => $this->labelText,
+            'value' => $this->labelText,
+            'error' => $this->error,
+            'attributes' => $attributes
         ];
     }
 

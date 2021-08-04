@@ -61,18 +61,15 @@ class InputField extends AbstractInputField
         $attributes['type'] = $this->type;
 
         return [
-            [
-                'fieldName' => static::class,
-                'tagName' => 'INPUT',
-                'name' => $this->getFullName(),
-                'id' => $this->getInputId(),
-                'required' => $this->required,
-                'valid' => $this->valid,
-                'label' => $this->labelText ?? $this->name,
-                'value' => $this->value,
-                'error' => $this->error,
-                'attributes' => $attributes
-            ]
+            'tagName' => 'INPUT',
+            'name' => $this->getFullName(),
+            'id' => $this->getInputId(),
+            'required' => $this->required,
+            'valid' => $this->valid,
+            'label' => $this->labelText ?? $this->name,
+            'value' => $this->value,
+            'error' => $this->error,
+            'attributes' => $attributes
         ];
     }
 
