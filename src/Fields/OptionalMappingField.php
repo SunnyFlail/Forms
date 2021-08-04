@@ -23,7 +23,7 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
 
     public function __construct(
         string $fieldName,
-        private IInputField $condition,
+        IInputField $condition,
         ?string $classFQCN = null,
         array $fields = [],
         private array $outercontainerAttributes = [],
@@ -34,7 +34,6 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
     ) {
         $this->valid = null;
         $this->required = false;
-
         $this->fieldName = $fieldName;
         $this->classFQCN = $classFQCN;
         $this->topElements = $topElements;
@@ -42,6 +41,7 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
         $this->bottomElements = $bottomElements;
 
         $elements = [];
+        $elements[$condition->getName()] = $condition;
         foreach ($fields as $field) {
             $elements[$field->getName()] = $field;
         }
@@ -52,16 +52,21 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
     public function resolve(array $values): bool
     {
         $this->valid = true;
-        if (!$this->condition->resolve($values)) {
-            $this->required = true;
-            return $this->valid;
-        }
+
+        $conditionMet = false;
 
         foreach ($this->fields as $name => $field) {
             if (!$field->resolve($values)) {
+                if (!$conditionMet) {
+                    $this->required = false;
+                    return $this->valid;
+                }
+
                 $this->valid = false;
             }
+            $conditionMet = true;
         }
+
         return $this->valid;
     }
 
@@ -128,8 +133,6 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
     public function getInputElement(): IElement|array
     {
         $elements = [];
-        $elements[] = $this->condition->getInputElement();
-        
         foreach ($this->fields as $field) {
             $elements[] = $field->getInputElement();
         }
@@ -140,8 +143,6 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
     public function getLabelElement(): IElement|array
     {
         $elements = [];
-        $elements[] = $this->condition->getLabelElement();
-
         foreach ($this->fields as $field) {
             $elements[] = $field->getLabelElement();
         }
@@ -157,7 +158,6 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
     public function getFields(): array
     {
         $fields = $this->fields;
-        $fields[$this->condition->getName()] = $this->condition;
 
         return $fields;
     }
