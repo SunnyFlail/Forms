@@ -45,7 +45,6 @@ abstract class AbstractSelectableGroup implements ISelectableField, IInputField
         return [
             'tagName' => 'INPUT',
             'name' => $this->getFullName(),
-            'label' => $label,
             'valid' => $this->valid,
             'value' => $this->value,
             'options' => $options,
