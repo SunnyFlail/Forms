@@ -72,14 +72,18 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
 
     public function __toString(): string
     {
+
+        $fields = $this->fields;
+        $condition = array_shift($fields);
+
         $field = new ContainerElement(
             attributes: $this->innercontainerAttributes,
-            nestedElements: $this->fields
+            nestedElements: $fields
         );
 
         $elements = [
             ...$this->topElements,
-            $this->condition->getContainerElement(),
+            $condition,
             ...$this->middleElements,
             $field,
             ...$this->bottomElements
