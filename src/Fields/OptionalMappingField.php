@@ -94,8 +94,6 @@ class OptionalMappingField implements IField, IMappableContainer, IWrapperField
     public function withForm(IFormElement $form): IField
     {
         $this->form = $form;
-        $this->condition->withForm($form);
-
         foreach ($this->fields as $field) {
             $field->withForm($form);
         }
